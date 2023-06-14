@@ -1,0 +1,27 @@
+# spotFlow
+A social network service that provides real-time event information to each user
+
+# 협업 규칙 
+    
+### 1. 설정파일을 커밋하지 않는다.  
+    1-1. 만일 실수로 커밋할 경우 깃 명령어를 통해 롤백할 것. (롤백 안 되면 도움요청 바람)  
+    1-2. 본인이 작업한 파일만 커밋 푸시할 것  
+    1-3. build.gradle을 통해 의존성을 추가해야할 경우 README.md에 인수인계할 것
+  
+### 2. 작업할때 기능단위로 브랜치를 나눠 작업한다.  
+    2-1. 커밋과 푸시는 수시로 진행하며 기능구현과 상관없는 페이지는 가능한 건들이지 않는다.  
+    2-2. 브랜치 이름은 구현할 기능으로 할 것. (이름으로 지으면 해당 브랜치에서 뭐 했는지 한 눈에 보기 어려움)
+  
+### 3. 기능구현이 완료되면 풀리퀘스트 요청을 하고 오픈톡방에 인수인계를 남긴다  
+    3-1. 마음대로 merge 하지 않는다.  
+    3-2. 충돌이 심각해서 병합이 불가능할 경우 본인이 작업한 파일만 백업하고 인수인계를 남긴다.  
+---
+# Example
+ ### JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'  
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+---
+# 의존성 추가
+
+---
