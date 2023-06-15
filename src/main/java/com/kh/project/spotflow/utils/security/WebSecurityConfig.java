@@ -1,6 +1,6 @@
-package com.kh.project.spotflow.security;
+package com.kh.project.spotflow.utils.security;
 
-import com.kh.project.spotflow.jwt.TokenProvider;
+import com.kh.project.spotflow.utils.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

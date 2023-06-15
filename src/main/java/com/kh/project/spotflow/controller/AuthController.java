@@ -1,8 +1,8 @@
 package com.kh.project.spotflow.controller;
 
-import com.kh.project.spotflow.dto.MemberRequestDto;
-import com.kh.project.spotflow.dto.MemberResponseDto;
-import com.kh.project.spotflow.dto.TokenDto;
+import com.kh.project.spotflow.model.dto.MemberRequestDto;
+import com.kh.project.spotflow.model.dto.MemberResponseDto;
+import com.kh.project.spotflow.model.dto.TokenDto;
 import com.kh.project.spotflow.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

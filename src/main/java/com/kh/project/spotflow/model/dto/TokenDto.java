@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.dto;
+package com.kh.project.spotflow.model.dto;
 
 import lombok.*;
 

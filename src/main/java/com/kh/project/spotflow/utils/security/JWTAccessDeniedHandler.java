@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.security;
+package com.kh.project.spotflow.utils.security;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

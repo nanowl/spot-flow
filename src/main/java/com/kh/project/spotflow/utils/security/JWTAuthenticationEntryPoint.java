@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.security;
+package com.kh.project.spotflow.utils.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

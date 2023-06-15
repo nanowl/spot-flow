@@ -1,7 +1,7 @@
-package com.kh.project.spotflow.dto;
+package com.kh.project.spotflow.model.dto;
 
 
-import com.kh.project.spotflow.entity.Member;
+import com.kh.project.spotflow.model.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

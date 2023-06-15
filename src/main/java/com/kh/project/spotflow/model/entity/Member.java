@@ -1,8 +1,8 @@
-package com.kh.project.spotflow.entity;
+package com.kh.project.spotflow.model.entity;
 
-import com.kh.project.spotflow.constant.Authority;
-import com.kh.project.spotflow.constant.OpenStatus;
-import com.kh.project.spotflow.constant.Theme;
+import com.kh.project.spotflow.model.constant.Authority;
+import com.kh.project.spotflow.model.constant.OpenStatus;
+import com.kh.project.spotflow.model.constant.Theme;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
