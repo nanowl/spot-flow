@@ -26,7 +26,7 @@ public class TimeLine {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "ct_email")
+  @JoinColumn(name = "tl_customer")
   private Member email;
 
   @Column(name = "tl_category", nullable = false, length = 128)

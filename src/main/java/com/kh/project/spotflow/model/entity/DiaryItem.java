@@ -10,10 +10,10 @@ public class DiaryItem {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "di_id")
+  @JoinColumn(name = "mapper_diary")
   private Diary diary;
 
   @ManyToOne
-  @JoinColumn(name ="tl_id")
+  @JoinColumn(name ="mapper_time_line")
   private TimeLine timeLine;
 }

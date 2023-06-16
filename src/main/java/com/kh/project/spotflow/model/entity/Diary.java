@@ -20,7 +20,7 @@ public class Diary {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "ct_email")
+  @JoinColumn(name = "di_customer")
   private Member email;
 
   @Column(name = "di_category", nullable = false, length = 128)
