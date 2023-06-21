@@ -1,26 +1,21 @@
 package com.kh.project.spotflow.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.json.XML;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
 @Service
 @Slf4j
 public class ApiService {
-//  private final static String serviceKey = "sample";
   private final static String serviceKey = "6657764d6e68616e3130377659564968";
 
   // 서울시 도시 공공데이터를 가져옴
@@ -38,7 +33,6 @@ public class ApiService {
     bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
     String result = bf.readLine();
-    log.info(result);
 
     return xmlToJson(result);
   }
@@ -52,7 +46,7 @@ public class ApiService {
       mapper.enable(SerializationFeature.INDENT_OUTPUT);
       Object json = mapper.readValue(jsonObject.toString(), Object.class);
       output = mapper.writeValueAsString(json);
-      log.info(output);
+      log.info("XML to JSON 정상적으로 변환 완료");
     } catch(Exception e) {
       e.printStackTrace();
     }
