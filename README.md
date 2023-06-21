@@ -31,8 +31,6 @@ A social network service that provides real-time event information to each user
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 ---
 # 의존성 추가
-
----
 ### XML to JSON
 	implementation group: 'org.json', name: 'json', version: '20210307'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
