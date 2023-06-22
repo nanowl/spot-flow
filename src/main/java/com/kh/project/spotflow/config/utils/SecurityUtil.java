@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.utils;
+package com.kh.project.spotflow.config.utils;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -4,7 +4,7 @@ import com.kh.project.spotflow.model.dto.MemberRequestDto;
 import com.kh.project.spotflow.model.dto.MemberResponseDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
 import com.kh.project.spotflow.model.entity.Member;
-import com.kh.project.spotflow.utils.jwt.TokenProvider;
+import com.kh.project.spotflow.config.jwt.TokenProvider;
 import com.kh.project.spotflow.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.utils.jwt;
+package com.kh.project.spotflow.config.jwt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

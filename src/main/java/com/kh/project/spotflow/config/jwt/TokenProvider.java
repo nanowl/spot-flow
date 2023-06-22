@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.utils.jwt;
+package com.kh.project.spotflow.config.jwt;
 
 import com.kh.project.spotflow.model.dto.TokenDto;
 import io.jsonwebtoken.*;
