@@ -29,8 +29,8 @@ public class TimeLine {
   @JoinColumn(name = "tl_customer")
   private Member email;
 
-  @Column(name = "tl_category", nullable = false, length = 128)
-  private String category;
+  //@Column(name = "tl_category", nullable = false, length = 128)
+  //private String category;
 
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
