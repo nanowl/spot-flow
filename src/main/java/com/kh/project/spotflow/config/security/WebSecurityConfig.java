@@ -41,7 +41,7 @@ public class WebSecurityConfig {
             .and()
             .authorizeRequests()
             // 경로에 대해 인증 없이 접근을 허용
-            .antMatchers("/auth/**", "/api/**").permitAll()
+            .antMatchers("**", "/auth/**", "/api/**","/user/**").permitAll()
             .antMatchers("/chat/**", "/ws/**").permitAll()
             .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/swagger-ui/**" ,"/webjars/**", "/swagger/**", "/sign-api/exception").permitAll()
             .anyRequest().authenticated()

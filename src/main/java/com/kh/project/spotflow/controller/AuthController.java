@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -20,6 +22,11 @@ public class AuthController {
   @PostMapping("/signup")
   public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto) {
     return ResponseEntity.ok(authService.signup(requestDto));
+  }
+
+  @PostMapping("/dummy/signup")
+  public ResponseEntity<List<MemberResponseDto>> signupDummy() {
+    return ResponseEntity.ok(authService.signupDummy(1000));
   }
 
   @PostMapping("/login")

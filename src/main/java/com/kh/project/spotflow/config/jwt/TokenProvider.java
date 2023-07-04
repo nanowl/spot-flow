@@ -38,7 +38,7 @@ public class TokenProvider {
 
   // 토큰 생성
   public TokenDto generateTokenDto(Authentication authentication) {
-
+    log.info("token generate");
     String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));

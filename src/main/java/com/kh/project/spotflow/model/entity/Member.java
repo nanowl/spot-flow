@@ -54,11 +54,16 @@ public class Member {
   private Authority authority;
 
   @Builder
-  public Member(String email, String password, String name, Authority authority) {
+  public Member(String email, String password, String name, Authority authority,
+                LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
     this.email = email;
     this.password = password;
     this.name = name;
     this.authority = authority;
+    this.joinDate = joinDate;
+    this.openStatus = openStatus;
+    this.theme = theme;
+    this.profilePic = profilePic;
   }
 
 
