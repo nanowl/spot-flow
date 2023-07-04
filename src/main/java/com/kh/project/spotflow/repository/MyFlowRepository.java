@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 @Repository
-public interface MyFlowRepository extends JpaRepository<TimeLine, long> {
+public interface MyFlowRepository extends JpaRepository<TimeLine, Long> {
     Optional<TimeLine> findByEmail(String email);
 }
 
