@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "timeline")
@@ -27,7 +25,7 @@ public class TimeLine {
 
   @ManyToOne
   @JoinColumn(name = "tl_customer")
-  private Member email;
+  private Customer email;
 
   @Column(name = "tl_category", nullable = false, length = 128)
   private String category;

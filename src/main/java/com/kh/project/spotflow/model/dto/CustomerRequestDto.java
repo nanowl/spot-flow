@@ -1,9 +1,13 @@
 package com.kh.project.spotflow.model.dto;
 
 import com.kh.project.spotflow.model.constant.Authority;
+<<<<<<< Updated upstream:src/main/java/com/kh/project/spotflow/model/dto/MemberRequestDto.java
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
 import com.kh.project.spotflow.model.entity.Member;
+=======
+import com.kh.project.spotflow.model.entity.Customer;
+>>>>>>> Stashed changes:src/main/java/com/kh/project/spotflow/model/dto/CustomerRequestDto.java
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,13 +20,13 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 @Builder
-public class MemberRequestDto {
+public class CustomerRequestDto {
   private String email;
   private String name;
   private String password;
 
-  public Member toMember(PasswordEncoder passwordEncoder) {
-    return Member.builder()
+  public Customer toMember(PasswordEncoder passwordEncoder) {
+    return Customer.builder()
             .email(email)
             .password(passwordEncoder.encode(password))
             .name(name)

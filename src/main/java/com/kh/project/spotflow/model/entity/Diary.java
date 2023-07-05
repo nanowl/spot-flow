@@ -21,7 +21,7 @@ public class Diary {
 
   @ManyToOne
   @JoinColumn(name = "di_customer")
-  private Member email;
+  private Customer email;
 
   @Column(name = "di_category", nullable = false, length = 128)
   private String category;
