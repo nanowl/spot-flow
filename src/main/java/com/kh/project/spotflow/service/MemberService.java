@@ -22,7 +22,7 @@ public class MemberService {
   public List<Member> findAll() {
     return repository.findAll();
   }
-
+//d
   public List<Member> saveUser(int count) {
     List<Member> members = new ArrayList<>();
     for (int i = 0; i < count; i++) {
