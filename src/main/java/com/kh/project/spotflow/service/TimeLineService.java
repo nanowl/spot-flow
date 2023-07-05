@@ -26,7 +26,7 @@ public class TimeLineService {
         for (TimeLine timeLine : timeLineList) {
             TimelineDTO timelineDTO = new TimelineDTO();
             timelineDTO.setTitle(timeLine.getTitle());
-            timelineDTO.setPic(timeLine.getTl_profile_pic());
+            timelineDTO.setTl_profile_pic(timeLine.getTl_profile_pic());
             timelineDTO.setLat(timeLine.getLat());
             timelineDTO.setLng(timeLine.getLng());
             timelineDTO.setView(timeLine.getView());

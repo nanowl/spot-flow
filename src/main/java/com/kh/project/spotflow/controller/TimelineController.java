@@ -20,9 +20,9 @@ public class TimelineController {
     private final TimeLineService timeLineService;
 
     // 이메일로 타임라인 조회
-    @GetMapping("")
-    public ResponseEntity<List<TimelineDTO>> getTimelineByEmail(@RequestParam String email) {
-        List<TimelineDTO> timelineDTOS = timeLineService.getTimelineByEmail(email);
+    @GetMapping("/find")
+    public ResponseEntity<List<TimelineDTO>> getTimelineByEmail() {
+        List<TimelineDTO> timelineDTOS = timeLineService.findAll();
         return new ResponseEntity<>(timelineDTOS, HttpStatus.OK);
     }
 

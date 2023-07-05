@@ -10,7 +10,7 @@ public class TimelineDTO {
     private String title;
     private String content;
     private int view;
-    private String pic;
+    private String tl_profile_pic;
     private Double lat;
     private Double lng;
 }
