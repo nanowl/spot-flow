@@ -1,29 +1,27 @@
 package com.kh.project.spotflow.controller;
 
-import com.kh.project.spotflow.model.dto.TimelineDTO;
+
 import com.kh.project.spotflow.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Map;
 
-@CrossOrigin("http://localhost:3000")
 @RestController
+@RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/timeline")
-@RequiredArgsConstructor
-public class TimelineController {
+public class TimeLineController {
     private final TimeLineService timeLineService;
 
-    // 이메일로 타임라인 조회
-    @GetMapping("/find")
-    public ResponseEntity<List<TimelineDTO>> getTimelineByEmail() {
-        List<TimelineDTO> timelineDTOS = timeLineService.findAll();
-        return new ResponseEntity<>(timelineDTOS, HttpStatus.OK);
+
+    @PostMapping("/find")
+    public void find() {
+        timeLineService.findAll();
     }
 
 }
