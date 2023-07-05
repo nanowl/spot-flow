@@ -17,28 +17,28 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-  private final MemberRepository repository;
+    private final MemberRepository repository;
 
-  public List<Member> findAll() {
-    return repository.findAll();
-  }
-
-  public List<Member> saveUser(int count) {
-    List<Member> members = new ArrayList<>();
-    for (int i = 0; i < count; i++) {
-      Member member = Member.builder()
-              .email("testAccount" + i)
-              .password("1234")
-              .name("tester" + i)
-              .authority(Authority.ROLE_USER)
-              .joinDate(LocalDateTime.now())
-              .openStatus(OpenStatus.PUBLIC)
-              .theme(Theme.LIGHT_MODE)
-              .build();
-      members.add(member);
-      log.info("count : " + i);
+    public List<Member> findAll() {
+        return repository.findAll();
     }
 
-    return members;
-  }
+    public List<Member> saveUser(int count) {
+        List<Member> members = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Member member = Member.builder()
+                    .email("testAccount" + i)
+                    .password("1234")
+                    .name("tester" + i)
+                    .authority(Authority.ROLE_USER)
+                    .joinDate(LocalDateTime.now())
+                    .openStatus(OpenStatus.PUBLIC)
+                    .theme(Theme.LIGHT_MODE)
+                    .build();
+            members.add(member);
+            log.info("count : " + i);
+        }
+
+        return members;
+    }
 }
