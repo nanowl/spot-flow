@@ -38,6 +38,8 @@ dependencies {
 	// Swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation group: 'org.json', name: 'json', version: '20210307'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
 }
 
 tasks.named('test') {

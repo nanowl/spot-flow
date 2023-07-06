@@ -55,7 +55,7 @@ public class Member {
   @Column(name = "ct_authority")
   private Authority authority;
 
-  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "member")
   private List<TimeLine> timeLineList;
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
   private List<Diary> diaryList;
@@ -67,11 +67,16 @@ public class Member {
   private List<Follow> followingList;
 
   @Builder
-  public Member(String email, String password, String name, Authority authority) {
+  public Member(String email, String password, String name, Authority authority,
+                LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
     this.email = email;
     this.password = password;
     this.name = name;
     this.authority = authority;
+    this.joinDate = joinDate;
+    this.openStatus = openStatus;
+    this.theme = theme;
+    this.profilePic = profilePic;
   }
 
 
