@@ -1,9 +1,7 @@
 package com.kh.project.spotflow.model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import antlr.collections.impl.BitSet;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.stereotype.Component;
 
@@ -66,4 +64,17 @@ public class TimeLine {
 
   @OneToMany(mappedBy = "timeLine")
   private List<DiaryItem> itemList = new ArrayList<>();
+
+  @Builder
+  public TimeLine(Member member, String place, String title, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
+    this.member = member;
+    this.place = place;
+    this.title = title;
+    this.tl_profile_pic = tl_profile_pic;
+    this.content = content;
+    this.lat = lat;
+    this.lng = lng;
+    this.joinDate = joinDate;
+    this.view = view;
+  }
 }
