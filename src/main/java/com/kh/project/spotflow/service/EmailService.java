@@ -94,11 +94,11 @@ public class EmailService implements EmailServiceInterface{
           return ePw;
      }
      
-     
      // 인증키 저장
      public void setConKey(String email, String key) {
           confirmKey.put(email, key);
      }
+     
      // 인증키 호출
      public String getConKey(String email) {
           String key = confirmKey.get(email);

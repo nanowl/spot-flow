@@ -35,12 +35,25 @@ public class AuthController {
     return new ResponseEntity<>(code, HttpStatus.OK);
   }
   
+  // 이메일 이증하기
+  @GetMapping("/emailauth/confirm")
+  public ResponseEntity<Boolean> emailAuthenticationConfirm(@RequestParam String email, @RequestParam String key) {
+    boolean isConfirm = false;
+    String confirmKey = emailService.getConKey(email);
+    if (confirmKey.equals(key)) {
+      isConfirm = true;
+      emailService.deleteConKey(email);
+    }
+    return new ResponseEntity<>(isConfirm, HttpStatus.OK);
+  }
+  
   //닉내임 중복 확인 true: nickname 이미 있음 false : nickname 없음
   @GetMapping("/check-duplicate-nickname")
   public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName){
     return ResponseEntity.ok(authService.checkNickNameDuplicate(nickName));
   }
   
+  //회원 가입
   @PostMapping("/signup")
   public ResponseEntity<CustomerResponseDto> signup(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.signup(requestDto));
