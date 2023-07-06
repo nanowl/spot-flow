@@ -1,13 +1,9 @@
 package com.kh.project.spotflow.model.dto;
 
 import com.kh.project.spotflow.model.constant.Authority;
-<<<<<<< Updated upstream:src/main/java/com/kh/project/spotflow/model/dto/MemberRequestDto.java
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
-import com.kh.project.spotflow.model.entity.Member;
-=======
 import com.kh.project.spotflow.model.entity.Customer;
->>>>>>> Stashed changes:src/main/java/com/kh/project/spotflow/model/dto/CustomerRequestDto.java
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +29,6 @@ public class CustomerRequestDto {
             .profilePic("https://firebasestorage.googleapis.com/v0/b/spotflow-5475a.appspot.com/o/default_avatar.png?alt=media&token=7ea670df-ff84-4a85-bdb2-41b9a7f6a77a")
             .authority(Authority.ROLE_USER)
             .joinDate(LocalDateTime.now())
-            .openStatus(OpenStatus.PUBLIC)
-            .theme(Theme.LIGHT_MODE)
             .build();
   }
   public UsernamePasswordAuthenticationToken toAuthentication() {

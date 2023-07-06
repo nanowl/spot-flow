@@ -54,24 +54,16 @@ public class Customer {
   private Authority authority;
 
   @Builder
-<<<<<<< Updated upstream:src/main/java/com/kh/project/spotflow/model/entity/Member.java
-  public Member(String email, String password, String name, Authority authority,
-                LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
-=======
   public Customer(String email, String password, String profilePic ,String name, Authority authority, LocalDateTime joinDate) {
->>>>>>> Stashed changes:src/main/java/com/kh/project/spotflow/model/entity/Customer.java
     this.email = email;
     this.password = password;
     this.name = name;
     this.profilePic = profilePic;
     this.authority = authority;
     this.joinDate = joinDate;
-<<<<<<< Updated upstream:src/main/java/com/kh/project/spotflow/model/entity/Member.java
     this.openStatus = openStatus;
     this.theme = theme;
     this.profilePic = profilePic;
-=======
     
->>>>>>> Stashed changes:src/main/java/com/kh/project/spotflow/model/entity/Customer.java
   }
 }

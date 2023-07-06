@@ -41,6 +41,8 @@ dependencies {
 	//XML to Json
 	implementation group: 'org.json', name: 'json', version: '20210307'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
+	//JavaMailSender
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
