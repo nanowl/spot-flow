@@ -17,4 +17,8 @@ public class MyFlowService {
     public Optional<TimeLine> findByEmail(String email) {
         return repository.findByEmail(email);
     }
+
+    public void saveTimeLine(TimeLine timeLine) {
+        repository.save(timeLine);
+    }
 }
