@@ -13,5 +13,5 @@ public class TimeLineDto {
     private int view;
     private double lat;
     private double lng;
-    private  String Tl_profile_pic;
+    private  String pic;
 }
