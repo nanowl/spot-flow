@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "diary")
@@ -21,7 +23,7 @@ public class Diary {
 
   @ManyToOne
   @JoinColumn(name = "di_customer")
-  private Member email;
+  private Member member;
 
   @Column(name = "di_category", nullable = false, length = 128)
   private String category;
@@ -44,7 +46,12 @@ public class Diary {
   @Column(name = "di_view")
   private Integer view;
 
-//  @OneToMany(mappedBy = "diary")
-//  private List<DiaryItem> diaryItemList = new ArrayList<>();
+
+
+  @OneToMany(mappedBy = "diary" , cascade = CascadeType.ALL)
+  private List<DiaryItem> itemList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "diary" , cascade = CascadeType.ALL)
+  private List<DiaryComment> commentList = new ArrayList<>();
 
 }
