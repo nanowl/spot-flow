@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -52,7 +53,22 @@ public class Customer {
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_authority")
   private Authority authority;
-
+  
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  private List<TimeLine> timeLineList;
+  
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  private List<Diary> diaryList;
+  
+  @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+  private List<Follow> followList;
+  
+  @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
+  private List<Follow> followingList;
+  
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  private List<DiaryComment> commentList;
+  
   @Builder
   public Customer(String email, String password, String profilePic ,String name, Authority authority, LocalDateTime joinDate) {
     this.email = email;
@@ -64,6 +80,5 @@ public class Customer {
     this.openStatus = openStatus;
     this.theme = theme;
     this.profilePic = profilePic;
-    
   }
 }

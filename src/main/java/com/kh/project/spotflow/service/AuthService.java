@@ -8,11 +8,13 @@ import com.kh.project.spotflow.config.jwt.TokenProvider;
 import com.kh.project.spotflow.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -33,7 +35,12 @@ public class AuthService {
     return customerRepository.existsByEmail(email);
   }
   
-  // 회원 가입 로직
+  //닉네임 중복 체크
+  public boolean checkNickNameDuplicate(String nickName) {
+    return customerRepository.existsByNickName(nickName);
+  }
+  
+  // 회원 가입
   public CustomerResponseDto signup (CustomerRequestDto requestDto){
     if (customerRepository.existsByEmail(requestDto.getEmail())) {
       throw new RuntimeException("이미 가입되어 있는 유저입니다");
@@ -42,15 +49,10 @@ public class AuthService {
     return CustomerResponseDto.of(customerRepository.save(customer));
   }
   
-
-
-    
+  //로그인시 토큰값 전달
   public TokenDto login (CustomerRequestDto requestDto){
     UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
     Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
     return tokenProvider.generateTokenDto(authentication);
   }
-  
-  
-  
 }

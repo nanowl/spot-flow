@@ -5,7 +5,9 @@ import com.kh.project.spotflow.model.dto.CustomerResponseDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
 import com.kh.project.spotflow.service.AuthService;
 import com.kh.project.spotflow.service.EmailService;
+import com.kh.project.spotflow.service.EmailServiceInterface;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +20,26 @@ public class AuthController {
   private final AuthService authService;
   private final EmailService emailService;
   
-  //이메일 중복 확인
+  //이메일 중복 확인 true: email 이미 있음 false: email 없음
   @GetMapping("/check-duplicate-email")
   public ResponseEntity<Boolean> checkEmailDuplicate(@RequestParam String email) {
     return ResponseEntity.ok(authService.checkEmailDuplicate(email));
   }
   
+  // 이메일 인증시 키 전송
+  @GetMapping("/emailauth")
+  public ResponseEntity<String> emailAuthentication(@RequestParam String email) throws Exception {
+    System.out.print("email : " + email);
+    String code = emailService.sendSimpleMessage(email);
+    System.out.print("email code : " + code);
+    return new ResponseEntity<>(code, HttpStatus.OK);
+  }
+  
+  //닉내임 중복 확인 true: nickname 이미 있음 false : nickname 없음
+  @GetMapping("/check-duplicate-nickname")
+  public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName){
+    return ResponseEntity.ok(authService.checkNickNameDuplicate(nickName));
+  }
   
   @PostMapping("/signup")
   public ResponseEntity<CustomerResponseDto> signup(@RequestBody CustomerRequestDto requestDto) {
@@ -34,13 +50,5 @@ public class AuthController {
   public ResponseEntity<TokenDto> login(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.login(requestDto));
   }
-  
-  @PostMapping("/emailConfirm")
-  public String emailConfirm(@RequestParam String email) throws Exception {
-    String confirm = emailService.sendSimpleMessage(email);
-    return confirm;
-  }
-  
-
   
 }
