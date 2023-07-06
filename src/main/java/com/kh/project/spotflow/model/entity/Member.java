@@ -7,7 +7,9 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -52,6 +54,17 @@ public class Member {
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_authority")
   private Authority authority;
+
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  private List<TimeLine> timeLineList;
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  private List<Diary> diaryList;
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  private List<DiaryComment> commentList;
+  @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+  private List<Follow> followerList;
+  @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
+  private List<Follow> followingList;
 
   @Builder
   public Member(String email, String password, String name, Authority authority) {

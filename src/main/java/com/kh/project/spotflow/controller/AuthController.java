@@ -3,6 +3,7 @@ package com.kh.project.spotflow.controller;
 import com.kh.project.spotflow.model.dto.MemberRequestDto;
 import com.kh.project.spotflow.model.dto.MemberResponseDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
+import com.kh.project.spotflow.model.entity.Member;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.AuthService;
 import com.kh.project.spotflow.service.MyFlowService;
@@ -33,8 +34,8 @@ public class AuthController {
   }
 
   @PostMapping("/myflow")
-  public ResponseEntity<Optional<TimeLine>> myFlowInfoGet(String email) {
-    return ResponseEntity.ok(myFlowService.findByEmail(email));
+  public ResponseEntity<Optional<TimeLine>> myFlowInfoGet(Member member) {
+    return ResponseEntity.ok(myFlowService.findByMember(member));
   }
 
   @PostMapping("/myflownew")
@@ -50,15 +51,9 @@ public class AuthController {
     Double lng = Double.valueOf(lngStr);
     Long flowId = Long.valueOf(flowIdStr);
 
+    Member member =  new Member();
     TimeLine timeLine = new TimeLine();
-    timeLine.setEmail(email);
-    timeLine.setId(flowId);
-    timeLine.setLat(lat);
-    timeLine.setLng(lng);
-    timeLine.setTl_profile_pic(img);
-    timeLine.setContent(content);
 
-    myFlowService.saveTimeLine(timeLine);
-    return true;
+    return myFlowService.saveTimeLine(email, lat, lng, content, img, flowId);
   }
 }

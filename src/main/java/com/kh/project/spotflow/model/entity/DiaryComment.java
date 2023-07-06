@@ -24,7 +24,7 @@ public class DiaryComment {
 
   @ManyToOne
   @JoinColumn(name = "cm_customer")
-  private Member email;
+  private Member member;
 
   @ManyToOne
   @JoinColumn(name = "cm_diary")

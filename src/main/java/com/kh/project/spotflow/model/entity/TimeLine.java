@@ -27,7 +27,7 @@ public class TimeLine {
 
   @ManyToOne
   @JoinColumn(name = "tl_customer")
-  private Member email;
+  private Member member;
 
   @Column(name = "tl_category", nullable = false, length = 128)
   private String category;
@@ -61,6 +61,9 @@ public class TimeLine {
   @Column(name = "tl_view", nullable = false, length = 128)
   @ColumnDefault("0")
   private Integer view;
+
+  @OneToMany(mappedBy = "timeLine", cascade = CascadeType.ALL)
+  private List<DiaryItem> itemList;
 
 //  @OneToMany(mappedBy = "timeline")
 //  private List<DiaryItem> diaryItemList = new ArrayList<>();
