@@ -51,8 +51,8 @@ public class DiaryService {
   public Diary save(DiaryRequestDto requestDiary) {
     Member member = memberRepository.findMemberByEmail(requestDiary.getEmail());
     Diary diary = requestDiary.toDiary();
-    List<TimeLine> timeLineList = timeLineRepository.findAll();
-
+    List<TimeLine> timeLineList = requestDiary.getTimeLineList();
+    List<DiaryItem> itemList = new ArrayList<>();
     diary.setMember(member);
 
     for (int i = 0; i<timeLineList.size(); i ++) {
@@ -60,8 +60,10 @@ public class DiaryService {
               .diary(diary)
               .timeLine(timeLineList.get(i))
               .build();
-      diary.getItemList().add(item);
+      itemList.add(item);
     }
+
+    diary.setItemList(itemList);
 
     log.info("Diary 생성");
     diaryRepository.save(diary);

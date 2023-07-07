@@ -17,7 +17,7 @@ public class DiaryRequestDto {
   private String title;
   private String content;
   private String email; // 다이어리 게시자
-//  private List<TimeLine> timeLineList;
+  private List<TimeLine> timeLineList;
 
   public Diary toDiary() {
     return Diary.builder()
