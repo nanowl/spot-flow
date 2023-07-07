@@ -1,21 +1,22 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kh.project.spotflow.model.constant.Authority;
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
-@Getter @Setter @ToString
 @NoArgsConstructor
-@Component
+@Getter
+@Setter
 public class Member {
-
   @Id
   @Column(name = "ct_email")
   private String email;
@@ -53,6 +54,27 @@ public class Member {
   @Column(name = "ct_authority")
   private Authority authority;
 
+
+  @OneToMany(mappedBy = "member")
+  @JsonBackReference
+  private List<TimeLine> timeLineList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member")
+  @JsonBackReference
+  private List<Diary> diaryList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member")
+  @JsonBackReference
+  private List<DiaryComment> commentList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "follower")
+  @JsonBackReference
+  private List<Follow> followerList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "following")
+  @JsonBackReference
+  private List<Follow> followingList = new ArrayList<>();
+
   @Builder
   public Member(String email, String password, String name, Authority authority,
                 LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
@@ -65,6 +87,5 @@ public class Member {
     this.theme = theme;
     this.profilePic = profilePic;
   }
-
 
 }

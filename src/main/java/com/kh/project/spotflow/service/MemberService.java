@@ -19,8 +19,9 @@ import java.util.List;
 public class MemberService {
   private final MemberRepository repository;
 
-  public List<Member> findAll() {
-    return repository.findAll();
+  public Object findMemberByEmail(String email) {
+    Member member = repository.findMemberByEmail(email);
+    return member;
   }
 
   public List<Member> saveUser(int count) {
@@ -38,6 +39,7 @@ public class MemberService {
       members.add(member);
       log.info("count : " + i);
     }
+    repository.saveAll(members);
 
     return members;
   }

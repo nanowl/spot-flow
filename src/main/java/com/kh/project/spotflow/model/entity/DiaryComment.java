@@ -1,30 +1,25 @@
 package com.kh.project.spotflow.model.entity;
 
+
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "diary_comment")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@Component
+@Getter @Setter
 public class DiaryComment {
   @Id
   @Column(name = "cm_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
   @JoinColumn(name = "cm_customer")
-  private Member email;
+  private Member member;
 
   @ManyToOne
   @JoinColumn(name = "cm_diary")
@@ -38,4 +33,7 @@ public class DiaryComment {
 
   @Column(name = "cm_update")
   private LocalDateTime update;
+
+  public DiaryComment() {
+  }
 }

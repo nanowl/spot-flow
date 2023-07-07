@@ -1,30 +1,29 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "diary")
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@Component
 public class Diary {
   @Id
   @Column(name = "di_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "di_customer")
-  private Member email;
-
-  @Column(name = "di_category", nullable = false, length = 128)
-  private String category;
+  private Member member;
 
   @Column(name = "di_title", nullable = false)
   private String title;
@@ -44,7 +43,18 @@ public class Diary {
   @Column(name = "di_view")
   private Integer view;
 
-//  @OneToMany(mappedBy = "diary")
-//  private List<DiaryItem> diaryItemList = new ArrayList<>();
+  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  @JsonBackReference
+  private List<DiaryItem> itemList = new ArrayList<>();
+
+  @Builder
+  public Diary (String title, String content, LocalDateTime joinDate,
+                Integer like, Integer view) {
+    this.title = title;
+    this.content = content;
+    this.joinDate = joinDate;
+    this.like = like;
+    this.view = view;
+  }
 
 }
