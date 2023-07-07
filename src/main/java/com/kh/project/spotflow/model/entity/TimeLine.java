@@ -59,22 +59,4 @@ public class TimeLine {
   @OneToMany(mappedBy = "timeLine",cascade = CascadeType.ALL)
   @JsonBackReference
   private List<DiaryItem> itemList = new ArrayList<>();
-
-  @Override
-  public String toString() {
-    return "TimeLine{" +
-            "id=" + id +
-            ", member=" + member +
-            ", place='" + place + '\'' +
-            ", title='" + title + '\'' +
-            ", tl_profile_pic='" + tl_profile_pic + '\'' +
-            ", content='" + content + '\'' +
-            ", lat=" + lat +
-            ", lng=" + lng +
-            ", joinDate=" + joinDate +
-            ", updateTime=" + updateTime +
-            ", view=" + view +
-            ", itemList=" + itemList +
-            '}';
-  }
 }
