@@ -41,12 +41,13 @@ public class AuthService {
   }
   
   // 회원 가입
-  public CustomerResponseDto signup (CustomerRequestDto requestDto){
+  public boolean signup (CustomerRequestDto requestDto){
     if (customerRepository.existsByEmail(requestDto.getEmail())) {
       throw new RuntimeException("이미 가입되어 있는 유저입니다");
     }
     Customer customer = requestDto.toMember(passwordEncoder);
-    return CustomerResponseDto.of(customerRepository.save(customer));
+    CustomerResponseDto.of(customerRepository.save(customer));
+    return true;
   }
   
   //로그인시 토큰값 전달

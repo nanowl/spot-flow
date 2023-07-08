@@ -24,7 +24,7 @@ public class Customer {
   @Column(name = "ct_name")
   private String name;
 
-  @Column(name = "ct_nick_name")
+  @Column(name = "ct_nick_name",unique = true, nullable = false)
   private String nickName;
 
   @Column(name = "ct_pwd")
@@ -70,15 +70,14 @@ public class Customer {
   private List<DiaryComment> commentList;
   
   @Builder
-  public Customer(String email, String password, String profilePic ,String name, Authority authority, LocalDateTime joinDate) {
+  public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;
     this.password = password;
-    this.name = name;
+    this.nickName = nickName;
     this.profilePic = profilePic;
+    this.openStatus = openStatus;
     this.authority = authority;
     this.joinDate = joinDate;
-    this.openStatus = openStatus;
     this.theme = theme;
-    this.profilePic = profilePic;
   }
 }

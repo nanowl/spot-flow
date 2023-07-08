@@ -1,11 +1,9 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.CustomerRequestDto;
-import com.kh.project.spotflow.model.dto.CustomerResponseDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
 import com.kh.project.spotflow.service.AuthService;
 import com.kh.project.spotflow.service.EmailService;
-import com.kh.project.spotflow.service.EmailServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +53,7 @@ public class AuthController {
   
   //회원 가입
   @PostMapping("/signup")
-  public ResponseEntity<CustomerResponseDto> signup(@RequestBody CustomerRequestDto requestDto) {
+  public ResponseEntity<Boolean> signup(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.signup(requestDto));
   }
   

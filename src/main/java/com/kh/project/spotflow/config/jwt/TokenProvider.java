@@ -27,7 +27,7 @@ public class TokenProvider {
   private static final String AUTHORITIES_KEY = "auth";
   private static final String BEARER_TYPE = "bearer";
   // 토큰의 만료 시간 30분
-  private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+  private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 2 ; //2시간
   // 암호화 키 생성을 위해 사용
   private final Key key;
 
