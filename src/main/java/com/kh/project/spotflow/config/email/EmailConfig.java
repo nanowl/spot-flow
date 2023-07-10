@@ -2,6 +2,8 @@ package com.kh.project.spotflow.config.email;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -9,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class EmailConfig {
+
      private Properties getMailProperties() {
           Properties properties = new Properties();
           properties.setProperty("mail.transport.protocol", "smtp");
@@ -24,12 +27,9 @@ public class EmailConfig {
           JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
           javaMailSender.setHost("smtp.naver.com");
           javaMailSender.setUsername("husik927@naver.com");
-          javaMailSender.setPassword("");
-          
+          javaMailSender.setPassword("canpast92@");
           javaMailSender.setPort(465);
-          
           javaMailSender.setJavaMailProperties(getMailProperties());
-          
           return javaMailSender;
      }
 }
