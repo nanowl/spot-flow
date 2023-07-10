@@ -3,6 +3,7 @@ package com.kh.project.spotflow.model.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "diary_comment")
 @Getter @Setter
+@NoArgsConstructor
 public class DiaryComment {
   @Id
   @Column(name = "cm_id")
@@ -34,6 +36,11 @@ public class DiaryComment {
   @Column(name = "cm_update")
   private LocalDateTime update;
 
-  public DiaryComment() {
+  @Builder
+  public DiaryComment(Member member, Diary diary, String content, LocalDateTime joinDate) {
+    this.member = member;
+    this.diary = diary;
+    this.content = content;
+    this.joinDate = joinDate;
   }
 }

@@ -29,9 +29,6 @@ public class TimeLine {
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
 
-  @Column(name = "tl_title", nullable = false)
-  private String title;
-
   @Column(name = "tl_profile_pic", nullable = false)
   private String tl_profile_pic;
 

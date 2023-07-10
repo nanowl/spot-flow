@@ -1,6 +1,7 @@
-package com.kh.project.spotflow.model.dto;
+package com.kh.project.spotflow.model.dto.diary;
 
 import com.kh.project.spotflow.model.entity.Diary;
+import com.kh.project.spotflow.model.entity.DiaryItem;
 import com.kh.project.spotflow.model.entity.Member;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import lombok.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-@Builder @ToString
+@Builder
 public class DiaryResponseDto {
   private String title;
   private String content;
@@ -20,6 +21,7 @@ public class DiaryResponseDto {
   private Integer like;
   private Integer view;
   private List<TimeLine> timeLineList;
+  private List<DiaryItem> itemList;
 
   public DiaryResponseDto of(Diary diary) {
     return DiaryResponseDto.builder()

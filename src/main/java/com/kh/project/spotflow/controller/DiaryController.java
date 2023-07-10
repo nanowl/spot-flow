@@ -1,7 +1,8 @@
 package com.kh.project.spotflow.controller;
 
-import com.kh.project.spotflow.model.dto.DiaryRequestDto;
-import com.kh.project.spotflow.model.dto.DiaryResponseDto;
+import com.kh.project.spotflow.model.dto.diary.DiaryRequestDto;
+import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
+import com.kh.project.spotflow.model.dto.diary.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.service.DiaryService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class DiaryController {
   @GetMapping("/all")
   public ResponseEntity<List<Diary>> findByMyDiaryList(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
+  }
+
+  @PutMapping("")
+  public  ResponseEntity<DiaryResponseDto> updateMyDiaryList(@RequestBody DiaryUpdateRequest diaryRequest) {
+    return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);
   }
 
   @PostMapping("")
