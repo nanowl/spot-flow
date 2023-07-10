@@ -1,8 +1,6 @@
 package com.kh.project.spotflow.model.dto.diary;
 
-import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Diary;
-import com.kh.project.spotflow.model.entity.TimeLine;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +22,7 @@ public class DiaryRequestDto {
             .joinDate(LocalDateTime.now())
             .like(0)
             .view(0)
+            .isDelete(false)
             .build();
   }
 }

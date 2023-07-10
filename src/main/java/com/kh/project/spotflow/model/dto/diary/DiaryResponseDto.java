@@ -20,6 +20,7 @@ public class DiaryResponseDto {
   private LocalDateTime updateTime;
   private Integer like;
   private Integer view;
+  private boolean isDelete;
   private List<TimeLine> timeLineList;
   private List<DiaryItem> itemList;
 
@@ -32,6 +33,7 @@ public class DiaryResponseDto {
             .updateTime(diary.getUpdateTime())
             .like(diary.getLike())
             .view(diary.getView())
+            .isDelete(diary.isDelete())
             .build();
   }
 }

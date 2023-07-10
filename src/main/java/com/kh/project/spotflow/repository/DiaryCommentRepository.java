@@ -6,9 +6,11 @@ import com.kh.project.spotflow.model.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DiaryCommentRepository extends JpaRepository<DiaryComment, Long> {
   DiaryComment findDiaryCommentById(Long Id);
-  DiaryComment findDiaryCommentByMember(Member member);
-  DiaryComment findDiaryCommentByDiary(Diary diary);
+  List<DiaryComment> findByMemberOrderByJoinDateDesc(Member member);
+  List<DiaryComment> findByDiaryOrderByJoinDateDesc(Diary diary);
 }

@@ -1,6 +1,6 @@
 package com.kh.project.spotflow.service;
 
-import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.diary.TimeLineRequestDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryRequestDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryUpdateRequest;
@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class DiaryService {
   // user별 다이어리 검색
   public List<Diary> findDiaryByMember(String email) {
     Member member = memberRepository.findMemberByEmail(email);
-    return diaryRepository.findDiaryByMember(member);
+    return diaryRepository.findDiaryByMemberOrderByJoinDateDesc(member);
   }
 
   /*
@@ -64,7 +65,8 @@ public class DiaryService {
     // 수정 될 다이어리 리스트
     List<DiaryItem> diaryItemList = new ArrayList<>();
     if (diary != null) {
-      // 글 내용 수정
+      // 제목 및 글 내용 수정
+      diary.setTitle(request.getTitle());
       diary.setContent(request.getContent());
       // 현재 다이어리와 타임라인의 매핑 데이터를 가져옴
       List<DiaryItem> currentItemList = itemRepository.findByDiary(diary);
@@ -80,13 +82,21 @@ public class DiaryService {
         diaryItemList.add(item);
       }
       diary.setItemList(diaryItemList);
+      diary.setUpdateTime(LocalDateTime.now());
     }
-//    diaryRepository.save(diary);
+    diaryRepository.save(diary);
     DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
     responseDto.setItemList(diaryItemList);
     return responseDto;
   }
 
+  public DiaryResponseDto delete(DiaryUpdateRequest request) {
+    Diary diary = diaryRepository.findDiaryById(request.getId());
+    diary.setDelete(true);
+    diaryRepository.save(diary);
+    DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
+    return responseDto;
+  }
 
   // 다이어리와 매핑 테이블을 저장
   public Diary save(DiaryRequestDto requestDiary) {
@@ -99,7 +109,6 @@ public class DiaryService {
     for (int i = 0; i < timeLineList.size(); i++) {
       TimeLine timeLine = timeLineRepository
               .findTimeLineById(timeLineList.get(i).getId());
-
       DiaryItem item = DiaryItem.builder()
               .diary(diary)
               .timeLine(timeLine)

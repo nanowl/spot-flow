@@ -31,8 +31,12 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
   }
 
+  @DeleteMapping("")
+  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
+    return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
+  }
   @PutMapping("")
-  public  ResponseEntity<DiaryResponseDto> updateMyDiaryList(@RequestBody DiaryUpdateRequest diaryRequest) {
+  public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);
   }
 

@@ -3,6 +3,7 @@ package com.kh.project.spotflow.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -43,18 +44,26 @@ public class Diary {
   @Column(name = "di_view")
   private Integer view;
 
+  @Column(name = "di_isDelete")
+  @ColumnDefault("FALSE")
+  private boolean isDelete;
+
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
   @JsonBackReference
   private List<DiaryItem> itemList = new ArrayList<>();
 
   @Builder
   public Diary (String title, String content, LocalDateTime joinDate,
-                Integer like, Integer view) {
+                Integer like, Integer view, boolean isDelete) {
     this.title = title;
     this.content = content;
     this.joinDate = joinDate;
     this.like = like;
     this.view = view;
+    this.isDelete = isDelete;
   }
 
+  public boolean isDelete() {
+    return isDelete;
+  }
 }
