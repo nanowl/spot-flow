@@ -64,4 +64,12 @@ public class AuthController {
     log.info(count + "명의 유저를 만듭니다.");
     return new ResponseEntity<>(authService.saveUser(count), HttpStatus.OK);
   }
+
+
+  @PostMapping("/dummyflow")
+  public ResponseEntity<List<Member>> addFlow(@RequestBody Map<String, Object> request) {
+    int count = (int) request.get("count");
+    log.info(count + "명의 유저를 만듭니다.");
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }
