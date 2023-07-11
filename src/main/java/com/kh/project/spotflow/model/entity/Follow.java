@@ -8,34 +8,34 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "follow")
-@Getter
-@Setter
-@ToString
+@Setter @Getter
+@AllArgsConstructor @Builder
 @NoArgsConstructor
-@Component
 public class Follow {
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
   @JoinColumn(name = "follower")
-  private Member follower; // 팔로우 기능을 실행한 사람
+  private Customer follower; // 팔로우 기능을 실행한 사람
 
   @ManyToOne
   @JoinColumn(name = "following")
-  private Member following; // 팔로우하는 대상
+  private Customer following; // 팔로우하는 대상
 
   @Column(name = "follow_join_date")
   private LocalDateTime joinDate;
 
-  @Builder
-  public Follow(Member toUser, Member fromUser, LocalDateTime joinDate){
-    this.follower = toUser;
-    this.following = fromUser;
-    this.joinDate = joinDate;
+  @Override
+  public String toString() {
+    return "Follow{" +
+            "id=" + id +
+            ", follower=" + follower +
+            ", following=" + following +
+            ", joinDate=" + joinDate +
+            '}';
   }
-
-
 }
+

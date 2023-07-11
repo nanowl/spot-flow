@@ -1,22 +1,29 @@
 package com.kh.project.spotflow.service;
 
-import com.kh.project.spotflow.model.dto.MemberRequestDto;
-import com.kh.project.spotflow.model.dto.MemberResponseDto;
+import com.kh.project.spotflow.model.dto.CustomerDto;
+import com.kh.project.spotflow.model.dto.CustomerRequestDto;
+import com.kh.project.spotflow.model.dto.CustomerResponseDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
-import com.kh.project.spotflow.model.entity.Member;
+import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.config.jwt.TokenProvider;
-import com.kh.project.spotflow.repository.MemberRepository;
+import com.kh.project.spotflow.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -24,36 +31,36 @@ import java.util.List;
 @Transactional
 public class AuthService {
   private final AuthenticationManagerBuilder managerBuilder;
-  private final MemberRepository memberRepository;
+  private final CustomerRepository customerRepository;
   private final PasswordEncoder passwordEncoder;
   private final TokenProvider tokenProvider;
-  private final MemberService memberService;
-
-  public MemberResponseDto signup(MemberRequestDto requestDto) {
-    if (memberRepository.existsByEmail(requestDto.getEmail())) {
+  
+  //이메일 중복 체크
+  public boolean checkEmailDuplicate(String email) {
+    return customerRepository.existsByEmail(email);
+  }
+  
+  //닉네임 중복 체크
+  public boolean checkNickNameDuplicate(String nickName) {
+    return customerRepository.existsByNickName(nickName);
+  }
+  
+  // 회원 가입
+  public boolean signup (CustomerRequestDto requestDto){
+    if (customerRepository.existsByEmail(requestDto.getEmail())) {
       throw new RuntimeException("이미 가입되어 있는 유저입니다");
     }
-
-    Member member = requestDto.toMember(passwordEncoder);
-    return MemberResponseDto.of(memberRepository.save(member));
+    Customer customer = requestDto.toMember(passwordEncoder);
+    CustomerResponseDto.of(customerRepository.save(customer));
+    return true;
   }
-
-
-  public List<MemberResponseDto> signupDummy(int count) {
-    List<MemberResponseDto> responseDtos = new ArrayList<>();
-    List<Member> members = memberService.saveUser(count);
-    for (int i = 0; i < count; i ++) {
-      Member member = members.get(i);
-      responseDtos.add(MemberResponseDto.of(memberRepository.save(member)));
-    }
-    return responseDtos;
-  }
-
-  public TokenDto login(MemberRequestDto requestDto) {
+  
+  //로그인시 토큰값 전달
+  public TokenDto login (CustomerRequestDto requestDto){
     UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-    log.info("토큰 메소드 : " + authenticationToken.toString());
     Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-    log.info(authentication.toString());
     return tokenProvider.generateTokenDto(authentication);
   }
+  
+
 }

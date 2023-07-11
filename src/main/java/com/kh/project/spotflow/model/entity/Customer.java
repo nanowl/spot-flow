@@ -1,10 +1,10 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kh.project.spotflow.model.constant.Authority;
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,11 +13,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "customer")
-@Getter @Setter @ToString
 @NoArgsConstructor
-@Component
-public class Member {
-
+@Getter
+@Setter
+public class Customer {
   @Id
   @Column(name = "ct_email")
   private String email;
@@ -25,7 +24,7 @@ public class Member {
   @Column(name = "ct_name")
   private String name;
 
-  @Column(name = "ct_nick_name")
+  @Column(name = "ct_nick_name",unique = true, nullable = false)
   private String nickName;
 
   @Column(name = "ct_pwd")
@@ -50,10 +49,30 @@ public class Member {
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_theme")
   private Theme theme;
-
+  
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_authority")
   private Authority authority;
+  
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
+  private List<TimeLine> timeLineList;
+  
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
+  private List<Diary> diaryList;
+  
+  @OneToMany(mappedBy = "follower")
+  @JsonBackReference
+  private List<Follow> followList;
+  
+  @OneToMany(mappedBy = "following")
+  @JsonBackReference
+  private List<Follow> followingList;
+  
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
+  private List<DiaryComment> commentList;
 
 
   @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
@@ -72,20 +91,14 @@ public class Member {
   private List<Follow> followingList = new ArrayList<>();
 
   @Builder
-  public Member(String email, String password, String name, Authority authority,
-                LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
+  public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;
     this.password = password;
-    this.name = name;
+    this.nickName = nickName;
+    this.profilePic = profilePic;
+    this.openStatus = openStatus;
     this.authority = authority;
     this.joinDate = joinDate;
-    this.openStatus = openStatus;
     this.theme = theme;
-    this.profilePic = profilePic;
   }
-
-
-
-
-
 }
