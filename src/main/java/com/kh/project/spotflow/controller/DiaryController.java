@@ -57,4 +57,9 @@ public class DiaryController {
   public ResponseEntity<DiaryResponseDto> likeUp(@RequestBody DiaryLikeRequest request) {
     return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
   }
+
+  @GetMapping("/like/count")
+  public ResponseEntity<Long> countLike(@RequestParam("id") Long id) {
+    return new ResponseEntity<>(diaryService.countLike(id), HttpStatus.OK);
+  }
 }

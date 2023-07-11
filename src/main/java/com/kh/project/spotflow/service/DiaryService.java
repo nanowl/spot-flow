@@ -154,4 +154,11 @@ public class DiaryService {
     responseDto.setLikeList(likeRepository.findLikeByDiary(diary));
     return responseDto;
   }
+
+  // 다이어리의 좋아요 집계
+  @Transactional
+  public Long countLike(Long id) {
+    Diary diary = diaryRepository.findDiaryById(id);
+    return likeRepository.countLikeByDiary(diary);
+  }
 }
