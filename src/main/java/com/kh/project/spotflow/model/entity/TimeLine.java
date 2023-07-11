@@ -13,6 +13,9 @@ import java.util.List;
 @Entity
 @Table(name = "timeline")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Component
 @Getter @Setter
 public class TimeLine {
   @Id
@@ -28,8 +31,11 @@ public class TimeLine {
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
 
-  @Column(name = "tl_profile_pic", nullable = false)
-  private String tl_profile_pic;
+  @Column(name = "tl_title", nullable = false)
+  private String title;
+
+  @Column(name = "tl_profile_pic", nullable = false, columnDefinition = "LONGTEXT")
+  private String image;
 
   @Column(name = "tl_content", length = 512)
   private String content;
@@ -54,5 +60,5 @@ public class TimeLine {
 
   @OneToMany(mappedBy = "timeLine",cascade = CascadeType.ALL)
   @JsonBackReference
-  private List<DiaryItem> itemList = new ArrayList<>();
+  private List<DiaryItem> itemList;
 }

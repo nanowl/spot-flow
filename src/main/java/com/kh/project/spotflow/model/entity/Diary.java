@@ -50,7 +50,7 @@ public class Diary {
 
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
   @JsonBackReference
-  private List<DiaryItem> itemList = new ArrayList<>();
+  private List<DiaryItem> itemList;
 
   @Builder
   public Diary (String title, String content, LocalDateTime joinDate,

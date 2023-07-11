@@ -38,7 +38,7 @@ public class DiaryComment {
 
   @Column(name = "cm_update")
   private LocalDateTime update;
-
+  
   @Builder
   public DiaryComment(Customer customer, Diary diary, String content, LocalDateTime joinDate) {
     this.customer = customer;

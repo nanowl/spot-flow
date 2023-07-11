@@ -74,6 +74,22 @@ public class Customer {
   @JsonBackReference
   private List<DiaryComment> commentList;
 
+
+  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+  private List<TimeLine> timeLineList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+  private List<Diary> diaryList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+  private List<DiaryComment> commentList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "follower" , cascade = CascadeType.ALL)
+  private List<Follow> followerList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "following" , cascade = CascadeType.ALL)
+  private List<Follow> followingList = new ArrayList<>();
+
   @Builder
   public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;
