@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -29,41 +30,29 @@ public class TimeLineService {
 
 
     // 타임라인글 전제 조회 하기
-    public List<TimeLineDto> findAll() {
-        List<TimeLine> timeLineList = timeLineRepository.findAll();
-        List<TimeLineDto> timelineDTOS = new ArrayList<>();
-        for (TimeLine timeLine : timeLineList) {
-            TimeLineDto timelineDTO = new TimeLineDto();
-            timelineDTO.setTl_profile_pic(timeLine.getTl_profile_pic());
-            timelineDTO.setView(timeLine.getView());
-            timelineDTOS.add(timelineDTO);
-        }
-        return timelineDTOS;
-
-
-
+    @Transactional
+    public List<TimeLine> findAll() {
+        return timeLineRepository.findAll();
     }
 
-    public List<TimeLine> createPosts(int count, String userEmail) {
-        Member member = memberRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("Member does not exist!"));
 
-        List<TimeLine> timeLines = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            TimeLine timeLine = TimeLine.builder()
-                    .member(member)
-                    .place("Some place " + i)
-                    .content("Post content " + i)
-                    .joinDate(LocalDateTime.now())
-                    .view(0)
-                    .title("dfdf")
-                    .tl_profile_pic("https://example.com/my_profile_pic.jpg")
-                    .build();
-            timeLines.add(timeLine);
-            log.info("count : " + i);
-        }
+    // 타임라인 추가
+    @Transactional
+    public TimeLine createPost(TimeLineDto request) {
+        Member member = memberRepository.findByEmail(request.getUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저는 존재하지않습니다."));
 
-        return timeLineRepository.saveAll(timeLines);
+        TimeLineDto timeLineDto = new TimeLineDto();
+        timeLineDto.setPlace("Some place"+member.getName());
+        timeLineDto.setContent(request.getContent());
+        timeLineDto.setTitle(request.getTitle());
+        timeLineDto.setUpdateTime(LocalDateTime.now());
+        timeLineDto.setView(0);
+        timeLineDto.setTl_profile_pic(request.getTl_profile_pic());
+
+        TimeLine timeLine = timeLineDto.toEntity();
+
+        return timeLineRepository.save(timeLine);
     }
 
 }

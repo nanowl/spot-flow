@@ -16,6 +16,8 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Component
 public class TimeLine {
   @Id
@@ -36,8 +38,8 @@ public class TimeLine {
   @Column(name = "tl_title", nullable = false)
   private String title;
 
-  @Column(name = "tl_profile_pic", nullable = false)
-  private String tl_profile_pic;
+  @Column(name = "tl_profile_pic", nullable = false, columnDefinition = "LONGTEXT")
+  private String image;
 
   @Column(name = "tl_content", length = 512)
   private String content;
@@ -65,16 +67,4 @@ public class TimeLine {
   @OneToMany(mappedBy = "timeLine")
   private List<DiaryItem> itemList = new ArrayList<>();
 
-  @Builder
-  public TimeLine(Member member, String place, String title, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
-    this.member = member;
-    this.place = place;
-    this.title = title;
-    this.tl_profile_pic = tl_profile_pic;
-    this.content = content;
-    this.lat = lat;
-    this.lng = lng;
-    this.joinDate = joinDate;
-    this.view = view;
-  }
 }
