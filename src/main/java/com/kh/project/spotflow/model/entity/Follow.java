@@ -8,15 +8,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "follow")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@Component
 public class Follow {
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
@@ -37,5 +32,46 @@ public class Follow {
     this.joinDate = joinDate;
   }
 
+  @Override
+  public String toString() {
+    return "Follow{" +
+            "id=" + id +
+            ", follower=" + follower +
+            ", following=" + following +
+            ", joinDate=" + joinDate +
+            '}';
+  }
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Member getFollower() {
+    return follower;
+  }
+
+  public void setFollower(Member follower) {
+    this.follower = follower;
+  }
+
+  public Member getFollowing() {
+    return following;
+  }
+
+  public void setFollowing(Member following) {
+    this.following = following;
+  }
+
+  public LocalDateTime getJoinDate() {
+    return joinDate;
+  }
+
+  public void setJoinDate(LocalDateTime joinDate) {
+    this.joinDate = joinDate;
+  }
 }
+

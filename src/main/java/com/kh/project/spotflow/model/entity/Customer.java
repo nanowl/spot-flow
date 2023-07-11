@@ -1,22 +1,23 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kh.project.spotflow.model.constant.Authority;
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
-@Getter @Setter @ToString
 @NoArgsConstructor
+@Getter
+@Setter
 @Component
 public class Customer {
-
   @Id
   @Column(name = "ct_email")
   private String email;
@@ -68,7 +69,7 @@ public class Customer {
   
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
   private List<DiaryComment> commentList;
-  
+
   @Builder
   public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;

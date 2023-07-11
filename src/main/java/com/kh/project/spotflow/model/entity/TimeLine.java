@@ -1,9 +1,8 @@
 package com.kh.project.spotflow.model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.stereotype.Component;
 
@@ -13,18 +12,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "timeline")
-@Getter
-@Setter
-@ToString
 @NoArgsConstructor
-@Component
+@Getter @Setter
 public class TimeLine {
   @Id
   @Column(name = "tl_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "tl_customer")
   private Customer customer;
 
@@ -33,9 +30,6 @@ public class TimeLine {
 
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
-
-  @Column(name = "tl_title", nullable = false)
-  private String title;
 
   @Column(name = "tl_profile_pic", nullable = false)
   private String tl_profile_pic;
@@ -64,6 +58,7 @@ public class TimeLine {
   @OneToMany(mappedBy = "timeLine", cascade = CascadeType.ALL)
   private List<DiaryItem> itemList;
 
-//  @OneToMany(mappedBy = "timeline")
-//  private List<DiaryItem> diaryItemList = new ArrayList<>();
+  @OneToMany(mappedBy = "timeLine",cascade = CascadeType.ALL)
+  @JsonBackReference
+  private List<DiaryItem> itemList = new ArrayList<>();
 }
