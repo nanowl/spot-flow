@@ -24,7 +24,10 @@ public class Diary {
   @ManyToOne
   @JsonManagedReference
   @JoinColumn(name = "di_customer")
-  private Member member;
+  private Customer customer;
+
+  @Column(name = "di_category", nullable = false, length = 128)
+  private String category;
 
   @Column(name = "di_title", nullable = false)
   private String title;
@@ -43,6 +46,12 @@ public class Diary {
 
   @Column(name = "di_view")
   private Integer view;
+  
+  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  private List<DiaryComment> commentList;
+  
+  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  private List<DiaryItem> itemList;
 
   @Column(name = "di_isDelete")
   @ColumnDefault("FALSE")

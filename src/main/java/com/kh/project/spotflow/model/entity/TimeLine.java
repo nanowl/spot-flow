@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +23,10 @@ public class TimeLine {
   @ManyToOne
   @JsonManagedReference
   @JoinColumn(name = "tl_customer")
-  private Member member;
+  private Customer customer;
+
+  @Column(name = "tl_category", nullable = false, length = 128)
+  private String category;
 
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
@@ -52,6 +54,9 @@ public class TimeLine {
   @Column(name = "tl_view", nullable = false, length = 128)
   @ColumnDefault("0")
   private Integer view;
+  
+  @OneToMany(mappedBy = "timeLine", cascade = CascadeType.ALL)
+  private List<DiaryItem> itemList;
 
   @OneToMany(mappedBy = "timeLine",cascade = CascadeType.ALL)
   @JsonBackReference

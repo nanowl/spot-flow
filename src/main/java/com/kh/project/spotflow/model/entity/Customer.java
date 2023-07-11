@@ -16,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member {
+@Component
+public class Customer {
   @Id
   @Column(name = "ct_email")
   private String email;
@@ -24,7 +25,7 @@ public class Member {
   @Column(name = "ct_name")
   private String name;
 
-  @Column(name = "ct_nick_name")
+  @Column(name = "ct_nick_name",unique = true, nullable = false)
   private String nickName;
 
   @Column(name = "ct_pwd")
@@ -49,43 +50,35 @@ public class Member {
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_theme")
   private Theme theme;
-
+  
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_authority")
   private Authority authority;
-
-
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<TimeLine> timeLineList = new ArrayList<>();
-
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Diary> diaryList = new ArrayList<>();
-
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<DiaryComment> commentList = new ArrayList<>();
-
-  @OneToMany(mappedBy = "follower")
-  @JsonBackReference
-  private List<Follow> followerList = new ArrayList<>();
-
-  @OneToMany(mappedBy = "following")
-  @JsonBackReference
-  private List<Follow> followingList = new ArrayList<>();
+  
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  private List<TimeLine> timeLineList;
+  
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  private List<Diary> diaryList;
+  
+  @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+  private List<Follow> followList;
+  
+  @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
+  private List<Follow> followingList;
+  
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  private List<DiaryComment> commentList;
 
   @Builder
-  public Member(String email, String password, String name, Authority authority,
-                LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
+  public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;
     this.password = password;
-    this.name = name;
+    this.nickName = nickName;
+    this.profilePic = profilePic;
+    this.openStatus = openStatus;
     this.authority = authority;
     this.joinDate = joinDate;
-    this.openStatus = openStatus;
     this.theme = theme;
-    this.profilePic = profilePic;
   }
-
 }
