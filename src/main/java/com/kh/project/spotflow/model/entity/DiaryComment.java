@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,12 @@ public class DiaryComment {
 
   @ManyToOne
   @JoinColumn(name = "cm_customer")
+  @JsonManagedReference
   private Customer customer;
 
   @ManyToOne
   @JoinColumn(name = "cm_diary")
+  @JsonManagedReference
   private Diary diary;
 
   @Column(name = "cm_content", nullable = false, length = 512)
@@ -37,8 +40,8 @@ public class DiaryComment {
   private LocalDateTime update;
 
   @Builder
-  public DiaryComment(Member member, Diary diary, String content, LocalDateTime joinDate) {
-    this.member = member;
+  public DiaryComment(Customer customer, Diary diary, String content, LocalDateTime joinDate) {
+    this.customer = customer;
     this.diary = diary;
     this.content = content;
     this.joinDate = joinDate;

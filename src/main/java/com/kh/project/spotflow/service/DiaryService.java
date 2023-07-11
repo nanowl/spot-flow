@@ -4,13 +4,13 @@ import com.kh.project.spotflow.model.dto.diary.TimeLineRequestDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryRequestDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryUpdateRequest;
+import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.DiaryItem;
-import com.kh.project.spotflow.model.entity.Member;
 import com.kh.project.spotflow.model.entity.TimeLine;
+import com.kh.project.spotflow.repository.CustomerRepository;
 import com.kh.project.spotflow.repository.DiaryItemRepository;
 import com.kh.project.spotflow.repository.DiaryRepository;
-import com.kh.project.spotflow.repository.MemberRepository;
 import com.kh.project.spotflow.repository.TimeLineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiaryService {
   private final DiaryRepository diaryRepository;
-  private final MemberRepository memberRepository;
+  private final CustomerRepository customerRepository;
   private final TimeLineRepository timeLineRepository;
   private final DiaryItemRepository itemRepository;
 
@@ -50,8 +50,8 @@ public class DiaryService {
 
   // user별 다이어리 검색
   public List<Diary> findDiaryByMember(String email) {
-    Member member = memberRepository.findMemberByEmail(email);
-    return diaryRepository.findDiaryByMemberOrderByJoinDateDesc(member);
+    Customer customer = customerRepository.findCustomerByEmail(email);
+    return diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
   }
 
   /*
@@ -100,11 +100,11 @@ public class DiaryService {
 
   // 다이어리와 매핑 테이블을 저장
   public Diary save(DiaryRequestDto requestDiary) {
-    Member member = memberRepository.findMemberByEmail(requestDiary.getEmail());
+    Customer customer = customerRepository.findCustomerByEmail(requestDiary.getEmail());
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
     List<DiaryItem> itemList = new ArrayList<>();
-    diary.setMember(member);
+    diary.setCustomer(customer);
 
     for (int i = 0; i < timeLineList.size(); i++) {
       TimeLine timeLine = timeLineRepository

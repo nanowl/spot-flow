@@ -16,7 +16,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
   
   // 닉네임 중복 확인
   boolean existsByNickName(String nickName);
-  
+
+  // 유저정보 찾기
+  Customer findCustomerByEmail(String email);
   
 }
 

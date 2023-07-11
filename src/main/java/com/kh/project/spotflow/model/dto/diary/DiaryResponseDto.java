@@ -1,8 +1,8 @@
 package com.kh.project.spotflow.model.dto.diary;
 
+import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.DiaryItem;
-import com.kh.project.spotflow.model.entity.Member;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class DiaryResponseDto {
   private String title;
   private String content;
-  private Member member; // 다이어리 게시자
+  private Customer customer; // 다이어리 게시자
   private LocalDateTime joinDate;
   private LocalDateTime updateTime;
   private Integer like;
@@ -28,7 +28,7 @@ public class DiaryResponseDto {
     return DiaryResponseDto.builder()
             .title(diary.getTitle())
             .content(diary.getContent())
-            .member(diary.getMember())
+            .customer(diary.getCustomer())
             .joinDate(diary.getJoinDate())
             .updateTime(diary.getUpdateTime())
             .like(diary.getLike())

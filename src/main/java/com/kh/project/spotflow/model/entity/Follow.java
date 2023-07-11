@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "follow")
+@Setter @Getter
+@AllArgsConstructor @Builder
+@NoArgsConstructor
 public class Follow {
   @Id
   @Column(name = "id")
@@ -25,13 +28,6 @@ public class Follow {
   @Column(name = "follow_join_date")
   private LocalDateTime joinDate;
 
-  @Builder
-  public Follow(Customer toUser, Customer fromUser, LocalDateTime joinDate){
-    this.follower = toUser;
-    this.following = fromUser;
-    this.joinDate = joinDate;
-  }
-
   @Override
   public String toString() {
     return "Follow{" +
@@ -40,38 +36,6 @@ public class Follow {
             ", following=" + following +
             ", joinDate=" + joinDate +
             '}';
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Member getFollower() {
-    return follower;
-  }
-
-  public void setFollower(Member follower) {
-    this.follower = follower;
-  }
-
-  public Member getFollowing() {
-    return following;
-  }
-
-  public void setFollowing(Member following) {
-    this.following = following;
-  }
-
-  public LocalDateTime getJoinDate() {
-    return joinDate;
-  }
-
-  public void setJoinDate(LocalDateTime joinDate) {
-    this.joinDate = joinDate;
   }
 }
 

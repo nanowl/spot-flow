@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Component
 public class Customer {
   @Id
   @Column(name = "ct_email")
@@ -55,19 +54,24 @@ public class Customer {
   @Column(name = "ct_authority")
   private Authority authority;
   
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
   private List<TimeLine> timeLineList;
   
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
   private List<Diary> diaryList;
   
-  @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "follower")
+  @JsonBackReference
   private List<Follow> followList;
   
-  @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "following")
+  @JsonBackReference
   private List<Follow> followingList;
   
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
   private List<DiaryComment> commentList;
 
   @Builder

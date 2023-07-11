@@ -1,9 +1,8 @@
 package com.kh.project.spotflow.model.dto.comment;
 
+import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.DiaryComment;
-import com.kh.project.spotflow.model.entity.Member;
-import com.kh.project.spotflow.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,10 +18,10 @@ public class CommentRequestDto {
   private String content;
   private String email; // 댓글 게시자
 
-  public DiaryComment toComment(Member member, Diary diary) {
+  public DiaryComment toComment(Customer customer, Diary diary) {
     return DiaryComment.builder()
             .diary(diary)
-            .member(member)
+            .customer(customer)
             .content(this.content)
             .joinDate(LocalDateTime.now())
             .build();
