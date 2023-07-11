@@ -1,8 +1,9 @@
 package com.kh.project.spotflow.controller;
 
-import com.kh.project.spotflow.model.dto.diary.DiaryRequestDto;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
-import com.kh.project.spotflow.model.dto.diary.DiaryUpdateRequest;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.service.DiaryService;
 import lombok.RequiredArgsConstructor;
@@ -21,27 +22,39 @@ import java.util.List;
 public class DiaryController {
   private final DiaryService diaryService;
 
+  // 다이어리 식별값만 받아서 상세 데이터를 제공
   @GetMapping("")
   public ResponseEntity<DiaryResponseDto> findDiary(@RequestParam("num") Long num) {
     return new ResponseEntity<>(diaryService.findDiaryById(num), HttpStatus.OK);
   }
-
+  // 특정 유저가 작성한 다이어리를 모두 제공 (포함된 타임라인은 제공하지 않기 때문에 위 상세데이터는 따로 가져와야 함)
   @GetMapping("/all")
   public ResponseEntity<List<Diary>> findByMyDiaryList(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
   }
-
+  // 특정 다이어리를 삭제처리
   @DeleteMapping("")
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
+  // 특정 다이어리의 포함된 타임라인 리스트, 타이틀, 컨텐츠를 변경
   @PutMapping("")
   public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);
   }
-
+  // 다이어리 생성
   @PostMapping("")
-  public ResponseEntity<Diary> save(@RequestBody DiaryRequestDto requestDto) {
+  public ResponseEntity<Diary> save(@RequestBody DiaryCreateRequest requestDto) {
     return new ResponseEntity<>(diaryService.save(requestDto), HttpStatus.OK);
+  }
+  // 조회수 1up
+  @PutMapping("/view")
+  public ResponseEntity<DiaryResponseDto> viewUp(@RequestBody DiaryUpdateRequest request) {
+    return new ResponseEntity<>(diaryService.viewUp(request), HttpStatus.OK);
+  }
+  // 좋아요 1up
+  @PutMapping("/like")
+  public ResponseEntity<DiaryResponseDto> likeUp(@RequestBody DiaryLikeRequest request) {
+    return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
   }
 }

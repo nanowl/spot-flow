@@ -13,8 +13,10 @@ import java.util.List;
 @Entity
 @Table(name = "diary")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Diary {
   @Id
   @Column(name = "di_id")
@@ -38,9 +40,6 @@ public class Diary {
   @Column(name = "di_update")
   private LocalDateTime updateTime;
 
-  @Column(name = "di_like")
-  private Integer like;
-
   @Column(name = "di_view")
   private Integer view;
 
@@ -52,16 +51,9 @@ public class Diary {
   @JsonBackReference
   private List<DiaryItem> itemList = new ArrayList<>();
 
-  @Builder
-  public Diary (String title, String content, LocalDateTime joinDate,
-                Integer like, Integer view, boolean isDelete) {
-    this.title = title;
-    this.content = content;
-    this.joinDate = joinDate;
-    this.like = like;
-    this.view = view;
-    this.isDelete = isDelete;
-  }
+  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  @JsonBackReference
+  private List<Like> like;
 
   public boolean isDelete() {
     return isDelete;

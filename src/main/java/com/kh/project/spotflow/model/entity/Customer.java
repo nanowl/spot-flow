@@ -74,6 +74,10 @@ public class Customer {
   @JsonBackReference
   private List<DiaryComment> commentList;
 
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
+  private List<Like> likeList;
+
   @Builder
   public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;
