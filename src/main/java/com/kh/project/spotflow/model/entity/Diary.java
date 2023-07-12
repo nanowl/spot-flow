@@ -49,11 +49,11 @@ public class Diary {
 
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
   @JsonBackReference
-  private List<DiaryItem> itemList = new ArrayList<>();
+  private List<DiaryItem> itemList;
 
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
   @JsonBackReference
-  private List<Like> like;
+  private List<DiaryComment> commentList;
 
   public boolean isDelete() {
     return isDelete;

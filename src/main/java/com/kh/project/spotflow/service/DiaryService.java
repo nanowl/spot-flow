@@ -25,6 +25,7 @@ public class DiaryService {
   private final TimeLineRepository timeLineRepository;
   private final DiaryItemRepository itemRepository;
   private final LikeRepository likeRepository;
+  private final DiaryCommentRepository commentRepository;
 
   // id 값으로 다이어리와 그 다이어리에 포함된 타임라인 들을 리턴하는 메소드
   @Transactional
@@ -33,6 +34,7 @@ public class DiaryService {
     List<DiaryItem> itemList = itemRepository.findByDiary(diary); // 다이어리와 일치하는 매핑 데이터를 가져옴
     DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
     List<TimeLine> timeLineList = new ArrayList<>();
+    List<DiaryComment> commentList = commentRepository.findByDiaryOrderByJoinDateDesc(diary);
     // 다이어리에 포함된 타임라인들을 가져옴
     for (int i = 0; i < itemList.size(); i++) {
       DiaryItem item = itemList.get(i);
@@ -42,6 +44,7 @@ public class DiaryService {
     }
     // 다이어리 정보와 그 다이어리에 포함된 타임라인들을 가져옴
     responseDto.setTimeLineList(timeLineList);
+    responseDto.setCommentList(commentList);
     return responseDto;
   }
 
@@ -151,7 +154,7 @@ public class DiaryService {
       likeRepository.save(like);
     }
     DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
-    responseDto.setLikeList(likeRepository.findLikeByDiary(diary));
+    responseDto.setLike(likeRepository.countLikeByDiary(diary));
     return responseDto;
   }
 

@@ -2,10 +2,7 @@ package com.kh.project.spotflow.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "diary_comment")
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DiaryComment {
   @Id
   @Column(name = "cm_id")
@@ -39,11 +38,6 @@ public class DiaryComment {
   @Column(name = "cm_update")
   private LocalDateTime update;
 
-  @Builder
-  public DiaryComment(Customer customer, Diary diary, String content, LocalDateTime joinDate) {
-    this.customer = customer;
-    this.diary = diary;
-    this.content = content;
-    this.joinDate = joinDate;
-  }
+  @Column(name = "cm_delete")
+  private boolean isDelete;
 }

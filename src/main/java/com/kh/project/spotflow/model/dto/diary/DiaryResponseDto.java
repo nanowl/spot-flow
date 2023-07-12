@@ -18,8 +18,9 @@ public class DiaryResponseDto {
   private Integer view;
   private boolean isDelete;
   private List<TimeLine> timeLineList;
+  private List<DiaryComment> commentList;
   private List<DiaryItem> itemList;
-  private List<Like> likeList;
+  private Long like;
 
   public DiaryResponseDto of(Diary diary) {
     return DiaryResponseDto.builder()

@@ -13,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "timeline")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter @Setter
 public class TimeLine {
   @Id
@@ -29,7 +31,7 @@ public class TimeLine {
   private String place;
 
   @Column(name = "tl_profile_pic", nullable = false)
-  private String tl_profile_pic;
+  private String image;
 
   @Column(name = "tl_content", length = 512)
   private String content;
