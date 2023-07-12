@@ -59,7 +59,7 @@ public class AuthController {
 
 
     @PostMapping("/dummy/signup")
-  public ResponseEntity<List<MemberResponseDto>> signupDummy() {
+  public ResponseEntity<Boolean> signupDummy() {
     return ResponseEntity.ok(authService.signupDummy(1000));
   }
 

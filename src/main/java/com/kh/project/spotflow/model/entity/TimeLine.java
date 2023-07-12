@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -60,14 +61,13 @@ public class TimeLine {
 
 
 
-  @OneToMany(mappedBy = "timeLine")
-  private List<DiaryItem> itemList = new ArrayList<>();
+
 
   @Builder
-  public TimeLine(Member member, String place, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
-    this.member = member;
+  public TimeLine(Customer customer, String place, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
+    this.customer = customer;
     this.place = place;
-    this.tl_profile_pic = tl_profile_pic;
+    this.image = tl_profile_pic;
     this.content = content;
     this.lat = lat;
     this.lng = lng;

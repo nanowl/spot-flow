@@ -3,8 +3,8 @@ package com.kh.project.spotflow.service;
 import com.kh.project.spotflow.model.constant.Authority;
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
-import com.kh.project.spotflow.model.entity.Member;
-import com.kh.project.spotflow.repository.MemberRepository;
+import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,16 +17,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-    private final MemberRepository repository;
+    private final CustomerRepository repository;
 
-    public List<Member> findAll() {
+    public List<Customer> findAll() {
         return repository.findAll();
     }
 
-    public List<Member> saveUser(int count) {
-        List<Member> members = new ArrayList<>();
+    public List<Customer> saveUser(int count) {
+        List<Customer> customers = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            Member member = Member.builder()
+            Customer customer = Customer.builder()
                     .email("testAccount" + i + "@gmail.com")
                     .password("1234")
                     .nickName("testAccount" + i)
@@ -36,10 +36,10 @@ public class MemberService {
                     .openStatus(OpenStatus.PUBLIC)
                     .theme(Theme.LIGHT_MODE)
                     .build();
-            members.add(member);
+            customers.add(customer);
             log.info("count : " + i);
         }
 
-        return members;
+        return customers;
     }
 }
