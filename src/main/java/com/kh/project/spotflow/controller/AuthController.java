@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
   private final AuthService authService;
   private final EmailService emailService;
-  
+
   //이메일 중복 확인 true: email 이미 있음 false: email 없음
   @GetMapping("/check-duplicate-email")
   public ResponseEntity<Boolean> checkEmailDuplicate(@RequestParam String email) {
     return ResponseEntity.ok(authService.checkEmailDuplicate(email));
   }
-  
+
   // 이메일 인증시 키 전송
   @GetMapping("/emailauth")
   public ResponseEntity<String> emailAuthentication(@RequestParam String email) throws Exception {
@@ -32,7 +32,7 @@ public class AuthController {
     System.out.print("email code : " + code);
     return new ResponseEntity<>(code, HttpStatus.OK);
   }
-  
+
   // 이메일 이증하기
   @GetMapping("/emailauth/confirm")
   public ResponseEntity<Boolean> emailAuthenticationConfirm(@RequestParam String email, @RequestParam String key) {
@@ -44,22 +44,23 @@ public class AuthController {
     }
     return new ResponseEntity<>(isConfirm, HttpStatus.OK);
   }
-  
+
   //닉내임 중복 확인 true: nickname 이미 있음 false : nickname 없음
   @GetMapping("/check-duplicate-nickname")
   public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName){
     return ResponseEntity.ok(authService.checkNickNameDuplicate(nickName));
   }
-  
+
   //회원 가입
   @PostMapping("/signup")
   public ResponseEntity<Boolean> signup(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.signup(requestDto));
   }
-  
+
+
   @PostMapping("/login")
   public ResponseEntity<TokenDto> login(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.login(requestDto));
   }
-  
+
 }
