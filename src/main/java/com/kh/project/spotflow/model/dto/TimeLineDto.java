@@ -9,15 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class TimeLineDto {
-    // 사용자 닉네임 , 날짜
-    private String content;
+    private String tl_profile_pic;
     private int view;
-    private  String tl_profile_pic;
-    private String place;
+    private String content;
     private LocalDateTime updateTime;
-    private MemberDto member;
-    private String title;
-
+    private String nickName;
+    private String ct_profile_pic;
 
 
 }

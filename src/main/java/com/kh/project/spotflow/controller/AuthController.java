@@ -24,7 +24,7 @@ public class AuthController {
     return ResponseEntity.ok(authService.signup(requestDto));
   }
 
-  @PostMapping("/dummy/signup")
+    @PostMapping("/dummy/signup")
   public ResponseEntity<List<MemberResponseDto>> signupDummy() {
     return ResponseEntity.ok(authService.signupDummy(1000));
   }

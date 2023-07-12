@@ -27,11 +27,12 @@ public class MemberService {
         List<Member> members = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             Member member = Member.builder()
-                    .email("testAccount" + i)
+                    .email("testAccount" + i + "@gmail.com")
                     .password("1234")
-                    .name("tester" + i)
+                    .nickName("testAccount" + i)
                     .authority(Authority.ROLE_USER)
                     .joinDate(LocalDateTime.now())
+                    .profilePic("https://firebasestorage.googleapis.com/v0/b/spotflow-5475a.appspot.com/o/default_avatar.png?alt=media&token=7ea670df-ff84-4a85-bdb2-41b9a7f6a77a")
                     .openStatus(OpenStatus.PUBLIC)
                     .theme(Theme.LIGHT_MODE)
                     .build();

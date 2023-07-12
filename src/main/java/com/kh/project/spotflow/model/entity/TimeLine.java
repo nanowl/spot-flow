@@ -33,9 +33,6 @@ public class TimeLine {
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
 
-  @Column(name = "tl_title", nullable = false)
-  private String title;
-
   @Column(name = "tl_profile_pic", nullable = false)
   private String tl_profile_pic;
 
@@ -66,10 +63,9 @@ public class TimeLine {
   private List<DiaryItem> itemList = new ArrayList<>();
 
   @Builder
-  public TimeLine(Member member, String place, String title, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
+  public TimeLine(Member member, String place, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
     this.member = member;
     this.place = place;
-    this.title = title;
     this.tl_profile_pic = tl_profile_pic;
     this.content = content;
     this.lat = lat;

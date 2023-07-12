@@ -72,11 +72,11 @@ public class Member {
   private List<Follow> followingList = new ArrayList<>();
 
   @Builder
-  public Member(String email, String password, String name, Authority authority,
+  public Member(String email, String password, String nickName, Authority authority,
                 LocalDateTime joinDate, OpenStatus openStatus, Theme theme, String profilePic) {
     this.email = email;
     this.password = password;
-    this.name = name;
+    this.nickName = nickName;
     this.authority = authority;
     this.joinDate = joinDate;
     this.openStatus = openStatus;

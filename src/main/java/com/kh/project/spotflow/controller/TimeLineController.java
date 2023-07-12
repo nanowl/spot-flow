@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,15 +17,23 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/timeline")
+@CrossOrigin(origins = "*")
 public class TimeLineController {
     private final TimeLineService timeLineService;
 
+
+    // 이거 왜 post 가지고 옴>?????/
     @PostMapping("/find")
     public ResponseEntity<List<TimeLineDto>> find() {
         List<TimeLineDto> result = timeLineService.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/testing")
+    public ResponseEntity<List<TimeLineDto>> testing(){
+        List<TimeLineDto> result = timeLineService.getAll();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @PostMapping("/dummy")
     public void addPosts(@RequestBody Map<String, Object> request) {

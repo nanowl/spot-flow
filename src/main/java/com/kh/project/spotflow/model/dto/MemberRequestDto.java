@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 @Builder
 public class MemberRequestDto {
   private String email;
-  private String name;
+  private String nickName;
   private String password;
 
   public Member toMember(PasswordEncoder passwordEncoder) {
     return Member.builder()
             .email(email)
             .password(passwordEncoder.encode(password))
-            .name(name)
+            .nickName(nickName)
             .profilePic("https://firebasestorage.googleapis.com/v0/b/spotflow-5475a.appspot.com/o/default_avatar.png?alt=media&token=7ea670df-ff84-4a85-bdb2-41b9a7f6a77a")
             .authority(Authority.ROLE_USER)
             .joinDate(LocalDateTime.now())

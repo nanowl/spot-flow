@@ -39,9 +39,23 @@ public class TimeLineService {
             timelineDTOS.add(timelineDTO);
         }
         return timelineDTOS;
+    }
 
+    public List<TimeLineDto> getAll() {
+        List<TimeLine> timeLineList = timeLineRepository.findAll();
+        List<TimeLineDto> timeLineDtoList = new ArrayList<>();
+        for(TimeLine timeLine : timeLineList){
+            TimeLineDto timeLineDto = new TimeLineDto();
+            timeLineDto.setTl_profile_pic(timeLine.getTl_profile_pic());
+            timeLineDto.setContent(timeLine.getContent());
+            timeLineDto.setView(timeLine.getView());
+            timeLineDto.setUpdateTime(timeLine.getUpdateTime());
+            timeLineDto.setNickName(timeLine.getMember().getNickName());
+            timeLineDto.setCt_profile_pic(timeLine.getMember().getProfilePic());
+            timeLineDtoList.add(timeLineDto);
 
-
+        }
+        return timeLineDtoList;
     }
 
     public List<TimeLine> createPosts(int count, String userEmail) {
@@ -56,8 +70,7 @@ public class TimeLineService {
                     .content("Post content " + i)
                     .joinDate(LocalDateTime.now())
                     .view(0)
-                    .title("dfdf")
-                    .tl_profile_pic("https://example.com/my_profile_pic.jpg")
+                    .tl_profile_pic("https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tfGVufDB8fDB8fHww&w=1000&q=80")
                     .build();
             timeLines.add(timeLine);
             log.info("count : " + i);
