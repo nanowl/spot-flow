@@ -52,6 +52,7 @@ public class TimeLineService {
             timeLineDto.setUpdateTime(timeLine.getUpdateTime());
             timeLineDto.setNickName(timeLine.getMember().getNickName());
             timeLineDto.setCt_profile_pic(timeLine.getMember().getProfilePic());
+            timeLineDto.setId(timeLine.getId());
             timeLineDtoList.add(timeLineDto);
 
         }

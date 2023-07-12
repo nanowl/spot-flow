@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class TimeLineDto {
+    private long id;
     private String tl_profile_pic;
     private int view;
     private String content;
