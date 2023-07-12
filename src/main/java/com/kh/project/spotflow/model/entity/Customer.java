@@ -21,9 +21,6 @@ public class Customer {
   @Column(name = "ct_email")
   private String email;
 
-  @Column(name = "ct_name")
-  private String name;
-
   @Column(name = "ct_nick_name",unique = true, nullable = false)
   private String nickName;
 

@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
-
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -57,9 +55,9 @@ public class AuthController {
     return ResponseEntity.ok(authService.signup(requestDto));
   }
   
+  // 로그인
   @PostMapping("/login")
   public ResponseEntity<TokenDto> login(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.login(requestDto));
   }
-  
 }

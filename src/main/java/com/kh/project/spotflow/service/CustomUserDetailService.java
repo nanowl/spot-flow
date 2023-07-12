@@ -19,10 +19,10 @@ public class CustomUserDetailService implements UserDetailsService {
   private final CustomerRepository customerRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return customerRepository.findByEmail(username)
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    return customerRepository.findByEmail(email)
             .map(this::createUserDetails)
-            .orElseThrow(() -> new UsernameNotFoundException(username + " 을 DB에서 찾을 수 없습니다"));
+            .orElseThrow(() -> new UsernameNotFoundException(email + " 을 DB에서 찾을 수 없습니다"));
   }
 
   private UserDetails createUserDetails(Customer customer) {
@@ -34,4 +34,5 @@ public class CustomUserDetailService implements UserDetailsService {
             Collections.singleton(grantedAuthority)
     );
   }
+  
 }

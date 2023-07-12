@@ -9,5 +9,5 @@ public class SpotFlowApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpotFlowApplication.class, args);
 	}
-
+	
 }

@@ -21,6 +21,7 @@ public class JwtFilter extends OncePerRequestFilter {
   public static final String BEARER_PREFIX = "Bearer ";
   private final TokenProvider tokenProvider;
 
+  // 토근값만 필터링해서 가죠오기
   private String resolveToken(HttpServletRequest request) {
     String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
     if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
@@ -28,11 +29,12 @@ public class JwtFilter extends OncePerRequestFilter {
     }
     return null;
   }
-
+  
+  //This check Token valid or not
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-          throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     String jwt = resolveToken(request);
+    log.info(jwt);
 
     if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
       Authentication authentication = tokenProvider.getAuthentication(jwt);
