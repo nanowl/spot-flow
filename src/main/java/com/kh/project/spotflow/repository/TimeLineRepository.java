@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TimeLineRepository extends JpaRepository<TimeLine, Long> {
+  TimeLine findTimeLineById(Long id);
 }

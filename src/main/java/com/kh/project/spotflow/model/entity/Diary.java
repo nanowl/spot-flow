@@ -1,7 +1,9 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.stereotype.Component;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,23 +12,19 @@ import java.util.List;
 
 @Entity
 @Table(name = "diary")
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@Component
 public class Diary {
   @Id
   @Column(name = "di_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "di_customer")
-  private Member member;
-
-  @Column(name = "di_category", nullable = false, length = 128)
-  private String category;
+  private Customer customer;
 
   @Column(name = "di_title", nullable = false)
   private String title;
@@ -46,12 +44,26 @@ public class Diary {
   @Column(name = "di_view")
   private Integer view;
 
+  @Column(name = "di_isDelete")
+  @ColumnDefault("FALSE")
+  private boolean isDelete;
 
+  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  @JsonBackReference
+  private List<DiaryItem> itemList;
 
-  @OneToMany(mappedBy = "diary" , cascade = CascadeType.ALL)
-  private List<DiaryItem> itemList = new ArrayList<>();
+  @Builder
+  public Diary (String title, String content, LocalDateTime joinDate,
+                Integer like, Integer view, boolean isDelete) {
+    this.title = title;
+    this.content = content;
+    this.joinDate = joinDate;
+    this.like = like;
+    this.view = view;
+    this.isDelete = isDelete;
+  }
 
-  @OneToMany(mappedBy = "diary" , cascade = CascadeType.ALL)
-  private List<DiaryComment> commentList = new ArrayList<>();
-
+  public boolean isDelete() {
+    return isDelete;
+  }
 }

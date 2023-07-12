@@ -34,3 +34,5 @@ A social network service that provides real-time event information to each user
 ### XML to JSON
 	implementation group: 'org.json', name: 'json', version: '20210307'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
