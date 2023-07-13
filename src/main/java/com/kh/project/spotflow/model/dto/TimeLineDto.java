@@ -1,10 +1,12 @@
 package com.kh.project.spotflow.model.dto;
 
+import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -16,5 +18,14 @@ public class TimeLineDto {
     private LocalDateTime updateTime;
     private String nickName;
     private String ct_profile_pic;
+    private Customer customer;
+
+    public String getUpdateTime() {
+        if (updateTime == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return this.updateTime.format(formatter);
+    }
 
 }

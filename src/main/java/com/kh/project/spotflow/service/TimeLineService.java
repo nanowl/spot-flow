@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TimeLineService {
+
+
 
 
     @Autowired
@@ -31,10 +34,15 @@ public class TimeLineService {
     public List<TimeLineDto> findAll() {
         List<TimeLine> timeLineList = timeLineRepository.findAll();
         List<TimeLineDto> timelineDTOS = new ArrayList<>();
+
+
+
         for (TimeLine timeLine : timeLineList) {
             TimeLineDto timelineDTO = new TimeLineDto();
             timelineDTO.setTl_profile_pic(timeLine.getImage());
             timelineDTO.setView(timeLine.getView());
+            timelineDTO.setId(timeLine.getId());
+            timelineDTO.setUpdateTime(timeLine.getUpdateTime());
             timelineDTOS.add(timelineDTO);
         }
         return timelineDTOS;
@@ -63,6 +71,7 @@ public class TimeLineService {
                 .orElseThrow(() -> new IllegalArgumentException("Member does not exist!"));
 
         List<TimeLine> timeLines = new ArrayList<>();
+
         for (int i = 0; i < count; i++) {
             TimeLine timeLine = TimeLine.builder()
                     .customer(customer)
@@ -77,6 +86,21 @@ public class TimeLineService {
         }
 
         return timeLineRepository.saveAll(timeLines);
+    }
+
+    public TimeLine createPost(TimeLineDto request) {
+        Customer customer = memberRepository.findByEmail(request.getCustomer().getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("멤버가 존재하지 않습니다.!"));
+
+            TimeLine timeLine = TimeLine.builder()
+                    .customer(customer)
+                    .content(request.getContent())
+                    .joinDate(LocalDateTime.now())
+                    .view(0)
+                    .image(request.getTl_profile_pic())
+                    .build();
+
+        return timeLineRepository.save(timeLine);
     }
 
 }

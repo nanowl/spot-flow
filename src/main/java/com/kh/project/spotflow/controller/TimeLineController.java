@@ -2,6 +2,7 @@ package com.kh.project.spotflow.controller;
 
 
 import com.kh.project.spotflow.model.dto.TimeLineDto;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,8 @@ public class TimeLineController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+
     @GetMapping("/testing")
     public ResponseEntity<List<TimeLineDto>> testing(){
         List<TimeLineDto> result = timeLineService.getAll();
@@ -41,6 +44,13 @@ public class TimeLineController {
         String userEmail = (String) request.get("userEmail");
         log.info(count + "개의 타임라인 포스트를 만듭니다.");
         timeLineService.createPosts(count, (userEmail));
+    }
+
+    @PostMapping("/post")
+    public void addPost(@RequestBody TimeLineDto request) {
+        String userEmail = (String) request.getCustomer().getEmail() ;
+        log.info(userEmail);
+        timeLineService.createPost(request);
     }
 
 }
