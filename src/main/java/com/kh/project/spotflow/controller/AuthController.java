@@ -2,18 +2,25 @@ package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.CustomerRequestDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
+import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.AuthService;
 import com.kh.project.spotflow.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("http://localhost:3000")
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
   private final AuthService authService;
   private final EmailService emailService;
@@ -61,5 +68,19 @@ public class AuthController {
   public ResponseEntity<TokenDto> login(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.login(requestDto));
   }
-  
+  @PostMapping("/dummy")
+  public ResponseEntity<List<Customer>> addUser(@RequestBody Map<String, Object> request) {
+    int count = (int) request.get("count");
+    log.info(count + "명의 유저를 만듭니다.");
+    return new ResponseEntity<>(authService.saveUser(count), HttpStatus.OK);
+  }
+
+
+  @PostMapping("/dummyflow")
+  public ResponseEntity<List<TimeLine>> addFlow(@RequestBody Map<String, Object> request) {
+    int count = (int) request.get("count");
+    log.info(count + "개의 글을 만듭니다.");
+    authService.saveFlow(count);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

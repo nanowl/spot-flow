@@ -1,12 +1,17 @@
 package com.kh.project.spotflow.service;
 
+import com.kh.project.spotflow.model.constant.Authority;
+import com.kh.project.spotflow.model.constant.OpenStatus;
+import com.kh.project.spotflow.model.constant.Theme;
 import com.kh.project.spotflow.model.dto.CustomerDto;
 import com.kh.project.spotflow.model.dto.CustomerRequestDto;
 import com.kh.project.spotflow.model.dto.CustomerResponseDto;
 import com.kh.project.spotflow.model.dto.TokenDto;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.config.jwt.TokenProvider;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.repository.CustomerRepository;
+import com.kh.project.spotflow.repository.MyFlowRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +23,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -60,6 +64,60 @@ public class AuthService {
     UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
     Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
     return tokenProvider.generateTokenDto(authentication);
+  }
+
+  public Customer validateTokenGetCustomerInfo(HttpServletRequest request) {
+    String accessToken = request.getHeader("Authorization");
+    if (accessToken != null && accessToken.startsWith("Bearer ")) {
+      accessToken = accessToken.substring(7);
+    }
+    if (accessToken != null && tokenProvider.validateToken(accessToken)) {
+      UserDetails userDetails = (UserDetails) tokenProvider.getAuthentication(accessToken).getPrincipal();
+      String email = userDetails.getUsername();
+      log.info(email);
+      return customerRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 없음"));
+    }else {
+      return null;
+    }
+  }
+  public List<Customer> saveUser(int count) {
+    List<Customer> customers = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      Customer customer = Customer.builder()
+              .email("testAccount" + i)
+              .password("1234")
+              .authority(Authority.ROLE_USER)
+              .nickName("nickname" + i)
+              .joinDate(LocalDateTime.now())
+              .openStatus(OpenStatus.PUBLIC)
+              .theme(Theme.LIGHT_MODE)
+              .build();
+      customers.add(customer);
+      log.info("count : " + i);
+    }
+    customerRepository.saveAll(customers);
+    return customers;
+  }
+
+  private final MyFlowRepository myFlowRepository;
+  public void saveFlow(int count) {
+    for(int i = 0; i < count; i++) {
+      TimeLine timeLine = new TimeLine();
+      LocalDateTime localDateTime = LocalDateTime.now();
+      Customer customer = customerRepository.findCustomerByEmail("youngtong111@naver.com");
+      customer.getTimeLineList().add(timeLine);
+      timeLine.setCustomer(customer);
+      timeLine.setId((long) (i+1));
+      timeLine.setLat((double) 0);
+      timeLine.setLng((double) 0);
+      timeLine.setImage("https://firebasestorage.googleapis.com/v0/b/spotflow-5475a.appspot.com/o/KakaoTalk_20230703_002523159.png?alt=media&token=8373de55-19f8-490e-a80c-487441b497e");
+      timeLine.setContent("마이플로우샘플입니다마이플로우샘플입니다마이플로우샘플입니다마이플로우샘플입니다");
+      timeLine.setPlace("홍대" + i);
+      timeLine.setJoinDate(localDateTime);
+      timeLine.setView(0);
+
+      myFlowRepository.save(timeLine);
+    }
   }
   
 

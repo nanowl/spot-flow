@@ -24,9 +24,6 @@ public class Diary {
   @JoinColumn(name = "di_customer")
   private Customer customer;
 
-  @Column(name = "di_category", nullable = false, length = 128)
-  private String category;
-
   @Column(name = "di_title", nullable = false)
   private String title;
 

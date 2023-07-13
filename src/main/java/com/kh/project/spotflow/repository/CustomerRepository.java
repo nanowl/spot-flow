@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
   //이게 뭐지??????
   Optional<Customer> findByEmail(String email);
-  
+  Customer findCustomerByEmail(String email);
   // 이메일 중복 확인
   boolean existsByEmail(String email);
   

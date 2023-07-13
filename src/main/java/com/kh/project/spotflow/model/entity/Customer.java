@@ -54,7 +54,7 @@ public class Customer {
   @Column(name = "ct_authority")
   private Authority authority;
   
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer")
   private List<TimeLine> timeLineList;
   
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
@@ -80,4 +80,7 @@ public class Customer {
     this.joinDate = joinDate;
     this.theme = theme;
   }
+
+
+
 }
