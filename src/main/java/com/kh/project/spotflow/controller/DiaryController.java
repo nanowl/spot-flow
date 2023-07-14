@@ -27,7 +27,7 @@ public class DiaryController {
   }
 
   @GetMapping("/all")
-  public ResponseEntity<List<Diary>> findByMyDiaryList(@RequestParam("email") String email) {
+  public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
   }
 
@@ -35,7 +35,7 @@ public class DiaryController {
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
-  @PutMapping("")
+  @PutMapping("/save")
   public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);
   }

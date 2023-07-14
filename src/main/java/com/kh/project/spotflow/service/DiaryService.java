@@ -48,11 +48,34 @@ public class DiaryService {
     return responseDto;
   }
 
-  // user별 다이어리 검색
-  public List<Diary> findDiaryByMember(String email) {
+//  // user별 다이어리 검색
+//  public List<Diary> findDiaryByMember(String email) {
+//    Customer customer = customerRepository.findCustomerByEmail(email);
+//    return diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
+//  }
+
+  public List<DiaryResponseDto> findDiaryByMember(String email) {
     Customer customer = customerRepository.findCustomerByEmail(email);
-    return diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
+    List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
+
+    List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
+    for (Diary diary : diaries) {
+      diaryDtoList.add(DiaryResponseDto.builder()
+              .title(diary.getTitle())
+              .content(diary.getContent())
+              .joinDate(diary.getJoinDate())
+              .updateTime(diary.getUpdateTime())
+              .like(diary.getLike())
+              .view(diary.getView())
+              .isDelete(diary.isDelete())
+              .timeLineList(diary.getCustomer().getTimeLineList())
+              .build());
+    }
+    return diaryDtoList;
   }
+
+
+
 
   /*
    * 다이어리 수정

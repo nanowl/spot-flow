@@ -24,9 +24,12 @@ public class DiaryResponseDto {
   private List<TimeLine> timeLineList;
   private List<DiaryItem> itemList;
 
+
+
   public DiaryResponseDto of(Diary diary) {
     return DiaryResponseDto.builder()
             .title(diary.getTitle())
+//            .timeLineList(diary.getCustomer().getTimeLineList())
             .content(diary.getContent())
             .customer(diary.getCustomer())
             .joinDate(diary.getJoinDate())
