@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.repository.CustomerRepository;
@@ -88,17 +89,20 @@ public class TimeLineService {
         return timeLineRepository.saveAll(timeLines);
     }
 
-    public TimeLine createPost(TimeLineDto request) {
-        Customer customer = memberRepository.findByEmail(request.getCustomer().getEmail())
+    public TimeLine createPost(TimeLineRequestDto request) {
+        Customer customer = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("멤버가 존재하지 않습니다.!"));
 
-            TimeLine timeLine = TimeLine.builder()
-                    .customer(customer)
-                    .content(request.getContent())
-                    .joinDate(LocalDateTime.now())
-                    .view(0)
-                    .image(request.getTl_profile_pic())
-                    .build();
+        TimeLine timeLine = TimeLine.builder()
+                .customer(customer)
+                .place("역삼동")
+                .lat(123.2)
+                .lng(112.1)
+                .content(request.getContent())
+                .joinDate(LocalDateTime.now())
+                .view(0)
+                .image(request.getTl_profile_pic())
+                .build();
 
         return timeLineRepository.save(timeLine);
     }

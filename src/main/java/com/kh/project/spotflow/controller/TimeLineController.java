@@ -2,6 +2,7 @@ package com.kh.project.spotflow.controller;
 
 
 import com.kh.project.spotflow.model.dto.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class TimeLineController {
     private final TimeLineService timeLineService;
+
 
 
     // 이거 왜 post 가지고 옴>?????/
@@ -47,10 +49,8 @@ public class TimeLineController {
     }
 
     @PostMapping("/post")
-    public void addPost(@RequestBody TimeLineDto request) {
-        String userEmail = (String) request.getCustomer().getEmail() ;
-        log.info(userEmail);
-        timeLineService.createPost(request);
+    public ResponseEntity<TimeLine> addPost(@RequestBody TimeLineRequestDto request) {
+        return new ResponseEntity<>(timeLineService.createPost(request), HttpStatus.CREATED);
     }
 
 }

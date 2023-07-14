@@ -19,13 +19,8 @@ public class TimeLineDto {
     private String nickName;
     private String ct_profile_pic;
     private Customer customer;
+    private String email;
 
-    public String getUpdateTime() {
-        if (updateTime == null) {
-            return "";
-        }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return this.updateTime.format(formatter);
-    }
+
 
 }
