@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -60,6 +61,10 @@ public class DiaryService {
 
     List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
     for (Diary diary : diaries) {
+      List<TimeLine> timeLines = diary.getItemList().stream()
+              .map(DiaryItem::getTimeLine)
+              .collect(Collectors.toList());
+
       diaryDtoList.add(DiaryResponseDto.builder()
               .title(diary.getTitle())
               .content(diary.getContent())
@@ -68,11 +73,12 @@ public class DiaryService {
               .like(diary.getLike())
               .view(diary.getView())
               .isDelete(diary.isDelete())
-              .timeLineList(diary.getCustomer().getTimeLineList())
+              .timeLineList(timeLines)
               .build());
     }
     return diaryDtoList;
   }
+
 
 
 
@@ -138,7 +144,6 @@ public class DiaryService {
               .build();
       itemList.add(item);
     }
-
     diary.setItemList(itemList);
 
     log.info("Diary 생성");
