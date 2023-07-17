@@ -32,9 +32,16 @@ public class DiaryController {
   }
 
   @DeleteMapping("")
-  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
+  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
+  @DeleteMapping("/delete")
+  public ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestParam Long id) {
+    DiaryUpdateRequest diaryRequest = new DiaryUpdateRequest();
+    diaryRequest.setId(id);
+    return new ResponseEntity<>(diaryService.delete(diaryRequest), HttpStatus.OK);
+  }
+
   @PutMapping("/save")
   public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);

@@ -66,6 +66,7 @@ public class DiaryService {
               .collect(Collectors.toList());
 
       diaryDtoList.add(DiaryResponseDto.builder()
+              .id(diary.getId())
               .title(diary.getTitle())
               .content(diary.getContent())
               .joinDate(diary.getJoinDate())
