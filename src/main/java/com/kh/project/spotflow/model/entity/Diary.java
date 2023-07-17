@@ -24,9 +24,6 @@ public class Diary {
   @JoinColumn(name = "di_customer")
   private Customer customer;
 
-  @Column(name = "di_category", nullable = false, length = 128)
-  private String category;
-
   @Column(name = "di_title", nullable = false)
   private String title;
 
@@ -50,8 +47,4 @@ public class Diary {
   
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
   private List<DiaryItem> itemList;
-
-//  @OneToMany(mappedBy = "diary")
-//  private List<DiaryItem> diaryItemList = new ArrayList<>();
-
 }

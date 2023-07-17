@@ -1,5 +1,6 @@
 package com.kh.project.spotflow.model.dto;
 
+import com.kh.project.spotflow.model.constant.Theme;
 import com.kh.project.spotflow.model.entity.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +15,14 @@ public class CustomerDto {
      private String nickName;
      private String statMsg;
      private String profilePic;
-     
+     private Theme theme;
      public static CustomerDto getCustomerInfo(Customer customer) {
           return CustomerDto.builder()
             .email(customer.getEmail())
             .nickName(customer.getNickName())
             .statMsg(customer.getStatMsg())
             .profilePic(customer.getProfilePic())
+            .theme(customer.getTheme())
             .build();
      }
 }

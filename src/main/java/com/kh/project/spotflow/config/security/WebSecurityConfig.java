@@ -28,6 +28,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
   private final TokenProvider tokenProvider;
   private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JWTAccessDeniedHandler jwtAccessDeniedHandler;
+  
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -60,16 +61,16 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     return http.build();
   }
-  
+
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-      .allowedOrigins("http://localhost:3000", "ws://localhost:8111")  // 원하는 도메인으로 변경
-      .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-      .allowedHeaders("Authorization", "Cache-Control", "Content-Type", "Origin", "Upgrade", "Connection")
-      .allowCredentials(true);
+            .allowedOrigins("http://localhost:3000", "ws://localhost:8111")  // 원하는 도메인으로 변경
+            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .allowedHeaders("Authorization", "Cache-Control", "Content-Type", "Origin", "Upgrade", "Connection")
+            .allowCredentials(true);
   }
-  
+
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
