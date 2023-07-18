@@ -51,6 +51,14 @@ public class AuthController {
     return new ResponseEntity<>(isConfirm, HttpStatus.OK);
   }
   
+  @GetMapping("/temppwd")
+  public ResponseEntity<Boolean> sendTempPwd(@RequestParam String email) throws Exception{
+    String code = emailService.sendPwdMessage(email);
+    log.info(code);
+    Boolean isConfirm = authService.setTempPwd(code,email);
+    return new ResponseEntity<>(isConfirm, HttpStatus.OK);
+  }
+  
   //닉내임 중복 확인 true: nickname 이미 있음 false : nickname 없음
   @GetMapping("/check-duplicate-nickname")
   public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName){

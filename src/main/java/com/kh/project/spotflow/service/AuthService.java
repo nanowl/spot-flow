@@ -79,7 +79,15 @@ public class AuthService {
     
     return customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
   }
-
+  
+  public boolean setTempPwd(String tempPwd, String email) {
+    Customer customers = customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
+    String pwd = passwordEncoder.encode(tempPwd);
+    customers.setPassword(pwd);
+    Customer customer = customerRepository.save(customers);
+    return true;
+  }
+  
   
   //User Dummy Data 만들기
   public List<Customer> saveUser(int count) {

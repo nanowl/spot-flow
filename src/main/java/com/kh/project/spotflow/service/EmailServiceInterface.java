@@ -15,4 +15,10 @@ public interface EmailServiceInterface {
      String createKey();
      // Send e-Mail
      String sendSimpleMessage(String to) throws Exception;
+     
+     String getTempPassword();
+     
+     MimeMessage createPwdMsg(String to) throws MessagingException, UnsupportedEncodingException;
+     
+     String sendPwdMessage(String to) throws Exception;
 }

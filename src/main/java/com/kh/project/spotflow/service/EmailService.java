@@ -1,8 +1,11 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.config.email.EmailConfig;
+import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.repository.CustomerRepository;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
@@ -101,12 +104,71 @@ public class EmailService implements EmailServiceInterface{
      
      // 인증키 호출
      public String getConKey(String email) {
-          String key = confirmKey.get(email);
-          return key;
+          return confirmKey.get(email);
      }
      // 인증키 삭제
      public void deleteConKey(String email) {
           confirmKey.remove(email);
           System.out.println(email + "의 키 코드값이 삭제 되었습니다.");
+     }
+     
+     @Override
+     public String getTempPassword(){
+          char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+          
+          String str = "";
+          
+          // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+          int idx = 0;
+          for (int i = 0; i < 10; i++) {
+               idx = (int) (charSet.length * Math.random());
+               str += charSet[idx];
+          }
+          return str;
+     }
+     
+     @Override
+     public MimeMessage createPwdMsg(String to) throws MessagingException, UnsupportedEncodingException {
+          System.out.println("보내는 대상 : " + to);
+          System.out.println("인증 번호 : " + ePw);
+          
+          MimeMessage message = emailSender.createMimeMessage();
+          
+          message.addRecipients(Message.RecipientType.TO, to); // 보내는 대상
+          message.setSubject("임시 비밀번호");
+          
+          String msg = "";
+          msg += "<div style='margin:100px;'>";
+          msg += "<h1> 안녕하세요</h1>";
+          msg += "<h1> spot<span style='color:skyblue;'>F</span>low 입니다.";
+          msg += "<br>";
+          msg += "<p>아래 코드를 로그인 창으로 돌아가 입력해주세요</p>";
+          msg += "<br>";
+          msg += "<div align='center' style='border:1px solid grey; font-family:verdana; padding: 10px; border-radius: 30px;'>";
+          msg += "<h3 style='color:skyblue;'>임시 비밀번호 입니다.</h3>";
+          msg += "<div style='font-size:130%'>";
+          msg += "CODE : <strong>";
+          msg += ePw + "</strong></div><br>";
+          msg += "</div></div>";
+          
+          message.setText(msg, "utf-8", "html");
+          message.setFrom(new InternetAddress("husik927@naver.com", "spotFlow"));
+          
+          return message;
+     }
+     
+     @Override
+     public String sendPwdMessage(String to) throws Exception {
+          ePw = getTempPassword();
+          // TODO Auto-generated method stub
+          MimeMessage message = createPwdMsg(to);
+          try {
+               emailSender.send(message);
+          } catch (MailException e) {
+               e.printStackTrace();
+               throw new IllegalArgumentException();
+          }
+          return ePw;
      }
 }

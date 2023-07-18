@@ -24,7 +24,7 @@ public class CustomerService {
           return CustomerDto.getCustomerInfo(customer);
      }
      
-     //프로필 사진 수정
+     // customer 프로필 수정(사진, 상테메시지)
      @Transactional
      public CustomerDto updateProfile(HttpServletRequest request, CustomerUpdateDto customerUpdateDto) {
           Customer customer = authService.validateTokenGetCustomerInfo(request);

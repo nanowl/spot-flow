@@ -28,7 +28,7 @@ public class CustomerController {
           else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
      }
      
-     //customer 사진 수정 하기
+     // customer 프로필 수정(사진, 상테메시지)
      @PostMapping("/updateprofile")
      public ResponseEntity<CustomerDto> updateProfile(HttpServletRequest request, @RequestBody CustomerUpdateDto customerUpdateDto) {
           return ResponseEntity.ok(customerService.updateProfile(request, customerUpdateDto));
