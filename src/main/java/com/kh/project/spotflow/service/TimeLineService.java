@@ -1,5 +1,6 @@
 package com.kh.project.spotflow.service;
 
+import com.kh.project.spotflow.config.utils.CookieUtils;
 import com.kh.project.spotflow.model.dto.TimeLineDto;
 import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Customer;
@@ -10,11 +11,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -106,5 +109,29 @@ public class TimeLineService {
 
         return timeLineRepository.save(timeLine);
     }
+
+    // 타임라인 조회수 증가 서비스
+    @Transactional
+    public void increaseViewCount(Long id, HttpServletRequest request, HttpServletResponse response) {
+        String viewHistory = CookieUtils.getCookieValue(request, "viewHistory");
+        Set<String> viewedPosts = new HashSet<>();
+
+        if(viewHistory != null && !viewHistory.isEmpty()) {
+            viewedPosts.addAll(Arrays.asList(viewHistory.split("\\|"))); // changed from ","
+        }
+
+        if(!viewedPosts.contains(String.valueOf(id))) {
+            TimeLine timeLine = timeLineRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 없습니다. " + id));
+            timeLine.setView(timeLine.getView() + 1);
+            viewedPosts.add(String.valueOf(id));
+
+            CookieUtils.addCookie(response, "viewHistory", String.join("|", viewedPosts), 24 * 60 * 60); // 1 day cookie, changed from ","
+        }
+    }
+
+
+
+
 
 }

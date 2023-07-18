@@ -12,6 +12,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/timeline")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class TimeLineController {
     private final TimeLineService timeLineService;
 
@@ -32,6 +34,13 @@ public class TimeLineController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+    // 서버에서 처리하는 조회수 증가
+    @PutMapping("/{postId}/views")
+    public ResponseEntity<Void> increaseViewCount(@PathVariable Long postId, HttpServletRequest request, HttpServletResponse response) {
+        timeLineService.increaseViewCount(postId, request, response);
+        return ResponseEntity.ok().build();
+    }
 
 
     @GetMapping("/testing")
