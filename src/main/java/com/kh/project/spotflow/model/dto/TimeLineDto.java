@@ -20,7 +20,7 @@ public class TimeLineDto {
     private String ct_profile_pic;
     private Customer customer;
     private String email;
-
+    private String place;
 
 
 }

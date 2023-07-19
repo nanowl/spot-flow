@@ -7,11 +7,14 @@ import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.repository.CustomerRepository;
 import com.kh.project.spotflow.repository.TimeLineRepository;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +26,9 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TimeLineService {
+
+
+
 
 
 
@@ -47,17 +53,20 @@ public class TimeLineService {
             timelineDTO.setView(timeLine.getView());
             timelineDTO.setId(timeLine.getId());
             timelineDTO.setUpdateTime(timeLine.getUpdateTime());
+            timelineDTO.setPlace(timeLine.getPlace());
             timelineDTOS.add(timelineDTO);
         }
         return timelineDTOS;
     }
 
-    public List<TimeLineDto> getAll() {
-        List<TimeLine> timeLineList = timeLineRepository.findAll();
+    public List<TimeLineDto> getAll(Long lastTimelineId, int limit) {
+        List<TimeLine> timeLineList = timeLineRepository.findWithNoOffset(lastTimelineId, limit);
         List<TimeLineDto> timeLineDtoList = new ArrayList<>();
+
         for(TimeLine timeLine : timeLineList){
             TimeLineDto timeLineDto = new TimeLineDto();
             timeLineDto.setTl_profile_pic(timeLine.getImage());
+            timeLineDto.setPlace(timeLine.getPlace());
             timeLineDto.setContent(timeLine.getContent());
             timeLineDto.setView(timeLine.getView());
             timeLineDto.setUpdateTime(timeLine.getJoinDate());
@@ -129,6 +138,21 @@ public class TimeLineService {
             CookieUtils.addCookie(response, "viewHistory", String.join("|", viewedPosts), 24 * 60 * 60); // 1 day cookie, changed from ","
         }
     }
+
+    // 타임라인 검색 서비스
+    @Transactional
+    public List<TimeLine> searchPlace(String place) {
+        List<TimeLine> result = timeLineRepository.findByPlace(place);
+        if(result == null) {
+            log.info("장소가 존재하지않아");
+        }
+
+        List<TimeLine> rs = new ArrayList<>();
+
+
+        return result;
+    }
+
 
 
 

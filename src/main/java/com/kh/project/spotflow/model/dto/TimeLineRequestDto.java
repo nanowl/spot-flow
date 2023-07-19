@@ -8,6 +8,7 @@ import lombok.Setter;
     public class TimeLineRequestDto {
         private String tl_profile_pic;
         private String content;
+        private String place;
         private String email;  // 유저 이메일
     }
 

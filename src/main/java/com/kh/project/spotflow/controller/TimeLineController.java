@@ -42,10 +42,18 @@ public class TimeLineController {
         return ResponseEntity.ok().build();
     }
 
+    // 타임라인 장소명 검색
+    @GetMapping("/search")
+    public List<TimeLine> searchPlace(@RequestParam String place) {
+        TimeLineRequestDto request = new TimeLineRequestDto();
+        request.setPlace(place);
+        return timeLineService.searchPlace(place);
+    }
+
 
     @GetMapping("/testing")
-    public ResponseEntity<List<TimeLineDto>> testing(){
-        List<TimeLineDto> result = timeLineService.getAll();
+    public ResponseEntity<List<TimeLineDto>> testing(@RequestParam(value ="lastTimeLineId" , required = false) Long lastTimeLineId){
+        List<TimeLineDto> result = timeLineService.getAll(lastTimeLineId,4);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
