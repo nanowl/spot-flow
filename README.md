@@ -47,7 +47,7 @@ A social network service that provides real-time event information to each user
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api" // java.lang.NoClassDefFoundError (javax.annotation.Entity) 대응 코드
      --- depenencies 에 추가 끝 !!! --- 
 
-    2.// Querydsl 설정부 밑에 코드는 task.named 밑에다가 추가해주세요 
+    2.// Querydsl 설정부 코드는 최하단에 추가해주세요 
         def generated = 'src/main/generated'
         
         // querydsl QClass 파일 생성 위치를 지정
