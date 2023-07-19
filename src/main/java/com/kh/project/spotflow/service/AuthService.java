@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -63,7 +64,8 @@ public class AuthService {
     return tokenProvider.generateTokenDto(authentication);
   }
   
-  //토근검증후 로그인 정호 Customer 정보 공유하기
+
+  //로그인시 토큰값 전달
   public Customer validateTokenGetCustomerInfo(HttpServletRequest request) {
     String accessToken = request.getHeader("Authorization");
     if (accessToken != null && accessToken.startsWith("Bearer ")) {
@@ -128,4 +130,14 @@ public class AuthService {
       timeLineRepository.save(timeLine);
     }
   }
+    if (accessToken != null && tokenProvider.validateToken(accessToken)) {
+      UserDetails userDetails = (UserDetails) tokenProvider.getAuthentication(accessToken).getPrincipal();
+      String email = userDetails.getUsername();
+      log.info(email);
+      return customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
+    } else {
+      return null;
+    }
+  }
+
 }

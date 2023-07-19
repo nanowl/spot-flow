@@ -1,26 +1,28 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.stereotype.Component;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "diary")
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@Component
 public class Diary {
   @Id
   @Column(name = "di_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "di_customer")
   private Customer customer;
 
@@ -41,10 +43,27 @@ public class Diary {
 
   @Column(name = "di_view")
   private Integer view;
-  
+
+  @Column(name = "di_isDelete")
+  @ColumnDefault("FALSE")
+  private boolean isDelete;
+
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
-  private List<DiaryComment> commentList;
-  
-  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  @JsonBackReference
   private List<DiaryItem> itemList;
+
+  @Builder
+  public Diary (String title, String content, LocalDateTime joinDate,
+                Integer like, Integer view, boolean isDelete) {
+    this.title = title;
+    this.content = content;
+    this.joinDate = joinDate;
+    this.like = like;
+    this.view = view;
+    this.isDelete = isDelete;
+  }
+
+  public boolean isDelete() {
+    return isDelete;
+  }
 }
