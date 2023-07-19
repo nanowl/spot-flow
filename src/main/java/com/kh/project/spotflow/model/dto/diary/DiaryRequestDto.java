@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 public class DiaryRequestDto {
+  private Long id;
   private String title;
   private String content;
   private String email; // 다이어리 게시자

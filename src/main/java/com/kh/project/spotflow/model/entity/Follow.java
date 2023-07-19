@@ -1,7 +1,6 @@
 package com.kh.project.spotflow.model.entity;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,4 +37,5 @@ public class Follow {
             '}';
   }
 }
+
 

@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -61,6 +62,24 @@ public class AuthService {
     Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
     return tokenProvider.generateTokenDto(authentication);
   }
-  
+
+  //로그인시 토큰값 전달
+  public Customer validateTokenGetCustomerInfo(HttpServletRequest request) {
+    String accessToken = request.getHeader("Authorization");
+    if (accessToken != null && accessToken.startsWith("Bearer ")) {
+      accessToken = accessToken.substring(7);
+    }
+    if (accessToken != null && tokenProvider.validateToken(accessToken)) {
+      UserDetails userDetails = (UserDetails) tokenProvider.getAuthentication(accessToken).getPrincipal();
+      String email = userDetails.getUsername();
+      log.info(email);
+      return customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
+    } else {
+      return null;
+    }
+  }
+
+
+
 
 }

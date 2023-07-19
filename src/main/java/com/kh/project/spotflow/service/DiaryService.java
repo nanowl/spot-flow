@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -48,11 +49,40 @@ public class DiaryService {
     return responseDto;
   }
 
-  // user별 다이어리 검색
-  public List<Diary> findDiaryByMember(String email) {
+//  // user별 다이어리 검색
+//  public List<Diary> findDiaryByMember(String email) {
+//    Customer customer = customerRepository.findCustomerByEmail(email);
+//    return diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
+//  }
+
+  public List<DiaryResponseDto> findDiaryByMember(String email) {
     Customer customer = customerRepository.findCustomerByEmail(email);
-    return diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
+    List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
+
+    List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
+    for (Diary diary : diaries) {
+      List<TimeLine> timeLines = diary.getItemList().stream()
+              .map(DiaryItem::getTimeLine)
+              .collect(Collectors.toList());
+
+      diaryDtoList.add(DiaryResponseDto.builder()
+              .id(diary.getId())
+              .title(diary.getTitle())
+              .content(diary.getContent())
+              .joinDate(diary.getJoinDate())
+              .updateTime(diary.getUpdateTime())
+              .like(diary.getLike())
+              .view(diary.getView())
+              .isDelete(diary.isDelete())
+              .timeLineList(timeLines)
+              .build());
+    }
+    return diaryDtoList;
   }
+
+
+
+
 
   /*
    * 다이어리 수정
@@ -115,7 +145,6 @@ public class DiaryService {
               .build();
       itemList.add(item);
     }
-
     diary.setItemList(itemList);
 
     log.info("Diary 생성");

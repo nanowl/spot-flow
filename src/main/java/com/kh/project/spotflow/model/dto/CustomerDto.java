@@ -14,13 +14,13 @@ public class CustomerDto {
      private String nickName;
      private String statMsg;
      private String profilePic;
-     
+
      public static CustomerDto getCustomerInfo(Customer customer) {
           return CustomerDto.builder()
-            .email(customer.getEmail())
-            .nickName(customer.getNickName())
-            .statMsg(customer.getStatMsg())
-            .profilePic(customer.getProfilePic())
-            .build();
+                  .email(customer.getEmail())
+                  .nickName(customer.getNickName())
+                  .statMsg(customer.getStatMsg())
+                  .profilePic(customer.getProfilePic())
+                  .build();
      }
 }

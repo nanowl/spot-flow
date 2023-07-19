@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public class DiaryController {
   private final DiaryService diaryService;
 
@@ -27,15 +27,22 @@ public class DiaryController {
   }
 
   @GetMapping("/all")
-  public ResponseEntity<List<Diary>> findByMyDiaryList(@RequestParam("email") String email) {
+  public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
   }
 
   @DeleteMapping("")
-  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
+  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
-  @PutMapping("")
+  @DeleteMapping("/delete")
+  public ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestParam Long id) {
+    DiaryUpdateRequest diaryRequest = new DiaryUpdateRequest();
+    diaryRequest.setId(id);
+    return new ResponseEntity<>(diaryService.delete(diaryRequest), HttpStatus.OK);
+  }
+
+  @PutMapping("/save")
   public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);
   }
