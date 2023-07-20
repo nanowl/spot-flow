@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequestMapping("/diary")
@@ -58,8 +59,14 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
   }
 
+  // 좋아요 집계
   @GetMapping("/like/count")
   public ResponseEntity<Long> countLike(@RequestParam("id") Long id) {
     return new ResponseEntity<>(diaryService.countLike(id), HttpStatus.OK);
+  }
+
+  @GetMapping("/following")
+  public ResponseEntity<List<Diary>> friendDiary(HttpServletRequest request) {
+    return new ResponseEntity<>(diaryService.friendDiaryList(request) , HttpStatus.OK);
   }
 }

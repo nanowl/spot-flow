@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class DiaryService {
   private final DiaryItemRepository itemRepository;
   private final LikeRepository likeRepository;
   private final DiaryCommentRepository commentRepository;
+
+  private final AuthService authService;
 
   // id 값으로 다이어리와 그 다이어리에 포함된 타임라인 들을 리턴하는 메소드
   @Transactional
@@ -51,7 +54,7 @@ public class DiaryService {
   
   // user별 다이어리 검색
   @Transactional
-  public List<Diary> findDiaryByMember(String email) {
+  public List<DiaryResponseDto> findDiaryByMember(String email) {
     Customer customer = customerRepository.findCustomerByEmail(email);
     List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
 
@@ -67,7 +70,7 @@ public class DiaryService {
               .content(diary.getContent())
               .joinDate(diary.getJoinDate())
               .updateTime(diary.getUpdateTime())
-              .like(diary.getLike())
+              .like((long) diary.getLikeList().size())
               .view(diary.getView())
               .isDelete(diary.isDelete())
               .timeLineList(timeLines)
@@ -75,10 +78,6 @@ public class DiaryService {
     }
     return diaryDtoList;
   }
-
-
-
-
 
   /*
    * 다이어리 수정
@@ -187,5 +186,12 @@ public class DiaryService {
   public Long countLike(Long id) {
     Diary diary = diaryRepository.findDiaryById(id);
     return likeRepository.countLikeByDiary(diary);
+  }
+
+  @Transactional
+  public List<Diary> friendDiaryList(HttpServletRequest request) {
+    Customer customer = authService.validateTokenGetCustomerInfo(request);
+    log.info(customer + "");
+    return diaryRepository.findDiaryByFollowing(customer);
   }
 }

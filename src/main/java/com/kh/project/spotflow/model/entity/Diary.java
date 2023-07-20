@@ -7,7 +7,6 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,13 +46,17 @@ public class Diary {
   @ColumnDefault("FALSE")
   private boolean isDelete;
 
-  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "diary")
   @JsonBackReference
   private List<DiaryItem> itemList;
 
-  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "diary")
   @JsonBackReference
   private List<DiaryComment> commentList;
+
+  @OneToMany(mappedBy = "diary")
+  @JsonBackReference
+  private List<Like> likeList;
 
   public boolean isDelete() {
     return isDelete;
