@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Component
 @Getter @Setter
 public class TimeLine {
   @Id
@@ -31,9 +30,6 @@ public class TimeLine {
 
   @Column(name = "tl_place", nullable = false, length = 128)
   private String place;
-
-  @Column(name = "tl_title", nullable = true)
-  private String title;
 
   @Column(name = "tl_profile_pic", nullable = false, columnDefinition = "LONGTEXT")
   private String image;
@@ -59,21 +55,6 @@ public class TimeLine {
   @ColumnDefault("0")
   private Integer view;
 
-
-
-
-
-  @Builder
-  public TimeLine(Customer customer, String place, String tl_profile_pic, String content, Double lat, Double lng, LocalDateTime joinDate, Integer view) {
-    this.customer = customer;
-    this.place = place;
-    this.image = tl_profile_pic;
-    this.content = content;
-    this.lat = lat;
-    this.lng = lng;
-    this.joinDate = joinDate;
-    this.view = view;
-  }
   @OneToMany(mappedBy = "timeLine",cascade = CascadeType.ALL)
   @JsonBackReference
   private List<DiaryItem> itemList;

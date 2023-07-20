@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 @Builder
-public class CommentRequestDto {
-  private int diary;
+public class CommentRequest {
+  private Long diary;
   private String content;
   private String email; // 댓글 게시자
 
@@ -24,6 +24,7 @@ public class CommentRequestDto {
             .customer(customer)
             .content(this.content)
             .joinDate(LocalDateTime.now())
+            .isDelete(false)
             .build();
   }
 }

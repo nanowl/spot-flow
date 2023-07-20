@@ -1,17 +1,12 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.diary.TimeLineRequestDto;
-import com.kh.project.spotflow.model.dto.diary.DiaryRequestDto;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
-import com.kh.project.spotflow.model.dto.diary.DiaryUpdateRequest;
-import com.kh.project.spotflow.model.entity.Customer;
-import com.kh.project.spotflow.model.entity.Diary;
-import com.kh.project.spotflow.model.entity.DiaryItem;
-import com.kh.project.spotflow.model.entity.TimeLine;
-import com.kh.project.spotflow.repository.CustomerRepository;
-import com.kh.project.spotflow.repository.DiaryItemRepository;
-import com.kh.project.spotflow.repository.DiaryRepository;
-import com.kh.project.spotflow.repository.TimeLineRepository;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
+import com.kh.project.spotflow.model.entity.*;
+import com.kh.project.spotflow.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,32 +25,33 @@ public class DiaryService {
   private final CustomerRepository customerRepository;
   private final TimeLineRepository timeLineRepository;
   private final DiaryItemRepository itemRepository;
+  private final LikeRepository likeRepository;
+  private final DiaryCommentRepository commentRepository;
 
   // id 값으로 다이어리와 그 다이어리에 포함된 타임라인 들을 리턴하는 메소드
+  @Transactional
   public DiaryResponseDto findDiaryById(Long num) {
     Diary diary = diaryRepository.findDiaryById(num); // 다이어리 데이터
     List<DiaryItem> itemList = itemRepository.findByDiary(diary); // 다이어리와 일치하는 매핑 데이터를 가져옴
     DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
     List<TimeLine> timeLineList = new ArrayList<>();
+    List<DiaryComment> commentList = commentRepository.findByDiaryOrderByJoinDateDesc(diary);
     // 다이어리에 포함된 타임라인들을 가져옴
     for (int i = 0; i < itemList.size(); i++) {
       DiaryItem item = itemList.get(i);
-      TimeLine timeLine = timeLineRepository.findTimeLineById(item.getId());
+      TimeLine timeLine = timeLineRepository.findTimeLineById(item.getTimeLine().getId());
       log.info(timeLine.toString());
       timeLineList.add(timeLine);
     }
     // 다이어리 정보와 그 다이어리에 포함된 타임라인들을 가져옴
     responseDto.setTimeLineList(timeLineList);
+    responseDto.setCommentList(commentList);
     return responseDto;
   }
-
-//  // user별 다이어리 검색
-//  public List<Diary> findDiaryByMember(String email) {
-//    Customer customer = customerRepository.findCustomerByEmail(email);
-//    return diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
-//  }
-
-  public List<DiaryResponseDto> findDiaryByMember(String email) {
+  
+  // user별 다이어리 검색
+  @Transactional
+  public List<Diary> findDiaryByMember(String email) {
     Customer customer = customerRepository.findCustomerByEmail(email);
     List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
 
@@ -120,6 +116,7 @@ public class DiaryService {
     return responseDto;
   }
 
+  @Transactional
   public DiaryResponseDto delete(DiaryUpdateRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getId());
     diary.setDelete(true);
@@ -129,7 +126,8 @@ public class DiaryService {
   }
 
   // 다이어리와 매핑 테이블을 저장
-  public Diary save(DiaryRequestDto requestDiary) {
+  @Transactional
+  public Diary save(DiaryCreateRequest requestDiary) {
     Customer customer = customerRepository.findCustomerByEmail(requestDiary.getEmail());
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
@@ -151,5 +149,43 @@ public class DiaryService {
     diaryRepository.save(diary);
 
     return diary;
+  }
+
+  // 다이어리 조회수 1up
+  @Transactional
+  public DiaryResponseDto viewUp(DiaryUpdateRequest request) {
+    Diary diary = diaryRepository.findDiaryById(request.getId());
+    diary.setView(diary.getView() + 1);
+    diaryRepository.save(diary);
+    DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
+    return responseDto;
+  }
+
+  // 다이어리 좋아요 / 이미 좋아요면 좋아요 취소
+  @Transactional
+  public DiaryResponseDto likeControl(DiaryLikeRequest request) {
+    Diary diary = diaryRepository.findDiaryById(request.getId());
+    Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
+    Like currentLike = likeRepository.findLikeByCustomerAndDiary(customer, diary);
+    if (currentLike != null) {
+      likeRepository.delete(currentLike);
+    } else {
+      Like like = Like.builder()
+              .joinDate(LocalDateTime.now())
+              .customer(customer)
+              .diary(diary)
+              .build();
+      likeRepository.save(like);
+    }
+    DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
+    responseDto.setLike(likeRepository.countLikeByDiary(diary));
+    return responseDto;
+  }
+
+  // 다이어리의 좋아요 집계
+  @Transactional
+  public Long countLike(Long id) {
+    Diary diary = diaryRepository.findDiaryById(id);
+    return likeRepository.countLikeByDiary(diary);
   }
 }

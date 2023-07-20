@@ -62,7 +62,6 @@ public class AuthService {
     Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
     return tokenProvider.generateTokenDto(authentication);
   }
-
   //로그인시 토큰값 전달
   public Customer validateTokenGetCustomerInfo(HttpServletRequest request) {
     String accessToken = request.getHeader("Authorization");
@@ -78,8 +77,5 @@ public class AuthService {
       return null;
     }
   }
-
-
-
 
 }

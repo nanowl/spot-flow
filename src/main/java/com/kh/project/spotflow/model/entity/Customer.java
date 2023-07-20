@@ -21,9 +21,6 @@ public class Customer {
   @Column(name = "ct_email")
   private String email;
 
-  @Column(name = "ct_name")
-  private String name;
-
   @Column(name = "ct_nick_name",unique = true, nullable = false)
   private String nickName;
 
@@ -74,21 +71,13 @@ public class Customer {
   @JsonBackReference
   private List<DiaryComment> commentList;
 
+  @OneToMany(mappedBy = "follower")
+  @JsonBackReference
+  private List<Follow> followerList;
 
-//  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
-//  private List<TimeLine> timeLineList = new ArrayList<>();
-
-//  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
-//  private List<Diary> diaryList = new ArrayList<>();
-
-//  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
-//  private List<DiaryComment> commentList = new ArrayList<>();
-
-  @OneToMany(mappedBy = "follower" , cascade = CascadeType.ALL)
-  private List<Follow> followerList = new ArrayList<>();
-
-//  @OneToMany(mappedBy = "following" , cascade = CascadeType.ALL)
-//  private List<Follow> followingList = new ArrayList<>();
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
+  private List<Like> likeList;
 
   @Builder
   public Customer(String email, String password, String nickName, String profilePic , OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
