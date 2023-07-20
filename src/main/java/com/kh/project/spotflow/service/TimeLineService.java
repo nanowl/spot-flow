@@ -7,6 +7,7 @@ import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.repository.CustomerRepository;
 import com.kh.project.spotflow.repository.TimeLineRepository;
+import com.querydsl.core.QueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +17,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.kh.project.spotflow.model.entity.QTimeLine.timeLine;
 
 @Slf4j
 @Service
@@ -28,9 +33,8 @@ import java.util.*;
 public class TimeLineService {
 
 
-
-
-
+    @Autowired
+    private final JPAQueryFactory queryFactory;
 
 
     @Autowired
@@ -44,7 +48,6 @@ public class TimeLineService {
     public List<TimeLineDto> findAll() {
         List<TimeLine> timeLineList = timeLineRepository.findAll();
         List<TimeLineDto> timelineDTOS = new ArrayList<>();
-
 
 
         for (TimeLine timeLine : timeLineList) {
@@ -63,7 +66,7 @@ public class TimeLineService {
         List<TimeLine> timeLineList = timeLineRepository.findWithNoOffset(lastTimelineId, limit);
         List<TimeLineDto> timeLineDtoList = new ArrayList<>();
 
-        for(TimeLine timeLine : timeLineList){
+        for (TimeLine timeLine : timeLineList) {
             TimeLineDto timeLineDto = new TimeLineDto();
             timeLineDto.setTl_profile_pic(timeLine.getImage());
             timeLineDto.setPlace(timeLine.getPlace());
@@ -125,11 +128,11 @@ public class TimeLineService {
         String viewHistory = CookieUtils.getCookieValue(request, "viewHistory");
         Set<String> viewedPosts = new HashSet<>();
 
-        if(viewHistory != null && !viewHistory.isEmpty()) {
+        if (viewHistory != null && !viewHistory.isEmpty()) {
             viewedPosts.addAll(Arrays.asList(viewHistory.split("\\|"))); // changed from ","
         }
 
-        if(!viewedPosts.contains(String.valueOf(id))) {
+        if (!viewedPosts.contains(String.valueOf(id))) {
             TimeLine timeLine = timeLineRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 없습니다. " + id));
             timeLine.setView(timeLine.getView() + 1);
@@ -141,16 +144,35 @@ public class TimeLineService {
 
     // 타임라인 검색 서비스
     @Transactional
-    public List<TimeLine> searchPlace(String place) {
-        List<TimeLine> result = timeLineRepository.findByPlace(place);
-        if(result == null) {
+    public List<TimeLineDto> searchPlace(String place) {
+
+        List<TimeLine> result = queryFactory.selectFrom(timeLine)
+                .where(timeLine.place.contains(place))
+                .fetch();
+
+        if (result.isEmpty()) {
             log.info("장소가 존재하지않아");
         }
 
-        List<TimeLine> rs = new ArrayList<>();
+        List<TimeLineDto> responseDtoList = result.stream()
+                .map(timeline -> TimeLineDto.builder()
+                        .ct_profile_pic(timeline.getCustomer().getProfilePic())
+                        .tl_profile_pic(timeline.getImage())
+                        .place(timeline.getPlace())
+                        .nickName(timeline.getCustomer().getNickName())
+                        .view(timeline.getView())
+                        .id(timeline.getId())
+                        .updateTime(timeline.getJoinDate())
+                        .content(timeline.getContent())
+                        .build()
+                )
+                .collect(Collectors.toList());
 
-
-        return result;
+        return responseDtoList;
     }
 
+
 }
+
+
+

@@ -2,6 +2,7 @@ package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.Diary;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DiaryController {
   private final DiaryService diaryService;
 
@@ -38,6 +39,14 @@ public class DiaryController {
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
+
+  // 체크한값들 삭제
+  @DeleteMapping("/check")
+  public ResponseEntity<List<DiaryResponseDto>> deleteMyDiarys(@RequestBody DiaryDeleteRequest request) {
+    return new ResponseEntity<>(diaryService.checkDelete(request.getId()), HttpStatus.OK);
+  }
+
+
   // 특정 다이어리의 포함된 타임라인 리스트, 타이틀, 컨텐츠를 변경
   @PutMapping("")
   public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {

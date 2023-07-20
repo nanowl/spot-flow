@@ -44,7 +44,7 @@ public class TimeLineController {
 
     // 타임라인 장소명 검색
     @GetMapping("/search")
-    public List<TimeLine> searchPlace(@RequestParam String place) {
+    public List<TimeLineDto> searchPlace(@RequestParam String place) {
         TimeLineRequestDto request = new TimeLineRequestDto();
         request.setPlace(place);
         return timeLineService.searchPlace(place);

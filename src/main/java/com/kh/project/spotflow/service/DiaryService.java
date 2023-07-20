@@ -3,6 +3,7 @@ package com.kh.project.spotflow.service;
 import com.kh.project.spotflow.model.dto.diary.TimeLineRequestDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.*;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -123,6 +125,31 @@ public class DiaryService {
     DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
     return responseDto;
   }
+
+
+
+  @Transactional
+  public List<DiaryResponseDto> checkDelete(List<Long> request) {
+    List<DiaryResponseDto> responseDtoList = new ArrayList<>();
+    for (Long id : request) {
+      Diary diary = diaryRepository.findDiaryById(id);
+      if (diary != null) {
+        diary.setDelete(true);
+        diaryRepository.save(diary);
+        DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
+        responseDtoList.add(responseDto);
+      } else {
+        throw new EntityNotFoundException("No Diary found with id: " + id);
+      }
+    }
+    return responseDtoList;
+  }
+
+
+
+
+
+
 
   // 다이어리와 매핑 테이블을 저장
   @Transactional
