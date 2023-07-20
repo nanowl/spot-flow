@@ -66,7 +66,7 @@ public class DiaryController {
   }
 
   @GetMapping("/following")
-  public ResponseEntity<List<Diary>> friendDiary(HttpServletRequest request) {
-    return new ResponseEntity<>(diaryService.friendDiaryList(request) , HttpStatus.OK);
+  public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
+    return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
 }

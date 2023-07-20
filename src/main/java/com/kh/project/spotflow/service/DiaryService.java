@@ -189,8 +189,8 @@ public class DiaryService {
   }
 
   @Transactional
-  public List<Diary> friendDiaryList(HttpServletRequest request) {
-    Customer customer = authService.validateTokenGetCustomerInfo(request);
+  public List<Diary> friendDiaryList(String email) {
+    Customer customer = customerRepository.findCustomerByEmail(email);
     log.info(customer + "");
     return diaryRepository.findDiaryByFollowing(customer);
   }
