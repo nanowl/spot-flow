@@ -2,6 +2,7 @@ package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.comment.CommentRequest;
 import com.kh.project.spotflow.model.dto.comment.CommentResponse;
+import com.kh.project.spotflow.model.dto.comment.CommentUpdateRequest;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.DiaryComment;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -28,6 +30,25 @@ public class CommentService {
     Diary diary = diaryRepository.findDiaryById(request.getDiary());
     Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
     DiaryComment comment = request.toComment(customer, diary);
+    commentRepository.save(comment);
+    return new CommentResponse().of(comment);
+  }
+
+  // 댓글 수정
+  @Transactional
+  public CommentResponse updateComment(CommentUpdateRequest request) {
+    DiaryComment comment = commentRepository.findDiaryCommentById(request.getComment());
+    comment.setContent(request.getContent());
+    comment.setUpdate(LocalDateTime.now());
+    commentRepository.save(comment);
+    return new CommentResponse().of(comment);
+  }
+
+  // 댓글 삭제
+  @Transactional
+  public CommentResponse deleteComponent(CommentUpdateRequest request) {
+    DiaryComment comment = commentRepository.findDiaryCommentById(request.getComment());
+    comment.setDelete(true);
     commentRepository.save(comment);
     return new CommentResponse().of(comment);
   }

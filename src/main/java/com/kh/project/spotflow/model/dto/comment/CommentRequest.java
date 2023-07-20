@@ -24,6 +24,7 @@ public class CommentRequest {
             .customer(customer)
             .content(this.content)
             .joinDate(LocalDateTime.now())
+            .isDelete(false)
             .build();
   }
 }
