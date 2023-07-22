@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 public class CustomerRequestDto {
+  //로그인 회원가입 Dto
   private String email;
   private String password;
   private String nickName;

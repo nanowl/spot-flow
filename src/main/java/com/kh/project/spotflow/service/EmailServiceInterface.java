@@ -15,9 +15,9 @@ public interface EmailServiceInterface {
      String createKey();
      // Send e-Mail
      String sendSimpleMessage(String to) throws Exception;
-     
+     // 임시 비밀번호 생서
      String getTempPassword();
-     
+     //
      MimeMessage createPwdMsg(String to) throws MessagingException, UnsupportedEncodingException;
      
      String sendPwdMessage(String to) throws Exception;

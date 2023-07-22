@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.service;
+package com.kh.project.spotflow.config.security;
 
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.repository.CustomerRepository;
@@ -15,7 +15,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
   private final CustomerRepository customerRepository;
 
   @Override
@@ -34,5 +34,4 @@ public class CustomUserDetailService implements UserDetailsService {
             Collections.singleton(grantedAuthority)
     );
   }
-  
 }

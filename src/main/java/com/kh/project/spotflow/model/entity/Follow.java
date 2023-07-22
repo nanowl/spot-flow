@@ -36,6 +36,4 @@ public class Follow {
     this.following = fromUser;
     this.joinDate = joinDate;
   }
-
-
 }

@@ -23,7 +23,7 @@ public class TimeLineService {
     
     //나의 타임라인 글들 가죠오기
     public List<TimeLineMyFlowGetDto> getAll(HttpServletRequest request) {
-        Customer customer = authService.validateTokenGetCustomerInfo(request);
+        Customer customer = authService.getCustomerByEmail();
         log.info(customer.getEmail());
         List<TimeLine> timeLineList = timeLineRepository.findByCustomer(customer);
         List<TimeLineMyFlowGetDto> myFlowGetDtoList = new ArrayList<>();
@@ -44,7 +44,7 @@ public class TimeLineService {
     
     //나의 timeLine 상세 정보 보기
     public List<TimeLineMyFlowGetDto> getSelected(HttpServletRequest request, Long id) {
-        Customer customer = authService.validateTokenGetCustomerInfo(request);
+        Customer customer = authService.getCustomerByEmail();
         log.info(customer.getEmail());
         List<TimeLine> timeLineList = timeLineRepository.findTimelineById(id);
         List<TimeLineMyFlowGetDto> myFlowGetDtoList = new ArrayList<>();
@@ -67,7 +67,7 @@ public class TimeLineService {
     //timeLine 글 쓰기
     public boolean saveTimeLine(HttpServletRequest request, MyFlowRequestDto myFlowRequestDto) {
         try {
-            Customer customer = authService.validateTokenGetCustomerInfo(request);
+            Customer customer = authService.getCustomerByEmail();
             TimeLine timeLine = myFlowRequestDto.toTimeline();
             timeLine.setCustomer(customer);
             

@@ -1,11 +1,8 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.config.email.EmailConfig;
-import com.kh.project.spotflow.model.entity.Customer;
-import com.kh.project.spotflow.repository.CustomerRepository;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
@@ -24,7 +21,7 @@ public class EmailService implements EmailServiceInterface{
      private String ePw; // 인증번호
      private static Map<String, String> confirmKey = new HashMap<>(); // 발급된 키 값을 저장하는 객체 생성
      
-     // 메일 내용 작성
+     // 인증키 메일 생성
      @Override
      public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
           System.out.println("보내는 대상 : " + to);
@@ -112,6 +109,7 @@ public class EmailService implements EmailServiceInterface{
           System.out.println(email + "의 키 코드값이 삭제 되었습니다.");
      }
      
+     // 임시 비밀번호 생서
      @Override
      public String getTempPassword(){
           char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
@@ -128,6 +126,7 @@ public class EmailService implements EmailServiceInterface{
           return str;
      }
      
+     // 임시 비밀 번호 생서
      @Override
      public MimeMessage createPwdMsg(String to) throws MessagingException, UnsupportedEncodingException {
           System.out.println("보내는 대상 : " + to);
@@ -158,6 +157,7 @@ public class EmailService implements EmailServiceInterface{
           return message;
      }
      
+     // 임시 비밀번호 메일 전송
      @Override
      public String sendPwdMessage(String to) throws Exception {
           ePw = getTempPassword();

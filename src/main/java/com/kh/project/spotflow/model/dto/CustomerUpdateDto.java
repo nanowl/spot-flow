@@ -1,11 +1,15 @@
 package com.kh.project.spotflow.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
-@Getter @Setter @ToString
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class CustomerUpdateDto {
-     private String profilePic;
-     private String statMsg;
+     String statMsg;
+     String profilePic;
 }
