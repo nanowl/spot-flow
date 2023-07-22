@@ -6,7 +6,6 @@ import com.kh.project.spotflow.model.constant.Theme;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.repository.CustomerRepository;
-import com.kh.project.spotflow.repository.TimeLineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,6 @@ import java.util.List;
 @Transactional
 public class DummyTestService {
      private final CustomerRepository customerRepository;
-     private final TimeLineRepository timeLineRepository;
      
      public List<Customer> saveDummyUser(int count) {
           List<Customer> customerList = new ArrayList<>();
@@ -46,23 +44,4 @@ public class DummyTestService {
           return customerList;
      }
      
-     public List<TimeLine> saveDummyTimeLine(int count){
-          List<TimeLine> timeLines = new ArrayList<>();
-          for (int i = 0; i < count; i++) {
-               Customer customer = customerRepository.findCustomerByEmail("testAccount" + i + ".gmail.com");
-               TimeLine timeLine = TimeLine.builder()
-                 .place("홍대")
-                 .customer(customer)
-                 .image("https://i.namu.wiki/i/yZeKOQ6x8chba-r0OwsmZtUZEsGFGm-WGPAZyDd2b4mrdYypGDuIsavmRomoEo9XRsv0B3NuG8oP_GalDsfmpw.webp")
-                 .content("Testing content " + i)
-                 .lat(22.12)
-                 .lng(22.12)
-                 .joinDate(LocalDateTime.now())
-                 .view(0)
-                 .build();
-               timeLines.add(timeLine);
-          }
-          timeLineRepository.saveAll(timeLines);
-          return timeLines;
-     }
 }

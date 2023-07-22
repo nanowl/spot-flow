@@ -1,22 +1,22 @@
 package com.kh.project.spotflow.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kh.project.spotflow.model.constant.Authority;
 import com.kh.project.spotflow.model.constant.OpenStatus;
 import com.kh.project.spotflow.model.constant.Theme;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
-@Getter @Setter @ToString
 @NoArgsConstructor
-@Component
+@Getter
+@Setter
 public class Customer {
-
   @Id
   @Column(name = "ct_email")
   private String email;
@@ -46,28 +46,49 @@ public class Customer {
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_theme")
   private Theme theme;
-  
+
   @Enumerated(EnumType.STRING)
   @Column(name = "ct_authority")
   private Authority authority;
-  
+
   @OneToMany(mappedBy = "customer")
+  @JsonBackReference
   private List<TimeLine> timeLineList;
-  
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
   private List<Diary> diaryList;
-  
-  @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+
+  @OneToMany(mappedBy = "follower")
+  @JsonBackReference
   private List<Follow> followList;
-  
-  @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
+
+  @OneToMany(mappedBy = "following")
+  @JsonBackReference
   private List<Follow> followingList;
-  
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+
+  @OneToMany(mappedBy = "customer")
+  @JsonBackReference
   private List<DiaryComment> commentList;
-  
+
+
+//  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+//  private List<TimeLine> timeLineList = new ArrayList<>();
+
+//  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+//  private List<Diary> diaryList = new ArrayList<>();
+
+//  @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+//  private List<DiaryComment> commentList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "follower" , cascade = CascadeType.ALL)
+  private List<Follow> followerList = new ArrayList<>();
+
+//  @OneToMany(mappedBy = "following" , cascade = CascadeType.ALL)
+//  private List<Follow> followingList = new ArrayList<>();
+
   @Builder
-  public Customer(String email, String password, String nickName, String profilePic ,OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
+  public Customer(String email, String password, String nickName, String profilePic , OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
     this.email = email;
     this.password = password;
     this.nickName = nickName;

@@ -1,7 +1,8 @@
 package com.kh.project.spotflow.service;
 
-import com.kh.project.spotflow.model.dto.CustomerUserRequestDto;
-import com.kh.project.spotflow.model.dto.FollowUserRequestDto;
+import com.kh.project.spotflow.model.dto.Customer.CustomerUpdateDto;
+import com.kh.project.spotflow.model.dto.Customer.CustomerUserRequestDto;
+import com.kh.project.spotflow.model.dto.Follow.FollowUserRequestDto;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,18 +33,25 @@ public class CustomerService {
      }
      
      //회원 상테메시지 수정
-     public CustomerUserRequestDto updateStatMsg(String msg) {
+     public CustomerUserRequestDto updateStatMsg(CustomerUpdateDto customerUpdateDto) {
           Customer customer = authService.getCustomerByEmail();
-          customer.setStatMsg(msg);
+          customer.setStatMsg(customerUpdateDto.getStatMsg());
           customerRepository.save(customer);
           return CustomerUserRequestDto.getCustomerInfo(customer);
      }
      
      //회원 프로필 사진 수정
-     public CustomerUserRequestDto updateProfilePic(String img) {
+     public CustomerUserRequestDto updateProfilePic(CustomerUpdateDto customerUpdateDto) {
           Customer customer = authService.getCustomerByEmail();
-          customer.setProfilePic(img);
+          customer.setProfilePic(customerUpdateDto.getProfilePic());
           customerRepository.save(customer);
+          return CustomerUserRequestDto.getCustomerInfo(customer);
+     }
+     
+     public CustomerUserRequestDto updateProfile(CustomerUpdateDto customerUpdateDto) {
+          Customer customer = authService.getCustomerByEmail();
+          customer.setProfilePic(customerUpdateDto.getProfilePic());
+          customer.setStatMsg(customerUpdateDto.getStatMsg());
           return CustomerUserRequestDto.getCustomerInfo(customer);
      }
 }

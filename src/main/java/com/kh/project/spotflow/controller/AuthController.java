@@ -1,7 +1,9 @@
 package com.kh.project.spotflow.controller;
 
-import com.kh.project.spotflow.model.dto.CustomerRequestDto;
-import com.kh.project.spotflow.model.dto.TokenDto;
+import com.kh.project.spotflow.model.dto.Customer.CustomerRequestDto;
+import com.kh.project.spotflow.model.dto.Token.TokenDto;
+import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.AuthService;
 import com.kh.project.spotflow.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

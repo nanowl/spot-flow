@@ -27,9 +27,5 @@ public class DummyTestController {
           return new ResponseEntity<>(customers, HttpStatus.OK);
      }
      
-     @PostMapping("/inserttimeline")
-     public ResponseEntity<List<TimeLine>> saveDummyTimeline(@RequestBody int count) {
-          List<TimeLine> timeLines = dummyTestService.saveDummyTimeLine(count);
-          return new ResponseEntity<>(timeLines, HttpStatus.OK);
-     }
+
 }

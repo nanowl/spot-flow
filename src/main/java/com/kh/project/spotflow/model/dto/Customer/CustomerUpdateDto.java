@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.model.dto;
+package com.kh.project.spotflow.model.dto.Customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class CustomerUpdateDto {
-     String statMsg;
-     String profilePic;
+     // 회원 정보 수정 Dto
+     private String statMsg;
+     private String profilePic;
 }

@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.model.dto;
+package com.kh.project.spotflow.model.dto.Customer;
 
 import com.kh.project.spotflow.model.constant.Authority;
 import com.kh.project.spotflow.model.constant.OpenStatus;

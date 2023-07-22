@@ -1,6 +1,6 @@
 package com.kh.project.spotflow.config.jwt;
 
-import com.kh.project.spotflow.model.dto.TokenDto;
+import com.kh.project.spotflow.model.dto.Token.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

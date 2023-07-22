@@ -1,22 +1,19 @@
 package com.kh.project.spotflow.model.entity;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "follow")
-@Getter
-@Setter
-@ToString
+@Setter @Getter
+@AllArgsConstructor @Builder
 @NoArgsConstructor
-@Component
 public class Follow {
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
@@ -30,10 +27,15 @@ public class Follow {
   @Column(name = "follow_join_date")
   private LocalDateTime joinDate;
 
-  @Builder
-  public Follow(Customer toUser, Customer fromUser, LocalDateTime joinDate){
-    this.follower = toUser;
-    this.following = fromUser;
-    this.joinDate = joinDate;
+  @Override
+  public String toString() {
+    return "Follow{" +
+            "id=" + id +
+            ", follower=" + follower +
+            ", following=" + following +
+            ", joinDate=" + joinDate +
+            '}';
   }
 }
+
+
