@@ -46,7 +46,7 @@ public class Diary {
   @ColumnDefault("FALSE")
   private boolean isDelete;
 
-  @OneToMany(mappedBy = "diary")
+  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
   @JsonBackReference
   private List<DiaryItem> itemList;
 

@@ -58,4 +58,8 @@ public class TimeLine {
   @OneToMany(mappedBy = "timeLine",cascade = CascadeType.ALL)
   @JsonBackReference
   private List<DiaryItem> itemList;
+
+  @Column(name = "tl_delete", nullable = false)
+  @ColumnDefault("FALSE")
+  private boolean isDelete;
 }

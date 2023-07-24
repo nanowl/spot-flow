@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.config.utils.CookieUtils;
+import com.kh.project.spotflow.model.dto.ResponseTimeLine;
 import com.kh.project.spotflow.model.dto.TimeLineDto;
 import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Customer;
@@ -26,13 +27,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TimeLineService {
-
-
-
-
-
-
-
     @Autowired
     private final TimeLineRepository timeLineRepository;
 
@@ -41,22 +35,16 @@ public class TimeLineService {
 
 
     // 타임라인글 전제 조회 하기
-    public List<TimeLineDto> findAll() {
+    public List<ResponseTimeLine> findAll() {
         List<TimeLine> timeLineList = timeLineRepository.findAll();
-        List<TimeLineDto> timelineDTOS = new ArrayList<>();
-
-
-
+        List<ResponseTimeLine> responseTimeLines = new ArrayList<>();
         for (TimeLine timeLine : timeLineList) {
-            TimeLineDto timelineDTO = new TimeLineDto();
-            timelineDTO.setTl_profile_pic(timeLine.getImage());
-            timelineDTO.setView(timeLine.getView());
-            timelineDTO.setId(timeLine.getId());
-            timelineDTO.setUpdateTime(timeLine.getUpdateTime());
-            timelineDTO.setPlace(timeLine.getPlace());
-            timelineDTOS.add(timelineDTO);
+            Customer customer = timeLine.getCustomer();
+            log.info(customer.getEmail());
+            ResponseTimeLine responseTimeLine = new ResponseTimeLine().of(timeLine);
+            responseTimeLines.add(responseTimeLine);
         }
-        return timelineDTOS;
+        return responseTimeLines;
     }
 
     public List<TimeLineDto> getAll(Long lastTimelineId, int limit) {

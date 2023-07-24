@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.controller;
 
 
+import com.kh.project.spotflow.model.dto.ResponseTimeLine;
 import com.kh.project.spotflow.model.dto.TimeLineDto;
 import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.TimeLine;
@@ -25,12 +26,9 @@ import java.util.Map;
 public class TimeLineController {
     private final TimeLineService timeLineService;
 
-
-
-    // 이거 왜 post 가지고 옴>?????/
-    @PostMapping("/find")
-    public ResponseEntity<List<TimeLineDto>> find() {
-        List<TimeLineDto> result = timeLineService.findAll();
+    @GetMapping("/find")
+    public ResponseEntity<List<ResponseTimeLine>> find() {
+        List<ResponseTimeLine> result = timeLineService.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
