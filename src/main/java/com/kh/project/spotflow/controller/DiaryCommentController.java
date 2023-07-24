@@ -27,4 +27,8 @@ public class DiaryCommentController {
   public ResponseEntity<CommentResponse> updateComment(@RequestBody CommentUpdateRequest request) {
     return new ResponseEntity<>(commentService.updateComment(request), HttpStatus.OK);
   }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<CommentResponse> deleteComment(@PathVariable Long id) {
+    return new ResponseEntity<>(commentService.deleteComponent(id), HttpStatus.OK);
+  }
 }

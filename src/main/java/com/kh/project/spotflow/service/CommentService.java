@@ -46,8 +46,8 @@ public class CommentService {
 
   // 댓글 삭제
   @Transactional
-  public CommentResponse deleteComponent(CommentUpdateRequest request) {
-    DiaryComment comment = commentRepository.findDiaryCommentById(request.getComment());
+  public CommentResponse deleteComponent(Long request) {
+    DiaryComment comment = commentRepository.findDiaryCommentById(request);
     comment.setDelete(true);
     commentRepository.save(comment);
     return new CommentResponse().of(comment);

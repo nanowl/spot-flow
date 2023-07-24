@@ -67,6 +67,7 @@ public class DiaryService {
       diaryDtoList.add(DiaryResponseDto.builder()
               .id(diary.getId())
               .title(diary.getTitle())
+              .customer(customer)
               .content(diary.getContent())
               .joinDate(diary.getJoinDate())
               .updateTime(diary.getUpdateTime())
