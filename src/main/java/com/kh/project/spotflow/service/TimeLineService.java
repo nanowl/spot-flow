@@ -110,7 +110,7 @@ public class TimeLineService {
 
         TimeLine timeLine = TimeLine.builder()
                 .customer(customer)
-                .place("역삼동")
+                .place(request.getPlace())
                 .lat(123.2)
                 .lng(112.1)
                 .content(request.getContent())

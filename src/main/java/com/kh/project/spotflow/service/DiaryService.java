@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class DiaryService {
+  private final DiaryItemRepository diaryItemRepository;
   private final DiaryRepository diaryRepository;
   private final CustomerRepository customerRepository;
   private final TimeLineRepository timeLineRepository;
@@ -53,6 +54,14 @@ public class DiaryService {
     responseDto.setCommentList(commentList);
     return responseDto;
   }
+
+  // 다이어리 조회 : 해당하는 타임라인 장소명 으로 검색
+//  @Transactional
+//  public List<DiaryResponseDto> findDiaryByPlace(String email) {
+//    diaryRepository.findAll()
+//  }
+
+
   
   // user별 다이어리 검색
   @Transactional
@@ -70,6 +79,7 @@ public class DiaryService {
               .id(diary.getId())
               .title(diary.getTitle())
               .content(diary.getContent())
+              .customer(diary.getCustomer())
               .joinDate(diary.getJoinDate())
               .updateTime(diary.getUpdateTime())
               .like((long) diary.getLikeList().size())
@@ -157,23 +167,24 @@ public class DiaryService {
     Customer customer = customerRepository.findCustomerByEmail(requestDiary.getEmail());
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
-    List<DiaryItem> itemList = new ArrayList<>();
     diary.setCustomer(customer);
 
+    diary = diaryRepository.save(diary);  // 먼저 Diary를 저장
+
+    List<DiaryItem> itemList = new ArrayList<>();
     for (int i = 0; i < timeLineList.size(); i++) {
       TimeLine timeLine = timeLineRepository
               .findTimeLineById(timeLineList.get(i).getId());
       DiaryItem item = DiaryItem.builder()
-              .diary(diary)
+              .diary(diary)  // 저장된 Diary를 참조
               .timeLine(timeLine)
               .build();
       itemList.add(item);
+      diaryItemRepository.save(item);
     }
     diary.setItemList(itemList);
 
     log.info("Diary 생성");
-    diaryRepository.save(diary);
-
     return diary;
   }
 
