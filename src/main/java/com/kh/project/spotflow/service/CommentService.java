@@ -6,9 +6,11 @@ import com.kh.project.spotflow.model.dto.comment.CommentUpdateRequest;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.DiaryComment;
+import com.kh.project.spotflow.model.entity.Notification;
 import com.kh.project.spotflow.repository.CustomerRepository;
 import com.kh.project.spotflow.repository.DiaryCommentRepository;
 import com.kh.project.spotflow.repository.DiaryRepository;
+import com.kh.project.spotflow.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,14 +25,27 @@ public class CommentService {
   private final DiaryCommentRepository commentRepository;
   private final DiaryRepository diaryRepository;
   private final CustomerRepository customerRepository;
+  private final NotificationRepository notificationRepository;
 
   // 댓글 데이터를 저장
   @Transactional
   public CommentResponse saveComment(CommentRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getDiary());
-    Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
-    DiaryComment comment = request.toComment(customer, diary);
+    Customer commentWriter = customerRepository.findCustomerByEmail(request.getEmail());
+    DiaryComment comment = request.toComment(commentWriter, diary);
     commentRepository.save(comment);
+
+    Customer diaryWriter = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
+
+    Notification notification = Notification.builder()
+            .diaryWriter(diaryWriter)
+            .diary(diary)
+            .diaryComment(comment)
+            .isRead(false)
+            .build();
+
+    notificationRepository.save(notification);
+
     return new CommentResponse().of(comment);
   }
 
