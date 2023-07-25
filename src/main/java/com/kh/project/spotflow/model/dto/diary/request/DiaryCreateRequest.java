@@ -1,6 +1,6 @@
 package com.kh.project.spotflow.model.dto.diary.request;
 
-import com.kh.project.spotflow.model.dto.diary.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Diary;
 import lombok.*;
 

@@ -36,6 +36,8 @@ public class QCustomer extends EntityPathBase<Customer> {
 
     public final DateTimePath<java.time.LocalDateTime> joinDate = createDateTime("joinDate", java.time.LocalDateTime.class);
 
+    public final ListPath<Like, QLike> likeList = this.<Like, QLike>createList("likeList", Like.class, QLike.class, PathInits.DIRECT2);
+
     public final StringPath nickName = createString("nickName");
 
     public final EnumPath<com.kh.project.spotflow.model.constant.OpenStatus> openStatus = createEnum("openStatus", com.kh.project.spotflow.model.constant.OpenStatus.class);

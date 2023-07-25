@@ -2,26 +2,21 @@ package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.config.utils.CookieUtils;
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
-import com.kh.project.spotflow.model.dto.TimeLineDto;
-import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
-import com.kh.project.spotflow.repository.CustomerRepository;
-import com.kh.project.spotflow.repository.TimeLineRepository;
+import com.kh.project.spotflow.repository.TimeLine.TimeLineRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -119,4 +114,14 @@ public class TimeLineService {
           
           return responseDtoList;
      }
+
+    public List<ResponseTimeLine> findAll() {
+       List<TimeLine> timeLineList = timeLineRepository.findAll();
+       List<ResponseTimeLine> responseTimeLineList = new ArrayList<>();
+       for (TimeLine timeLine : timeLineList) {
+         ResponseTimeLine responseTimeLine = new ResponseTimeLine().of(timeLine);
+         responseTimeLineList.add(responseTimeLine);
+       }
+       return responseTimeLineList;
+    }
 }

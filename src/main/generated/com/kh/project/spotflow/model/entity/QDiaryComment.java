@@ -30,6 +30,8 @@ public class QDiaryComment extends EntityPathBase<DiaryComment> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isDelete = createBoolean("isDelete");
+
     public final DateTimePath<java.time.LocalDateTime> joinDate = createDateTime("joinDate", java.time.LocalDateTime.class);
 
     public final DateTimePath<java.time.LocalDateTime> update = createDateTime("update", java.time.LocalDateTime.class);

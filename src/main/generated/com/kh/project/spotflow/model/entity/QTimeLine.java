@@ -30,6 +30,8 @@ public class QTimeLine extends EntityPathBase<TimeLine> {
 
     public final StringPath image = createString("image");
 
+    public final BooleanPath isDelete = createBoolean("isDelete");
+
     public final ListPath<DiaryItem, QDiaryItem> itemList = this.<DiaryItem, QDiaryItem>createList("itemList", DiaryItem.class, QDiaryItem.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.time.LocalDateTime> joinDate = createDateTime("joinDate", java.time.LocalDateTime.class);

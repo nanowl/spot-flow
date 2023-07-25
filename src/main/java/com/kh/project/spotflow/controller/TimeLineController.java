@@ -1,8 +1,8 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
-import com.kh.project.spotflow.model.dto.TimeLineDto;
-import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class TimeLineController {
 
     // 타임라인 장소명 검색
     @GetMapping("/search")
-    public List<TimeLine> searchPlace(@RequestParam String place) {
+    public List<TimeLineDto> searchPlace(@RequestParam String place) {
         TimeLineRequestDto request = new TimeLineRequestDto();
         request.setPlace(place);
         return timeLineService.searchPlace(place);
@@ -53,13 +52,6 @@ public class TimeLineController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/dummy")
-    public void addPosts(@RequestBody Map<String, Object> request) {
-        int count = (int) request.get("count");
-        String userEmail = (String) request.get("userEmail");
-        log.info(count + "개의 타임라인 포스트를 만듭니다.");
-        timeLineService.createPosts(count, (userEmail));
-    }
 
     @PostMapping("/post")
     public ResponseEntity<TimeLine> addPost(@RequestBody TimeLineRequestDto request) {

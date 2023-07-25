@@ -1,17 +1,17 @@
 package com.kh.project.spotflow.service;
 
-import com.kh.project.spotflow.model.dto.diary.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.*;
 import com.kh.project.spotflow.repository.*;
+import com.kh.project.spotflow.repository.TimeLine.TimeLineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
