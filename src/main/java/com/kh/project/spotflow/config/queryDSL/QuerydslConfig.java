@@ -1,4 +1,5 @@
-package com.kh.project.spotflow.config.queryDSL;
+package com.kh.project.spotflow.config.QueryDSL;
+
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
@@ -9,12 +10,12 @@ import javax.persistence.PersistenceContext;
 
 @Configuration
 public class QuerydslConfig {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Bean
-    public JPAQueryFactory jpaQueryFactory() {
-        return new JPAQueryFactory(entityManager);
-    }
+     
+     @PersistenceContext
+     private EntityManager entityManager;
+     
+     @Bean
+     public JPAQueryFactory jpaQueryFactory() {
+          return new JPAQueryFactory(entityManager);
+     }
 }
