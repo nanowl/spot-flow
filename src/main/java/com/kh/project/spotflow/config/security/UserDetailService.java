@@ -1,4 +1,4 @@
-package com.kh.project.spotflow.service;
+package com.kh.project.spotflow.config.security;
 
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.repository.CustomerRepository;
@@ -15,14 +15,14 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
   private final CustomerRepository customerRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return customerRepository.findByEmail(username)
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    return customerRepository.findByEmail(email)
             .map(this::createUserDetails)
-            .orElseThrow(() -> new UsernameNotFoundException(username + " 을 DB에서 찾을 수 없습니다"));
+            .orElseThrow(() -> new UsernameNotFoundException(email + " 을 DB에서 찾을 수 없습니다"));
   }
 
   private UserDetails createUserDetails(Customer customer) {

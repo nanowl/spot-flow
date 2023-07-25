@@ -8,7 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-  //이게 뭐지??????
+  
+  // 사용자 정보 불러오기
   Optional<Customer> findByEmail(String email);
   
   // 이메일 중복 확인
@@ -19,6 +20,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
   // 유저정보 찾기
   Customer findCustomerByEmail(String email);
-  
 }
 

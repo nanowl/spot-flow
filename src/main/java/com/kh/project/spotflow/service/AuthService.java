@@ -1,30 +1,20 @@
 package com.kh.project.spotflow.service;
 
-import com.kh.project.spotflow.model.dto.CustomerDto;
-import com.kh.project.spotflow.model.dto.CustomerRequestDto;
-import com.kh.project.spotflow.model.dto.CustomerResponseDto;
-import com.kh.project.spotflow.model.dto.TokenDto;
+import com.kh.project.spotflow.config.utils.SecurityUtil;
+import com.kh.project.spotflow.model.dto.Customer.CustomerRequestDto;
+import com.kh.project.spotflow.model.dto.Token.TokenDto;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.config.jwt.TokenProvider;
 import com.kh.project.spotflow.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -47,35 +37,39 @@ public class AuthService {
   }
   
   // 회원 가입
-  public boolean signup (CustomerRequestDto requestDto){
+  public boolean signup(CustomerRequestDto requestDto) {
     if (customerRepository.existsByEmail(requestDto.getEmail())) {
-      throw new RuntimeException("이미 가입되어 있는 유저입니다");
+      return false;
+    }else {
+      Customer customer = requestDto.toMember(passwordEncoder);
+      customerRepository.save(customer);
+      return true;
     }
-    Customer customer = requestDto.toMember(passwordEncoder);
-    CustomerResponseDto.of(customerRepository.save(customer));
-    return true;
   }
   
   //로그인시 토큰값 전달
-  public TokenDto login (CustomerRequestDto requestDto){
+  public TokenDto login(CustomerRequestDto requestDto) {
     UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
     Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
     return tokenProvider.generateTokenDto(authentication);
   }
-  //로그인시 토큰값 전달
-  public Customer validateTokenGetCustomerInfo(HttpServletRequest request) {
-    String accessToken = request.getHeader("Authorization");
-    if (accessToken != null && accessToken.startsWith("Bearer ")) {
-      accessToken = accessToken.substring(7);
-    }
-    if (accessToken != null && tokenProvider.validateToken(accessToken)) {
-      UserDetails userDetails = (UserDetails) tokenProvider.getAuthentication(accessToken).getPrincipal();
-      String email = userDetails.getUsername();
-      log.info(email);
-      return customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
-    } else {
-      return null;
+  
+  //토근검증후 로그인 정보 고융하기
+  public Customer getCustomerByEmail(){
+    String email = SecurityUtil.getCustomerEmail();
+    return customerRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 없음"));
+  }
+  
+  // 임시 비밀번호
+  public boolean setTempPwd(String tempPwd, String email) {
+    if(customerRepository.existsByEmail(email)){
+      return false;
+    }else {
+      Customer customers = customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
+      String pwd = passwordEncoder.encode(tempPwd);
+      customers.setPassword(pwd);
+      Customer customer = customerRepository.save(customers);
+      return true;
     }
   }
-
 }

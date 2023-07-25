@@ -43,6 +43,7 @@ dependencies {
 	implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
 	//JavaMailSender
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	// queryDSL
 	implementation "com.querydsl:querydsl-jpa"
 	implementation "com.querydsl:querydsl-core"
 	implementation "com.querydsl:querydsl-collections"
@@ -54,6 +55,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// queryDSL 설정
 def generated = 'src/main/generated'
 
 // querydsl QClass 파일 생성 위치를 지정

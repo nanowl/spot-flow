@@ -1,19 +1,25 @@
 package com.kh.project.spotflow.controller;
 
-import com.kh.project.spotflow.model.dto.CustomerRequestDto;
-import com.kh.project.spotflow.model.dto.TokenDto;
+import com.kh.project.spotflow.model.dto.Customer.CustomerRequestDto;
+import com.kh.project.spotflow.model.dto.Token.TokenDto;
+import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.AuthService;
 import com.kh.project.spotflow.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+import java.util.List;
+import java.util.Map;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
   private final AuthService authService;
   private final EmailService emailService;
@@ -44,6 +50,13 @@ public class AuthController {
     }
     return new ResponseEntity<>(isConfirm, HttpStatus.OK);
   }
+  @GetMapping("/temppwd")
+  public ResponseEntity<Boolean> sendTempPwd(@RequestParam String email) throws Exception{
+    String code = emailService.sendPwdMessage(email);
+    log.info(code);
+    Boolean isConfirm = authService.setTempPwd(code,email);
+    return new ResponseEntity<>(isConfirm, HttpStatus.OK);
+  }
 
   //닉내임 중복 확인 true: nickname 이미 있음 false : nickname 없음
   @GetMapping("/check-duplicate-nickname")
@@ -57,7 +70,7 @@ public class AuthController {
     return ResponseEntity.ok(authService.signup(requestDto));
   }
 
-
+  // 로그인
   @PostMapping("/login")
   public ResponseEntity<TokenDto> login(@RequestBody CustomerRequestDto requestDto) {
     return ResponseEntity.ok(authService.login(requestDto));
