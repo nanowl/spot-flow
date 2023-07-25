@@ -32,6 +32,7 @@ import static com.kh.project.spotflow.model.entity.QTimeLine.timeLine;
 @RequiredArgsConstructor
 public class TimeLineService {
 
+    private final AuthService authService;
 
     @Autowired
     private final JPAQueryFactory queryFactory;
@@ -104,19 +105,21 @@ public class TimeLineService {
         return timeLineRepository.saveAll(timeLines);
     }
 
-    public TimeLine createPost(TimeLineRequestDto request) {
-        Customer customer = memberRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("멤버가 존재하지 않습니다.!"));
+    public TimeLine createPost(HttpServletRequest request, TimeLineRequestDto requestDto) {
+//        Customer customer = memberRepository.findByEmail(request.getEmail())
+//                .orElseThrow(() -> new IllegalArgumentException("멤버가 존재하지 않습니다.!"));
+        Customer customer = authService.validateTokenGetCustomerInfo(request);
+
 
         TimeLine timeLine = TimeLine.builder()
                 .customer(customer)
-                .place(request.getPlace())
+                .place(requestDto.getPlace())
                 .lat(123.2)
                 .lng(112.1)
-                .content(request.getContent())
+                .content(requestDto.getContent())
                 .joinDate(LocalDateTime.now())
                 .view(0)
-                .image(request.getTl_profile_pic())
+                .image(requestDto.getTl_profile_pic())
                 .build();
 
         return timeLineRepository.save(timeLine);

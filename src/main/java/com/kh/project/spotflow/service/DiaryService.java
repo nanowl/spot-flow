@@ -8,6 +8,7 @@ import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.*;
 import com.kh.project.spotflow.repository.*;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class DiaryService {
   private final DiaryItemRepository itemRepository;
   private final LikeRepository likeRepository;
   private final DiaryCommentRepository commentRepository;
+
+
 
   private final AuthService authService;
 
@@ -56,13 +59,37 @@ public class DiaryService {
   }
 
   // 다이어리 조회 : 해당하는 타임라인 장소명 으로 검색
-//  @Transactional
-//  public List<DiaryResponseDto> findDiaryByPlace(String email) {
-//    diaryRepository.findAll()
-//  }
+  @Transactional
+  public List<DiaryResponseDto> findDiaryByFlow(String request) {
+
+    List<TimeLine> timeLines = timeLineRepository.findByPlace(request);
+    List<Diary> diaries = diaryRepository.findDiaryByTimeLines(timeLines);
+
+    List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
+    for (Diary diary : diaries) {
+      List<TimeLine> timeLineList = diary.getItemList().stream()
+              .map(DiaryItem::getTimeLine)
+              .collect(Collectors.toList());
+
+      diaryDtoList.add(DiaryResponseDto.builder()
+              .id(diary.getId())
+              .title(diary.getTitle())
+              .content(diary.getContent())
+              .customer(diary.getCustomer())
+              .joinDate(diary.getJoinDate())
+              .updateTime(diary.getUpdateTime())
+              .like((long) diary.getLikeList().size())
+              .view(diary.getView())
+              .isDelete(diary.isDelete())
+              .timeLineList(timeLineList)
+              .build());
+    }
+    return diaryDtoList;
+  }
 
 
-  
+
+
   // user별 다이어리 검색
   @Transactional
   public List<DiaryResponseDto> findDiaryByMember(String email) {
@@ -227,8 +254,8 @@ public class DiaryService {
   }
 
   @Transactional
-  public List<Diary> friendDiaryList(HttpServletRequest request) {
-    Customer customer = authService.validateTokenGetCustomerInfo(request);
+  public List<Diary> friendDiaryList(String email) {
+    Customer customer = customerRepository.findCustomerByEmail(email);
     log.info(customer + "");
     return diaryRepository.findDiaryByFollowing(customer);
   }

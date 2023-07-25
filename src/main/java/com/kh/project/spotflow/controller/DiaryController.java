@@ -1,5 +1,6 @@
 package com.kh.project.spotflow.controller;
 
+import com.kh.project.spotflow.model.dto.TimeLineRequestDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
@@ -46,6 +47,14 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.checkDelete(request.getId()), HttpStatus.OK);
   }
 
+  // 다이어리에서 특정 타임라인 검색 (성근)
+  @PostMapping("/search")
+  public ResponseEntity<List<DiaryResponseDto>> searchDiary(@RequestBody TimeLineRequestDto request) {
+      String place = request.getPlace();
+      return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
+  }
+
+
 
   // 특정 다이어리의 포함된 타임라인 리스트, 타이틀, 컨텐츠를 변경
   @PutMapping("")
@@ -74,8 +83,9 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.countLike(id), HttpStatus.OK);
   }
 
+
   @GetMapping("/following")
-  public ResponseEntity<List<Diary>> friendDiary(HttpServletRequest request) {
-    return new ResponseEntity<>(diaryService.friendDiaryList(request) , HttpStatus.OK);
+  public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
+    return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
 }

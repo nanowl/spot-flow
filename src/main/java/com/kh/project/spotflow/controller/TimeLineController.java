@@ -51,6 +51,8 @@ public class TimeLineController {
     }
 
 
+
+
     @GetMapping("/testing")
     public ResponseEntity<List<TimeLineDto>> testing(@RequestParam(value ="lastTimeLineId" , required = false) Long lastTimeLineId){
         List<TimeLineDto> result = timeLineService.getAll(lastTimeLineId,4);
@@ -66,8 +68,8 @@ public class TimeLineController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<TimeLine> addPost(@RequestBody TimeLineRequestDto request) {
-        return new ResponseEntity<>(timeLineService.createPost(request), HttpStatus.CREATED);
+    public ResponseEntity<TimeLine> addPost(HttpServletRequest request,@RequestBody TimeLineRequestDto requestDto) {
+        return new ResponseEntity<>(timeLineService.createPost(request,requestDto), HttpStatus.CREATED);
     }
 
 }

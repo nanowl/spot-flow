@@ -2,6 +2,7 @@ package com.kh.project.spotflow.repository;
 
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.Diary;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +16,10 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
   Diary findDiaryById(Long id);
   @Query("select d from Diary d, Follow f where f.follower = :follower and d.customer = f.following")
   List<Diary> findDiaryByFollowing(@Param("follower") Customer follower);
+
+
+  // 장소명으로 다이어리와 매핑된 타임라인들 조회
+  @Query("SELECT DISTINCT d FROM Diary d JOIN d.itemList di WHERE di.timeLine IN :timeLines")
+  List<Diary> findDiaryByTimeLines(@Param("timeLines") List<TimeLine> timeLines);
+
 }
