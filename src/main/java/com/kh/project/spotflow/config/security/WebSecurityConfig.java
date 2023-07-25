@@ -50,7 +50,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
             .and()
             .authorizeRequests()
             // 경로에 대해 인증 없이 접근을 허용
-            .antMatchers("/auth/**", "/api/**","/timeline/**", "/diary/**").permitAll()
+            .antMatchers("/auth/**", "/api/**", "/diary/**").permitAll()
             .antMatchers("/chat/**", "/ws/**").permitAll()
             .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/swagger-ui/**" ,"/webjars/**", "/swagger/**", "/sign-api/exception").permitAll()
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -61,23 +61,5 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     return http.build();
   }
-
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-            .allowedOrigins("http://localhost:3000", "ws://localhost:8111")  // 원하는 도메인으로 변경
-            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("Authorization", "Cache-Control", "Content-Type", "Origin", "Upgrade", "Connection")
-            .allowCredentials(true);
-  }
-
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-  }
+  
 }

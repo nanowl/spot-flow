@@ -15,6 +15,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/customer")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
      private final CustomerService customerService;
      
