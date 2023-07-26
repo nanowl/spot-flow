@@ -1,7 +1,9 @@
 package com.kh.project.spotflow.controller;
 
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.Diary;
@@ -19,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(value = "http://localhost:3000")
 public class DiaryController {
   private final DiaryService diaryService;
 
@@ -33,8 +35,15 @@ public class DiaryController {
   public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
   }
+
+  // 체크한값들 삭제
+  @DeleteMapping("/check")
+  public ResponseEntity<List<DiaryResponseDto>> deleteMyDiarys(@RequestBody DiaryDeleteRequest request) {
+    return new ResponseEntity<>(diaryService.checkDelete(request.getId()), HttpStatus.OK);
+  }
+
   // 특정 다이어리를 삭제처리
-  @DeleteMapping("")
+  @DeleteMapping("/diary/check")
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
@@ -69,4 +78,16 @@ public class DiaryController {
   public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
+<<<<<<< HEAD
+  // 특정 다이어리를 삭제처리
+=======
+
+
+  @PostMapping("/search")
+  public ResponseEntity<List<DiaryResponseDto>> searchDiary(@RequestBody TimeLineRequestDto request) {
+    String place = request.getPlace();
+    return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
+  }
+>>>>>>> 0d00515352a071065fdd4d7b958cccbdcea722b3
+
 }

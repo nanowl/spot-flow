@@ -17,6 +17,7 @@ public class CustomerUserRequestDto {
      private String statMsg;
      private String profilePic;
      private Theme theme;
+     
      public static CustomerUserRequestDto getCustomerInfo(Customer customer) {
           return CustomerUserRequestDto.builder()
             .email(customer.getEmail())

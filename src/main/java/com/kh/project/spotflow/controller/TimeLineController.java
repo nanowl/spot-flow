@@ -2,6 +2,8 @@ package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyResponseDto;
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.TimeLineService;
@@ -28,9 +30,24 @@ public class TimeLineController {
         List<ResponseTimeLine> result = timeLineService.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+    
+    // 개인 타임라인 조회
+    @GetMapping("/myflow/getmyflow")
+    public ResponseEntity<List<TimeLineMyResponseDto>> getMyTimeLine() {
+        List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.getMyTimeLine();
+        return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
+    }
+    
+    // 타임라인 저장
+    @PostMapping("/myflow/myflownew")
+    public ResponseEntity<List<TimeLineMyResponseDto>> saveMyTimeLine(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
+        List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.saveTimeLine(timeLineMyRequestDto);
+        return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
+    }
+    
 
     // 서버에서 처리하는 조회수 증가
+    //ㄴㄴㄴ 이거 cookie 써서 사용하느거임 그래서 아마 aws 오리면 문재 생길거임 백타
     @PutMapping("/{postId}/views")
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long postId, HttpServletRequest request, HttpServletResponse response) {
         timeLineService.increaseViewCount(postId, request, response);
