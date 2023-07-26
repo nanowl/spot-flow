@@ -22,6 +22,7 @@ public class ResponseNotification {
     private String commentWriter;
     private String comment;
     private Long id;
+    private boolean isRead;
 
     public ResponseNotification of(Notification notification) {
         return ResponseNotification.builder()
@@ -30,6 +31,7 @@ public class ResponseNotification {
                 .diary(notification.getDiary().getTitle())
                 .commentWriter(notification.getDiaryComment().getCustomer().getNickName())
                 .comment(notification.getDiaryComment().getContent())
+                .isRead(notification.isRead())
                 .build();
     }
 

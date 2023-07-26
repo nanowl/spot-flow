@@ -28,6 +28,7 @@ public class DiaryService {
   private final DiaryItemRepository itemRepository;
   private final LikeRepository likeRepository;
   private final DiaryCommentRepository commentRepository;
+  private final NotificationRepository notificationRepository;
 
   private final AuthService authService;
 
@@ -176,6 +177,15 @@ public class DiaryService {
               .diary(diary)
               .build();
       likeRepository.save(like);
+
+      Customer diaryWriter = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
+      Notification notification = Notification.builder()
+              .diaryWriter(diaryWriter)
+              .diary(diary)
+              .diaryComment(null)
+              .isRead(false)
+              .build();
+      notificationRepository.save(notification);
     }
     DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
     responseDto.setLike(likeRepository.countLikeByDiary(diary));
