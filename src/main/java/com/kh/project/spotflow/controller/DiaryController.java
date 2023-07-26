@@ -84,9 +84,6 @@ public class DiaryController {
   }
 
   // 특정 다이어리를 삭제처리
-
-
-
   @PostMapping("/search")
   public ResponseEntity<List<DiaryResponseDto>> searchDiary(@RequestBody TimeLineRequestDto request) {
     String place = request.getPlace();
