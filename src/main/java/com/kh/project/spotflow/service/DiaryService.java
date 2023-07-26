@@ -208,6 +208,7 @@ public class DiaryService {
               .isRead(false)
               .build();
       notificationRepository.save(notification);
+      return 1;
     }
   }
 

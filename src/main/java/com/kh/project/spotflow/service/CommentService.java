@@ -25,13 +25,14 @@ public class CommentService {
   private final DiaryCommentRepository commentRepository;
   private final DiaryRepository diaryRepository;
   private final CustomerRepository customerRepository;
+  private final AuthService authService;
   private final NotificationRepository notificationRepository;
 
   // 댓글 데이터를 저장
   @Transactional
   public CommentResponse saveComment(CommentRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getDiary());
-    Customer commentWriter = customerRepository.findCustomerByEmail(request.getEmail());
+    Customer commentWriter = authService.getCustomerByEmail();
     DiaryComment comment = request.toComment(commentWriter, diary);
     commentRepository.save(comment);
 
