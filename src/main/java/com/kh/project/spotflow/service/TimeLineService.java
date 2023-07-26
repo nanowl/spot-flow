@@ -3,6 +3,8 @@ package com.kh.project.spotflow.service;
 import com.kh.project.spotflow.config.utils.CookieUtils;
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyResponseDto;
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.Customer;
 import com.kh.project.spotflow.model.entity.TimeLine;
@@ -20,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyResponseDto.getMyTimeLineInfo;
 import static com.kh.project.spotflow.model.entity.QTimeLine.timeLine;
 
 @Slf4j
@@ -66,6 +69,7 @@ public class TimeLineService {
           return timeLineRepository.save(timeLine);
      }
      
+     
      // 타임라인 조회수 증가 서비스
      @Transactional
      public void increaseViewCount(Long id, HttpServletRequest request, HttpServletResponse response) {
@@ -81,7 +85,6 @@ public class TimeLineService {
                  .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 없습니다. " + id));
                timeLine.setView(timeLine.getView() + 1);
                viewedPosts.add(String.valueOf(id));
-               
                CookieUtils.addCookie(response, "viewHistory", String.join("|", viewedPosts), 24 * 60 * 60); // 1 day cookie, changed from ","
           }
      }
@@ -124,4 +127,33 @@ public class TimeLineService {
        }
        return responseTimeLineList;
     }
+    
+    // 나의 개인 timeline 전달
+     public List<TimeLineMyResponseDto> getMyTimeLine() {
+          Customer customer = authService.getCustomerByEmail();
+          List<TimeLine> timeLineList = timeLineRepository.findByCustomer(customer);
+          List<TimeLineMyResponseDto> timeLineMyRequestDtoList = new ArrayList<>();
+          for (TimeLine timeLine : timeLineList) {
+               TimeLineMyResponseDto dto = getMyTimeLineInfo(timeLine);
+               timeLineMyRequestDtoList.add(dto);
+          }
+          return timeLineMyRequestDtoList;
+     }
+     
+     //탐이라인 저장
+     public List<TimeLineMyResponseDto> saveTimeLine(TimeLineMyRequestDto timeLineMyRequestDto) {
+          Customer customer = authService.getCustomerByEmail();
+          TimeLine timeLine = new TimeLine();
+          timeLine.setCustomer(customer);
+          timeLine.setLat(timeLineMyRequestDto.getLat());
+          timeLine.setLng(timeLineMyRequestDto.getLng());
+          timeLine.setContent(timeLineMyRequestDto.getContent());
+          timeLine.setImage(timeLineMyRequestDto.getImg());
+          timeLine.setPlace(timeLineMyRequestDto.getPlace());
+          timeLine.setView(0);
+          timeLine.setJoinDate(LocalDateTime.now());
+          timeLineRepository.save(timeLine);
+          return getMyTimeLine();
+     }
+
 }

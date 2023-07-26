@@ -34,7 +34,7 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
   }
   // 특정 다이어리를 삭제처리
-  @DeleteMapping("")
+  @DeleteMapping("/diary/check")
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
@@ -69,4 +69,6 @@ public class DiaryController {
   public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
+  // 특정 다이어리를 삭제처리
+
 }

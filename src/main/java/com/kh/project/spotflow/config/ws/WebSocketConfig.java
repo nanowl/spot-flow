@@ -1,3 +1,4 @@
+/*
 package com.kh.project.spotflow.config.ws;
 
 import lombok.RequiredArgsConstructor;
@@ -17,4 +18,4 @@ public class WebSocketConfig implements WebSocketConfigurer {
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(webSocketHandler, "ws/notification").setAllowedOrigins("*");
   }
-}
+}*/

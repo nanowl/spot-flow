@@ -5,12 +5,10 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor @NoArgsConstructor
-@Builder
-public class TimeLineRequestDto {
-     private Long id; 
-     private String tl_profile_pic;
+public class TimeLineMyRequestDto {
+     private Double lat;
+     private Double lng;
      private String content;
+     private String img;
      private String place;
-     private double lat;
-     private double lng;
 }
