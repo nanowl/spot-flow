@@ -141,7 +141,7 @@ public class TimeLineService {
           return timeLineMyRequestDtoList;
      }
      
-     //탐이라인 저장
+     //타임라인 저장
      public List<TimeLineMyResponseDto> saveTimeLine(TimeLineMyRequestDto timeLineMyRequestDto) {
           Customer customer = authService.getCustomerByEmail();
           TimeLine timeLine = new TimeLine();

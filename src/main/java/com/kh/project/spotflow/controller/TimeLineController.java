@@ -32,14 +32,14 @@ public class TimeLineController {
     }
     
     // 개인 타임라인 조회
-    @GetMapping("/myflow/getmyflow")
+    @PostMapping("/getmyflow")
     public ResponseEntity<List<TimeLineMyResponseDto>> getMyTimeLine() {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.getMyTimeLine();
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
     }
     
     // 타임라인 저장
-    @PostMapping("/myflow/myflownew")
+    @PostMapping("/myflownew")
     public ResponseEntity<List<TimeLineMyResponseDto>> saveMyTimeLine(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.saveTimeLine(timeLineMyRequestDto);
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class TimeLineController {
     
 
     // 서버에서 처리하는 조회수 증가
-    //ㄴㄴㄴ 이거 cookie 써서 사용하느거임 그래서 아마 aws 오리면 문재 생길거임 백타
+    //ㄴㄴㄴ 쿠키 사용하는 기능이라 AWS 업로드시에 문제 생길 가능성 높음
     @PutMapping("/{postId}/views")
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long postId, HttpServletRequest request, HttpServletResponse response) {
         timeLineService.increaseViewCount(postId, request, response);
