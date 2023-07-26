@@ -29,10 +29,21 @@ public class DiaryController {
   public ResponseEntity<DiaryResponseDto> findDiary(@RequestParam("num") Long num) {
     return new ResponseEntity<>(diaryService.findDiaryById(num), HttpStatus.OK);
   }
-  // 특정 유저가 작성한 다이어리를 모두 제공 (포함된 타임라인은 제공하지 않기 때문에 위 상세데이터는 따로 가져와야 함)
+
   @GetMapping("/all")
+  public ResponseEntity<List<DiaryResponseDto>> findAllDiary() {
+    return new ResponseEntity<>(diaryService.findDiaryAll(), HttpStatus.OK);
+  }
+
+  // 특정 유저가 작성한 다이어리를 모두 제공 (포함된 타임라인은 제공하지 않기 때문에 위 상세데이터는 따로 가져와야 함)
+  @GetMapping("/user")
   public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
+  }
+
+  @GetMapping("/my-diary")
+  public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList() {
+    return new ResponseEntity<>(diaryService.findDiaryByMember(), HttpStatus.OK);
   }
 
   // 체크한값들 삭제
@@ -42,8 +53,8 @@ public class DiaryController {
   }
 
   // 특정 다이어리를 삭제처리
-  @DeleteMapping("/diary/check")
-  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
+  @DeleteMapping("")
+  public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
   // 특정 다이어리의 포함된 타임라인 리스트, 타이틀, 컨텐츠를 변경
