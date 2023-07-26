@@ -247,4 +247,11 @@ public class DiaryService {
     return diaryDtoList;
   }
 
+
+  @Transactional
+  public Like likeInfo(DiaryLikeRequest request) {
+    Diary diary = diaryRepository.findDiaryById(request.getId());
+    Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
+    return likeRepository.findLikeByCustomerAndDiary(customer, diary);
+  }
 }
