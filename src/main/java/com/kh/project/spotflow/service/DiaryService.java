@@ -184,12 +184,13 @@ public class DiaryService {
 
   // 다이어리 좋아요 / 이미 좋아요면 좋아요 취소
   @Transactional
-  public DiaryResponseDto likeControl(DiaryLikeRequest request) {
+  public Integer likeControl(DiaryLikeRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getId());
     Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
     Like currentLike = likeRepository.findLikeByCustomerAndDiary(customer, diary);
     if (currentLike != null) {
       likeRepository.delete(currentLike);
+      return 0;
     } else {
       Like like = Like.builder()
               .joinDate(LocalDateTime.now())
@@ -197,10 +198,8 @@ public class DiaryService {
               .diary(diary)
               .build();
       likeRepository.save(like);
+      return 1;
     }
-    DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
-    responseDto.setLike(likeRepository.countLikeByDiary(diary));
-    return responseDto;
   }
 
   // 다이어리의 좋아요 집계

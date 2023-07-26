@@ -84,16 +84,11 @@ public class DiaryController {
   public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
-<<<<<<< HEAD
-  // 특정 다이어리를 삭제처리
-=======
-
 
   @PostMapping("/search")
   public ResponseEntity<List<DiaryResponseDto>> searchDiary(@RequestBody TimeLineRequestDto request) {
     String place = request.getPlace();
     return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
   }
->>>>>>> 0d00515352a071065fdd4d7b958cccbdcea722b3
 
 }
