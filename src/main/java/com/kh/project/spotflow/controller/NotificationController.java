@@ -24,10 +24,10 @@ import java.util.List;
 @CrossOrigin("*")
 public class NotificationController {
     private final NotificationService notificationService;
-//    @PutMapping("/updatestatus")
-//    public ResponseEntity<DiaryResponseDto> updateNotification(@RequestBody DiaryUpdateRequest diaryRequest) {
-//        return new ResponseEntity<>(diaryService.update(diaryRequest), HttpStatus.OK);
-//    }
+    @PutMapping("/updatestatus")
+    public void updateNotification(@RequestBody List<ResponseNotification> request) {
+        notificationService.update(request);
+    }
     // 알림 모두 불러오기
     @PostMapping("/getall")
     public ResponseEntity<List<ResponseNotification>> getAll(HttpServletRequest request) {

@@ -7,14 +7,13 @@ import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.Diary;
+import com.kh.project.spotflow.model.entity.Like;
 import com.kh.project.spotflow.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequestMapping("/diary")
@@ -49,7 +48,7 @@ public class DiaryController {
   }
 
   // 특정 다이어리를 삭제처리
-  @DeleteMapping("")
+  @DeleteMapping("/diary/check")
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@PathVariable DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
@@ -70,8 +69,13 @@ public class DiaryController {
   }
   // 좋아요 1up
   @PutMapping("/like")
-  public ResponseEntity<DiaryResponseDto> likeUp(@RequestBody DiaryLikeRequest request) {
+  public ResponseEntity<Integer> likeUp(@RequestBody DiaryLikeRequest request) {
     return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
+  }
+
+  @GetMapping("/like")
+  public ResponseEntity<Like> findLikeInfo(@RequestBody DiaryLikeRequest request) {
+    return new ResponseEntity<>(diaryService.likeInfo(request), HttpStatus.OK);
   }
 
   // 좋아요 집계
@@ -84,6 +88,9 @@ public class DiaryController {
   public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
+
+  // 특정 다이어리를 삭제처리
+
 
 
   @PostMapping("/search")

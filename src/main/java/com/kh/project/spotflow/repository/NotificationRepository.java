@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     List<Notification> findNotificationByDiaryWriter(String email);
 
-    List<Notification> findNotificationById(Long id);
+    Notification findNotificationById(Long id);
 
 }
