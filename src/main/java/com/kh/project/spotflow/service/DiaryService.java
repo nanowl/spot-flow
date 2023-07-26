@@ -102,33 +102,6 @@ public class DiaryService {
     return diaryDtoList;
   }
 
-  @Transactional
-  public List<DiaryResponseDto> findDiaryByMember() {
-    Customer customer = authService.getCustomerByEmail();
-    List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
-
-    List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
-    for (Diary diary : diaries) {
-      List<TimeLine> timeLines = diary.getItemList().stream()
-              .map(DiaryItem::getTimeLine)
-              .collect(Collectors.toList());
-
-      diaryDtoList.add(DiaryResponseDto.builder()
-              .id(diary.getId())
-              .title(diary.getTitle())
-              .customer(customer)
-              .content(diary.getContent())
-              .joinDate(diary.getJoinDate())
-              .updateTime(diary.getUpdateTime())
-              .like((long) diary.getLikeList().size())
-              .view(diary.getView())
-              .isDelete(diary.isDelete())
-              .timeLineList(timeLines)
-              .build());
-    }
-    return diaryDtoList;
-  }
-
   /*
    * 다이어리 수정
    * 수정할 목록 diaryItem.timeline
