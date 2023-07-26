@@ -32,8 +32,14 @@ public class DiaryController {
   }
   // 특정 유저가 작성한 다이어리를 모두 제공 (포함된 타임라인은 제공하지 않기 때문에 위 상세데이터는 따로 가져와야 함)
   @GetMapping("/all")
-  public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList(@RequestParam("email") String email) {
+  public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList(@RequestParam String email) {
     return new ResponseEntity<>(diaryService.findDiaryByMember(email), HttpStatus.OK);
+  }
+
+  // 개인 diary 가죠오기
+  @GetMapping("/mydiary")
+  public ResponseEntity<List<DiaryResponseDto>> findByMyDiaryList() {
+    return new ResponseEntity<>(diaryService.findDiaryByMember(), HttpStatus.OK);
   }
 
   // 체크한값들 삭제
