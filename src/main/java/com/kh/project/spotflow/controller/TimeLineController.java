@@ -47,7 +47,6 @@ public class TimeLineController {
     
 
     // 서버에서 처리하는 조회수 증가
-    //ㄴㄴㄴ 이거 cookie 써서 사용하느거임 그래서 아마 aws 오리면 문재 생길거임 백타
     @PutMapping("/{postId}/views")
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long postId, HttpServletRequest request, HttpServletResponse response) {
         timeLineService.increaseViewCount(postId, request, response);

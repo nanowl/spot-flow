@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.diary.DiaryResponseAllDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
@@ -78,9 +79,6 @@ public class DiaryController {
   public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
     return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
   }
-<<<<<<< HEAD
-  // 특정 다이어리를 삭제처리
-=======
 
 
   @PostMapping("/search")
@@ -88,6 +86,9 @@ public class DiaryController {
     String place = request.getPlace();
     return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
   }
->>>>>>> 0d00515352a071065fdd4d7b958cccbdcea722b3
-
+  
+  @GetMapping("/alls")
+  public ResponseEntity<List<DiaryResponseAllDto>> getAllDiary(){
+    return new ResponseEntity<>(diaryService.findAllDiary(), HttpStatus.OK);
+  }
 }
