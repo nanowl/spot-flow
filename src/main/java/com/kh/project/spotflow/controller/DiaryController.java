@@ -78,6 +78,7 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
   }
 
+  // 좋아요 여부 확인
   @GetMapping("/like/{id}")
   public ResponseEntity<Like> findLikeInfo(@PathVariable Long id) {
     return new ResponseEntity<>(diaryService.likeInfo(id), HttpStatus.OK);
@@ -89,9 +90,10 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.countLike(id), HttpStatus.OK);
   }
 
+  //팔로우한 유저 다이어리 검색
   @GetMapping("/following")
-  public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
-    return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
+  public ResponseEntity<List<Diary>> friendDiary() {
+    return new ResponseEntity<>(diaryService.friendDiaryList() , HttpStatus.OK);
   }
 
   // 특정 다이어리를 삭제처리

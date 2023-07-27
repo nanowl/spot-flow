@@ -177,7 +177,7 @@ public class DiaryService {
   // 다이어리와 매핑 테이블을 저장
   @Transactional
   public Diary save(DiaryCreateRequest requestDiary) {
-    Customer customer = customerRepository.findCustomerByEmail(requestDiary.getEmail());
+    Customer customer = authService.getCustomerByEmail();
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
     List<DiaryItem> itemList = new ArrayList<>();
@@ -248,8 +248,8 @@ public class DiaryService {
   }
 
   @Transactional
-  public List<Diary> friendDiaryList(String email) {
-    Customer customer = customerRepository.findCustomerByEmail(email);
+  public List<Diary> friendDiaryList() {
+    Customer customer = authService.getCustomerByEmail();
     log.info(customer + "");
     return diaryRepository.findDiaryByFollowing(customer);
   }
