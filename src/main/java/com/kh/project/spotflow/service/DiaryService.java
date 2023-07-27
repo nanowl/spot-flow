@@ -30,8 +30,24 @@ public class DiaryService {
   private final DiaryItemRepository itemRepository;
   private final LikeRepository likeRepository;
   private final DiaryCommentRepository commentRepository;
+  private final NotificationRepository notificationRepository;
 
   private final AuthService authService;
+
+  @Transactional
+  public List<DiaryResponseDto> findDiaryAll() {
+    List<Diary> diaryList = diaryRepository.findAll();
+    List<DiaryResponseDto> responseDtoList = new ArrayList<>();
+
+    for (Diary diary : diaryList) {
+      DiaryResponseDto dto = new DiaryResponseDto().of(diary);
+      Long likeCount = likeRepository.countLikeByDiary(diary);
+      dto.setLike(likeCount);
+      responseDtoList.add(dto);
+    }
+
+    return responseDtoList;
+  }
 
   // id 값으로 다이어리와 그 다이어리에 포함된 타임라인 들을 리턴하는 메소드
   @Transactional
@@ -73,11 +89,21 @@ public class DiaryService {
   }
 
 
-  
-  // user별 다이어리 검색
+  // user 별 다이어리 검색
   @Transactional
   public List<DiaryResponseDto> findDiaryByMember(String email) {
     Customer customer = customerRepository.findCustomerByEmail(email);
+    return getDiaryResponseDtos(customer);
+  }
+
+  // 내 다이어리 검색
+  @Transactional
+  public List<DiaryResponseDto> findDiaryByMember() {
+    Customer customer = authService.getCustomerByEmail();
+    return getDiaryResponseDtos(customer);
+  }
+
+  private List<DiaryResponseDto> getDiaryResponseDtos(Customer customer) {
     List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
 
     List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
@@ -101,6 +127,8 @@ public class DiaryService {
     }
     return diaryDtoList;
   }
+
+
 
   /*
    * 다이어리 수정
@@ -150,7 +178,7 @@ public class DiaryService {
   // 다이어리와 매핑 테이블을 저장
   @Transactional
   public Diary save(DiaryCreateRequest requestDiary) {
-    Customer customer = customerRepository.findCustomerByEmail(requestDiary.getEmail());
+    Customer customer = authService.getCustomerByEmail();
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
     List<DiaryItem> itemList = new ArrayList<>();
@@ -185,12 +213,13 @@ public class DiaryService {
 
   // 다이어리 좋아요 / 이미 좋아요면 좋아요 취소
   @Transactional
-  public DiaryResponseDto likeControl(DiaryLikeRequest request) {
+  public Integer likeControl(DiaryLikeRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getId());
-    Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
+    Customer customer = authService.getCustomerByEmail();
     Like currentLike = likeRepository.findLikeByCustomerAndDiary(customer, diary);
     if (currentLike != null) {
       likeRepository.delete(currentLike);
+      return 0;
     } else {
       Like like = Like.builder()
               .joinDate(LocalDateTime.now())
@@ -198,10 +227,18 @@ public class DiaryService {
               .diary(diary)
               .build();
       likeRepository.save(like);
+
+      Customer diaryWriter = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
+      Notification notification = Notification.builder()
+              .diaryWriter(diaryWriter)
+              .diary(diary)
+              .diaryComment(null)
+              .isRead(false)
+              .build();
+      notificationRepository.save(notification);
+      return 1;
     }
-    DiaryResponseDto responseDto = new DiaryResponseDto().of(diary);
-    responseDto.setLike(likeRepository.countLikeByDiary(diary));
-    return responseDto;
+
   }
 
   // 다이어리의 좋아요 집계
@@ -212,8 +249,8 @@ public class DiaryService {
   }
 
   @Transactional
-  public List<Diary> friendDiaryList(String email) {
-    Customer customer = customerRepository.findCustomerByEmail(email);
+  public List<Diary> friendDiaryList() {
+    Customer customer = authService.getCustomerByEmail();
     log.info(customer + "");
     return diaryRepository.findDiaryByFollowing(customer);
   }
@@ -277,4 +314,11 @@ public class DiaryService {
   }
 
 
+
+  @Transactional
+  public Like likeInfo(Long id) {
+    Diary diary = diaryRepository.findDiaryById(id);
+    Customer customer = authService.getCustomerByEmail();
+    return likeRepository.findLikeByCustomerAndDiary(customer, diary);
+  }
 }

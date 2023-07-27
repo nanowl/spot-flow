@@ -32,21 +32,30 @@ public class TimeLineController {
     }
     
     // 개인 타임라인 조회
-    @GetMapping("/myflow/getmyflow")
+    @PostMapping("/getmyflow")
     public ResponseEntity<List<TimeLineMyResponseDto>> getMyTimeLine() {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.getMyTimeLine();
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
     }
     
     // 타임라인 저장
-    @PostMapping("/myflow/myflownew")
+    @PostMapping("/myflownew")
     public ResponseEntity<List<TimeLineMyResponseDto>> saveMyTimeLine(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.saveTimeLine(timeLineMyRequestDto);
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
     }
+
+//    @PostMapping("/myflowdel")
+//    public boolean deleteMyFlow(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
+//
+//    }
     
 
     // 서버에서 처리하는 조회수 증가
+<<<<<<< HEAD
+=======
+    //ㄴㄴㄴ 쿠키 사용하는 기능이라 AWS 업로드시에 문제 생길 가능성 높음
+>>>>>>> 1b3071fd8b246eacb78ae64ddc8c2ec9ac8621c1
     @PutMapping("/{postId}/views")
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long postId, HttpServletRequest request, HttpServletResponse response) {
         timeLineService.increaseViewCount(postId, request, response);

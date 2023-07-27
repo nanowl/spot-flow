@@ -14,6 +14,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class DiaryComment {
+
+  public String toString() {
+    return "DiaryComment{" +
+            "id=" + id +
+            ", customer=" + customer +
+            ", diary=" + diary +
+            ", content='" + content + '\'' +
+            ", joinDate=" + joinDate +
+            ", update=" + update +
+            ", isDelete=" + isDelete +
+            '}';
+  }
+
   @Id
   @Column(name = "cm_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)

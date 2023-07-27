@@ -30,7 +30,7 @@ public class Customer {
   @Column(name = "ct_stat_msg")
   private String statMsg;
 
-  @Column(name = "ct_profile_pic")
+  @Column(name = "ct_profile_pic", columnDefinition = "LONGTEXT")
   private String profilePic; // 프로필 사진이 저장된 위치를 저장
 
   @Column(name = "ct_join_date")
@@ -90,4 +90,5 @@ public class Customer {
     this.joinDate = joinDate;
     this.theme = theme;
   }
+
 }

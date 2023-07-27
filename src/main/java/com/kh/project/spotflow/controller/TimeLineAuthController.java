@@ -36,7 +36,7 @@ public class TimeLineAuthController {
           return timeLineService.searchPlace(place);
      }
      
-     // 타임라인 글 가죠오기 무한스크롤
+     // 타임라인 글 가져오기 무한스크롤
      @GetMapping("/getall")
      public ResponseEntity<List<TimeLineDto>> testing(@RequestParam(value ="lastTimeLineId" , required = false) Long lastTimeLineId){
           List<TimeLineDto> result = timeLineService.getAll(lastTimeLineId,4);

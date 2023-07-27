@@ -39,4 +39,14 @@ public class Notification {
 
     private boolean isRead;
 
+
+    public String toString() {
+        return "Notification{" +
+                "id=" + id +
+                ", diaryWriter=" + diaryWriter +
+                ", diary=" + diary +
+                ", diaryComment=" + diaryComment +
+                ", isRead=" + isRead +
+                '}';
+    }
 }

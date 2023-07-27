@@ -18,6 +18,7 @@ import java.util.List;
 @Setter
 @Builder
 public class Diary {
+
   @Id
   @Column(name = "di_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)

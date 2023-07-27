@@ -12,5 +12,5 @@ import java.util.List;
 public interface TimeLineRepository extends JpaRepository<TimeLine, Long>, TimeLineCustomRepository {
      TimeLine findTimeLineById(Long id);
      List<TimeLine> findByPlace(String place);
-     List<TimeLine> findByCustomer(Customer customer);
+     List<TimeLine> findByCustomerOrderByIdDesc(Customer customer);
 }
