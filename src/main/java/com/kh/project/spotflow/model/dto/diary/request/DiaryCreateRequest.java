@@ -13,7 +13,6 @@ import java.util.List;
 public class DiaryCreateRequest {
   private String title;
   private String content;
-  private String email; // 다이어리 게시자
   private List<TimeLineRequestDto> timeLineList;
 
   public Diary toDiary() {

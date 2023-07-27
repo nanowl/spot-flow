@@ -63,7 +63,7 @@ public class TimeLineService {
             .lng(requestDto.getLng())
             .content(requestDto.getContent())
             .joinDate(LocalDateTime.now())
-                  .updateTime(LocalDateTime.now())
+            .updateTime(LocalDateTime.now())
             .view(0)
             .image(requestDto.getTl_profile_pic())
             .build();

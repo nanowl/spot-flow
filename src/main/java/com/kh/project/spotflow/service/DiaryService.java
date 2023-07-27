@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.diary.DiaryResponseAllDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
@@ -177,7 +178,7 @@ public class DiaryService {
   // 다이어리와 매핑 테이블을 저장
   @Transactional
   public Diary save(DiaryCreateRequest requestDiary) {
-    Customer customer = customerRepository.findCustomerByEmail(requestDiary.getEmail());
+    Customer customer = authService.getCustomerByEmail();
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
     List<DiaryItem> itemList = new ArrayList<>();
@@ -248,8 +249,8 @@ public class DiaryService {
   }
 
   @Transactional
-  public List<Diary> friendDiaryList(String email) {
-    Customer customer = customerRepository.findCustomerByEmail(email);
+  public List<Diary> friendDiaryList() {
+    Customer customer = authService.getCustomerByEmail();
     log.info(customer + "");
     return diaryRepository.findDiaryByFollowing(customer);
   }
@@ -283,6 +284,35 @@ public class DiaryService {
     }
     return diaryDtoList;
   }
+  
+  @Transactional
+  public List<DiaryResponseAllDto> findAllDiary() {
+    //전체 데이터 가죠옴
+    List<Diary> diaryList = diaryRepository.findAll();
+    //박스 생성
+    List<DiaryResponseAllDto> diaryResponseAllDtoList = new ArrayList<>();
+    for(Diary diary : diaryList){
+      List<TimeLine> timeLineList = diary.getItemList().stream()
+        .map(DiaryItem::getTimeLine)
+        .collect(Collectors.toList());
+      
+      DiaryResponseAllDto diaryResponseAllDto = new DiaryResponseAllDto();
+      diaryResponseAllDto.setId(diary.getId());
+      diaryResponseAllDto.setTitle(diary.getTitle());
+      diaryResponseAllDto.setProfilePic(diary.getCustomer().getProfilePic());
+      diaryResponseAllDto.setNickname(diary.getCustomer().getNickName());
+      diaryResponseAllDto.setLike((long) diary.getLikeList().size());
+      List<String> imageList = new ArrayList<>();
+      for(TimeLine timeLine : timeLineList){
+        String image = timeLine.getImage();
+        imageList.add(image);
+      }
+      diaryResponseAllDto.setImg(imageList);
+      diaryResponseAllDtoList.add(diaryResponseAllDto);
+    }
+    return diaryResponseAllDtoList;
+  }
+
 
 
   @Transactional

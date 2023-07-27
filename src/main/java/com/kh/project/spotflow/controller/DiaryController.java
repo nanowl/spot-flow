@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.diary.DiaryResponseAllDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryDeleteRequest;
@@ -78,6 +79,7 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
   }
 
+  // 좋아요 여부 확인
   @GetMapping("/like/{id}")
   public ResponseEntity<Like> findLikeInfo(@PathVariable Long id) {
     return new ResponseEntity<>(diaryService.likeInfo(id), HttpStatus.OK);
@@ -89,16 +91,29 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.countLike(id), HttpStatus.OK);
   }
 
+  //팔로우한 유저 다이어리 검색
   @GetMapping("/following")
-  public ResponseEntity<List<Diary>> friendDiary(@RequestParam("email") String email) {
-    return new ResponseEntity<>(diaryService.friendDiaryList(email) , HttpStatus.OK);
+  public ResponseEntity<List<Diary>> friendDiary() {
+    return new ResponseEntity<>(diaryService.friendDiaryList() , HttpStatus.OK);
   }
 
+<<<<<<< HEAD
+
+=======
   // 특정 다이어리를 삭제처리
+>>>>>>> 1b3071fd8b246eacb78ae64ddc8c2ec9ac8621c1
   @PostMapping("/search")
   public ResponseEntity<List<DiaryResponseDto>> searchDiary(@RequestBody TimeLineRequestDto request) {
     String place = request.getPlace();
     return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
   }
+<<<<<<< HEAD
+  
+  @GetMapping("/alls")
+  public ResponseEntity<List<DiaryResponseAllDto>> getAllDiary(){
+    return new ResponseEntity<>(diaryService.findAllDiary(), HttpStatus.OK);
+  }
+=======
 
+>>>>>>> 1b3071fd8b246eacb78ae64ddc8c2ec9ac8621c1
 }

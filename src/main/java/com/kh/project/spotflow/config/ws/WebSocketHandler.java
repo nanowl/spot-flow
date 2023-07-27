@@ -1,4 +1,3 @@
-/*
 package com.kh.project.spotflow.config.ws;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,15 +17,13 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class WebSocketHandler extends TextWebSocketHandler {
   private final ObjectMapper objectMapper;
   private final ChatService chatService;
-*/
-/*  @Override
+  @Override
   protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     String payload = message.getPayload();
     log.warn("{}", payload);
     ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
     ChatRoom chatRoom = chatService.findRoomById(chatMessage.getRoomId());
     chatRoom.handlerActions(session, chatMessage, chatService);
-  }*//*
+  }
 
 }
-*/
