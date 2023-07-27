@@ -33,6 +33,21 @@ public class DiaryService {
 
   private final AuthService authService;
 
+  @Transactional
+  public List<DiaryResponseDto> findDiaryAll() {
+    List<Diary> diaryList = diaryRepository.findAll();
+    List<DiaryResponseDto> responseDtoList = new ArrayList<>();
+
+    for (Diary diary : diaryList) {
+      DiaryResponseDto dto = new DiaryResponseDto().of(diary);
+      Long likeCount = likeRepository.countLikeByDiary(diary);
+      dto.setLike(likeCount);
+      responseDtoList.add(dto);
+    }
+
+    return responseDtoList;
+  }
+
   // id 값으로 다이어리와 그 다이어리에 포함된 타임라인 들을 리턴하는 메소드
   @Transactional
   public DiaryResponseDto findDiaryById(Long num) {
@@ -73,11 +88,21 @@ public class DiaryService {
   }
 
 
-  
-  // user별 다이어리 검색
+  // user 별 다이어리 검색
   @Transactional
   public List<DiaryResponseDto> findDiaryByMember(String email) {
     Customer customer = customerRepository.findCustomerByEmail(email);
+    return getDiaryResponseDtos(customer);
+  }
+
+  // 내 다이어리 검색
+  @Transactional
+  public List<DiaryResponseDto> findDiaryByMember() {
+    Customer customer = authService.getCustomerByEmail();
+    return getDiaryResponseDtos(customer);
+  }
+
+  private List<DiaryResponseDto> getDiaryResponseDtos(Customer customer) {
     List<Diary> diaries = diaryRepository.findDiaryByCustomerOrderByJoinDateDesc(customer);
 
     List<DiaryResponseDto> diaryDtoList = new ArrayList<>();
@@ -101,6 +126,8 @@ public class DiaryService {
     }
     return diaryDtoList;
   }
+
+
 
   /*
    * 다이어리 수정
