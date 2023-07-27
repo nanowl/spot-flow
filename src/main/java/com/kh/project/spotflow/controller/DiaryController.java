@@ -78,9 +78,9 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.likeControl(request), HttpStatus.OK);
   }
 
-  @GetMapping("/like")
-  public ResponseEntity<Like> findLikeInfo(@RequestBody DiaryLikeRequest request) {
-    return new ResponseEntity<>(diaryService.likeInfo(request), HttpStatus.OK);
+  @GetMapping("/like/{id}")
+  public ResponseEntity<Like> findLikeInfo(@PathVariable Long id) {
+    return new ResponseEntity<>(diaryService.likeInfo(id), HttpStatus.OK);
   }
 
   // 좋아요 집계

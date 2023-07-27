@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class CommentRequest {
   private Long diary;
   private String content;
-  private String email; // 댓글 게시자
 
   public DiaryComment toComment(Customer customer, Diary diary) {
     return DiaryComment.builder()

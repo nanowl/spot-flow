@@ -214,7 +214,7 @@ public class DiaryService {
   @Transactional
   public Integer likeControl(DiaryLikeRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getId());
-    Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
+    Customer customer = authService.getCustomerByEmail();
     Like currentLike = likeRepository.findLikeByCustomerAndDiary(customer, diary);
     if (currentLike != null) {
       likeRepository.delete(currentLike);
@@ -286,9 +286,9 @@ public class DiaryService {
 
 
   @Transactional
-  public Like likeInfo(DiaryLikeRequest request) {
-    Diary diary = diaryRepository.findDiaryById(request.getId());
-    Customer customer = customerRepository.findCustomerByEmail(request.getEmail());
+  public Like likeInfo(Long id) {
+    Diary diary = diaryRepository.findDiaryById(id);
+    Customer customer = authService.getCustomerByEmail();
     return likeRepository.findLikeByCustomerAndDiary(customer, diary);
   }
 }
