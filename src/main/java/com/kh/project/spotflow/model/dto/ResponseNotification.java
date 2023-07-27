@@ -7,6 +7,7 @@ import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.DiaryComment;
 import com.kh.project.spotflow.model.entity.Notification;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Slf4j
 public class ResponseNotification {
     private String diaryWriter;
     private String diary;
@@ -25,6 +27,9 @@ public class ResponseNotification {
     private boolean isRead;
 
     public ResponseNotification of(Notification notification) {
+        log.info(notification.getDiaryWriter().getNickName());
+        log.info(notification.getDiaryComment().getCustomer().getNickName());
+        log.info(notification.getDiary().getTitle());
         return ResponseNotification.builder()
                 .id(notification.getId())
                 .diaryWriter(notification.getDiaryWriter().getNickName())

@@ -18,6 +18,6 @@ public class WebSocketController {
     @MessageMapping("/app/sendMessage/{email}")
     public void sendMessageToUser(@Payload String message, @DestinationVariable String email) {
         // 이메일로 식별된 개인에게 메시지를 전송합니다.
-        messagingTemplate.convertAndSend("/topic/" + email, "Hello, " + email + "! You sent: " + message);
+        messagingTemplate.convertAndSend("/notification/" + email, "Hello, " + email + "! You sent: " + message);
     }
 }

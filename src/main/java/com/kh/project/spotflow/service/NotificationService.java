@@ -9,6 +9,7 @@ import com.kh.project.spotflow.repository.DiaryCommentRepository;
 import com.kh.project.spotflow.repository.DiaryRepository;
 import com.kh.project.spotflow.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final CustomerRepository customerRepository;
+    private final AuthService authService;
 
 
     public List<ResponseNotification> findMyNotice(HttpServletRequest request) {
-        Customer customer = customerRepository.findCustomerByEmail(request.getHeader("Authorization")); // 수정 필요
-        List<Notification> notificationList = notificationRepository.findNotificationByDiaryWriter(customer.getEmail());
+        Customer customer = authService.getCustomerByEmail();
+        log.info(customer.toString());
+        List<Notification> notificationList = notificationRepository.findByDiaryWriter(customer);
+        log.info(notificationList.toString());
 
         List<ResponseNotification> responseList = new ArrayList<>();
 
