@@ -208,7 +208,9 @@ public class DiaryService {
               .isRead(false)
               .build();
       notificationRepository.save(notification);
+      return 1;
     }
+
   }
 
   // 다이어리의 좋아요 집계

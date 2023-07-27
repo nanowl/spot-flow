@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 public class NotificationController {
     private final NotificationService notificationService;
     @PutMapping("/updatestatus")

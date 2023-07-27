@@ -44,6 +44,11 @@ public class TimeLineController {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.saveTimeLine(timeLineMyRequestDto);
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
     }
+
+//    @PostMapping("/myflowdel")
+//    public boolean deleteMyFlow(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
+//
+//    }
     
 
     // 서버에서 처리하는 조회수 증가

@@ -132,7 +132,7 @@ public class TimeLineService {
     // 나의 개인 timeline 전달
      public List<TimeLineMyResponseDto> getMyTimeLine() {
           Customer customer = authService.getCustomerByEmail();
-          List<TimeLine> timeLineList = timeLineRepository.findByCustomer(customer);
+          List<TimeLine> timeLineList = timeLineRepository.findByCustomerOrderByIdDesc(customer);
           List<TimeLineMyResponseDto> timeLineMyRequestDtoList = new ArrayList<>();
           for (TimeLine timeLine : timeLineList) {
                TimeLineMyResponseDto dto = getMyTimeLineInfo(timeLine);

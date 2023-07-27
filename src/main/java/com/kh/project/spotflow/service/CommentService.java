@@ -14,6 +14,7 @@ import com.kh.project.spotflow.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class CommentService {
   private final DiaryRepository diaryRepository;
   private final CustomerRepository customerRepository;
   private final NotificationRepository notificationRepository;
+  private final SimpMessagingTemplate simpleMessagingTemplate;
 
   // 댓글 데이터를 저장
   @Transactional
@@ -45,6 +47,9 @@ public class CommentService {
             .build();
 
     notificationRepository.save(notification);
+    String email = diaryWriter.getEmail();
+    String msg = "새 알림이 있습니다";
+    simpleMessagingTemplate.convertAndSend("/app/sendMessage/" + email, msg);
 
     return new CommentResponse().of(comment);
   }
