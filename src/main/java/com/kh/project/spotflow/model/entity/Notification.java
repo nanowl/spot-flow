@@ -24,8 +24,13 @@ public class Notification {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "diaryWriter")
-    private Customer diaryWriter;
+    @JoinColumn(name = "receiver")
+    private Customer receiver;
+
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "sender")
+    private Customer sender;
 
     @ManyToOne
     @JsonManagedReference
@@ -43,7 +48,7 @@ public class Notification {
     public String toString() {
         return "Notification{" +
                 "id=" + id +
-                ", diaryWriter=" + diaryWriter +
+                ", receiver=" + receiver +
                 ", diary=" + diary +
                 ", diaryComment=" + diaryComment +
                 ", isRead=" + isRead +

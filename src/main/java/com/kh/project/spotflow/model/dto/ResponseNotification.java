@@ -21,20 +21,23 @@ import java.time.LocalDateTime;
 public class ResponseNotification {
     private String diaryWriter;
     private String diary;
-    private String commentWriter;
+//    private String commentWriter;
     private String comment;
+
+    private String commentWriter;
+
     private Long id;
     private boolean isRead;
 
     public ResponseNotification of(Notification notification) {
-        log.info(notification.getDiaryWriter().getNickName());
-        log.info(notification.getDiaryComment().getCustomer().getNickName());
-        log.info(notification.getDiary().getTitle());
+//        log.info(notification.getDiaryWriter().getNickName());
+//        log.info(notification.getCommentWriter().getEmail());
+//        log.info(notification.getDiary().getTitle());
         return ResponseNotification.builder()
                 .id(notification.getId())
                 .diaryWriter(notification.getDiaryWriter().getNickName())
                 .diary(notification.getDiary().getTitle())
-                .commentWriter(notification.getDiaryComment().getCustomer().getNickName())
+                .commentWriter(notification.getCommentWriter().getNickName())
                 .comment(notification.getDiaryComment().getContent())
                 .isRead(notification.isRead())
                 .build();

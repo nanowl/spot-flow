@@ -43,14 +43,15 @@ public class CommentService {
     Notification notification = Notification.builder()
             .diaryWriter(diaryWriter)
             .diary(diary)
+            .commentWriter(commentWriter)
             .diaryComment(comment)
             .isRead(false)
             .build();
 
     notificationRepository.save(notification);
-    String email = diaryWriter.getEmail();
-    String msg = "새 알림이 있습니다";
-    simpleMessagingTemplate.convertAndSend("/app/sendMessage/" + email, msg);
+//    String email = diaryWriter.getEmail();
+//    String msg = "새 알림이 있습니다";
+//    simpleMessagingTemplate.convertAndSend("/app/sendMessage/" + email, msg);
 
     return new CommentResponse().of(comment);
   }

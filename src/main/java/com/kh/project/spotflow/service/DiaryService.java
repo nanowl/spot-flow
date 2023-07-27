@@ -228,13 +228,13 @@ public class DiaryService {
       likeRepository.save(like);
 
       Customer diaryWriter = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
-      Notification notification = Notification.builder()
-              .diaryWriter(diaryWriter)
-              .diary(diary)
-              .diaryComment(null)
-              .isRead(false)
-              .build();
-      notificationRepository.save(notification);
+//      Notification notification = Notification.builder()
+//              .diaryWriter(diaryWriter)
+//              .diary(diary)
+//              .diaryComment(null)
+//              .isRead(false)
+//              .build();
+//      notificationRepository.save(notification);
       return 1;
     }
 

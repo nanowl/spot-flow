@@ -17,4 +17,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 //  @Query("")
   Long countLikeByDiary(Diary diary);
 
+  Like findLikeById(Long id);
+
 }

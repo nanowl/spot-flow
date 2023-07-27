@@ -1,23 +1,20 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.ResponseNotification;
-import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
-import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
+import com.kh.project.spotflow.model.dto.comment.CommentRequest;
+import com.kh.project.spotflow.model.dto.comment.CommentResponse;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryLikeRequest;
+import com.kh.project.spotflow.model.dto.like.likeNotice;
 import com.kh.project.spotflow.model.entity.*;
 import com.kh.project.spotflow.repository.CustomerRepository;
-import com.kh.project.spotflow.repository.DiaryCommentRepository;
 import com.kh.project.spotflow.repository.DiaryRepository;
+import com.kh.project.spotflow.repository.LikeRepository;
 import com.kh.project.spotflow.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +25,14 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final CustomerRepository customerRepository;
     private final AuthService authService;
+    private final DiaryRepository diaryRepository;
+    private final LikeRepository likeRepository;
 
 
     public List<ResponseNotification> findMyNotice(HttpServletRequest request) {
         Customer customer = authService.getCustomerByEmail();
         log.info(customer.toString());
-        List<Notification> notificationList = notificationRepository.findByDiaryWriter(customer);
+        List<Notification> notificationList = notificationRepository.findByDiaryWriterOrderByIdDesc(customer);
         log.info(notificationList.toString());
 
         List<ResponseNotification> responseList = new ArrayList<>();
@@ -59,5 +58,41 @@ public class NotificationService {
         if (notificationList.size() > 0) {
             notificationRepository.saveAll(notificationList);
         }
+    }
+
+    public ResponseNotification save(CommentRequest request) {
+        Diary diary = diaryRepository.findDiaryById(request.getDiary());
+        Customer sender = authService.getCustomerByEmail();
+        DiaryComment comment = request.toComment(sender, diary);
+        Customer receiver = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
+
+        Notification notification = Notification.builder()
+                .receiver(receiver)
+                .diary(diary)
+                .sender(sender)
+                .diaryComment(comment)
+                .isRead(false)
+                .build();
+
+        notificationRepository.save(notification);
+        return new ResponseNotification().of(notification);
+    }
+
+    public likeNotice likeNotice(DiaryLikeRequest request) {
+        Like like = likeRepository.findLikeById(request.getId());
+        Customer sender = authService.getCustomerByEmail();
+        Diary diary = like.getDiary();
+        Customer receiver = diary.getCustomer();
+
+//        Notification notification = Notification.builder()
+//                .receiver(receiver)
+//                .diary(diary)
+//                .sender(sender)
+//                .diaryComment(comment)
+//                .isRead(false)
+//                .build();
+
+//        likeNotice notice = new likeNotice().of(no)
+ return null;
     }
 }
