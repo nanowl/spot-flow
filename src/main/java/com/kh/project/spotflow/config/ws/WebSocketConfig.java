@@ -15,6 +15,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 @Import(CorsConfiguration.class)
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    private final WebSocketHandler webSocketHandler;
     /* <💡정리>
         1. 사용자 A가 로그인하면 서버에 웹소켓 연결을 생성. 이 연결은 '/ws' 엔드포인트로 이루어짐.
         2. 사용자 A는 서버에게 자신이 구독한 지역을 알려줌. 이는 STOMP 메시지로 이루어지며,
