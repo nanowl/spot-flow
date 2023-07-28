@@ -29,9 +29,6 @@ public class ResponseNotification {
     private boolean isRead;
 
     public ResponseNotification of(Notification notification) {
-//        log.info(notification.getDiaryWriter().getNickName());
-//        log.info(notification.getCommentWriter().getEmail());
-//        log.info(notification.getDiary().getTitle());
         return ResponseNotification.builder()
                 .id(notification.getId())
                 .receiver(notification.getSender().getNickName())
