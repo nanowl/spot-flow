@@ -1,51 +1,28 @@
 package com.kh.project.spotflow.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.project.spotflow.model.dto.chat.ChatRoom;
+import com.kh.project.spotflow.model.dto.chat.ChatRoomDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
-
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class ChatService {
-  private final ObjectMapper objectMapper;
-  private Map<String, ChatRoom> chatRooms;
 
-  @PostConstruct // 의존성 주입 이후 초기화를 수행하는 메소드
-  private void init() {
-    chatRooms = new LinkedHashMap<>();
+  // 유저 별 모든 채팅방 검색
+  public List<ChatRoomDto> findAllRoom() {
+    return new ArrayList<>();
   }
-  public List<ChatRoom> findAllRoom() {
-    return new ArrayList<>(chatRooms.values());
-  }
-  public ChatRoom findRoomById(String roomId) {
-    return chatRooms.get(roomId);
+
+  // 유니크 값으로 채팅방 검색
+  public ChatRoomDto findRoomById(String roomId) {
+    return new ChatRoomDto();
   }
 
   // 방 개설하기
-  public ChatRoom createRoom(String name) {
-    String randomId = UUID.randomUUID().toString();
-    log.info("UUID : " + randomId);
-    ChatRoom chatRoom = ChatRoom.builder()
-            .roomId(randomId)
-            .name(name)
-            .build();
-    chatRooms.put(randomId, chatRoom);
-    return chatRoom;
-  }
-  public <T> void sendMessage(WebSocketSession session, T message) {
-    try {
-      session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-    } catch(IOException e) {
-      log.error(e.getMessage(), e);
-    }
+  public ChatRoomDto createRoom(String name) {
+    return new ChatRoomDto();
   }
 }

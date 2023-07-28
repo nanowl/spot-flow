@@ -8,12 +8,13 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Customer {
@@ -78,17 +79,5 @@ public class Customer {
   @OneToMany(mappedBy = "customer")
   @JsonBackReference
   private List<Like> likeList;
-
-  @Builder
-  public Customer(String email, String password, String nickName, String profilePic , OpenStatus openStatus, Authority authority, LocalDateTime joinDate, Theme theme) {
-    this.email = email;
-    this.password = password;
-    this.nickName = nickName;
-    this.profilePic = profilePic;
-    this.openStatus = openStatus;
-    this.authority = authority;
-    this.joinDate = joinDate;
-    this.theme = theme;
-  }
 
 }
