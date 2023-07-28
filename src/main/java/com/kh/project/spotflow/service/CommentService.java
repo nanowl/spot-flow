@@ -34,16 +34,16 @@ public class CommentService {
   @Transactional
   public CommentResponse saveComment(CommentRequest request) {
     Diary diary = diaryRepository.findDiaryById(request.getDiary());
-    Customer commentWriter = authService.getCustomerByEmail();
-    DiaryComment comment = request.toComment(commentWriter, diary);
+    Customer sender = authService.getCustomerByEmail();
+    DiaryComment comment = request.toComment(sender, diary);
     commentRepository.save(comment);
 
-    Customer diaryWriter = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
+    Customer receiver = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
 
     Notification notification = Notification.builder()
-            .diaryWriter(diaryWriter)
+            .receiver(receiver)
             .diary(diary)
-            .commentWriter(commentWriter)
+            .sender(sender)
             .diaryComment(comment)
             .isRead(false)
             .build();

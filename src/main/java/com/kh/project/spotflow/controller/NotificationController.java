@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.ResponseNotification;
+import com.kh.project.spotflow.model.dto.chat.ChatMessage;
 import com.kh.project.spotflow.model.dto.comment.CommentRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
@@ -15,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,14 +47,21 @@ public class NotificationController {
     }
 
     
-    @PostMapping("/comment")
+//    @PostMapping("/comment")
     public ResponseEntity<ResponseNotification> sendCommentNoti(@RequestBody CommentRequest request) {
         Long diaryNumber = request.getDiary();
         Diary diary = diaryRepository.findDiaryById(diaryNumber);
         Customer customer = diary.getCustomer();
         String email = customer.getEmail();
         String msg = "새 알림이 있습니다";
-        messagingTemplate.convertAndSend("/region/" + email, msg);
+        messagingTemplate.convertAndSend("/notification/" + email, msg);
         return new ResponseEntity<>(notificationService.save(request), HttpStatus.OK);
+    }
+
+    @MessageMapping("/sendnoti")
+    public void sendNotification(@Payload ChatMessage message) {
+        log.info("알림 기능 작동");
+        log.info(message.toString());
+        messagingTemplate.convertAndSend("/notification/", message);
     }
 }

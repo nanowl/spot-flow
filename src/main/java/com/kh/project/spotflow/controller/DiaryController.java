@@ -97,23 +97,18 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.friendDiaryList() , HttpStatus.OK);
   }
 
-<<<<<<< HEAD
 
-=======
   // 특정 다이어리를 삭제처리
->>>>>>> 1b3071fd8b246eacb78ae64ddc8c2ec9ac8621c1
+
   @PostMapping("/search")
   public ResponseEntity<List<DiaryResponseDto>> searchDiary(@RequestBody TimeLineRequestDto request) {
     String place = request.getPlace();
     return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
   }
-<<<<<<< HEAD
-  
+
   @GetMapping("/alls")
   public ResponseEntity<List<DiaryResponseAllDto>> getAllDiary(){
     return new ResponseEntity<>(diaryService.findAllDiary(), HttpStatus.OK);
   }
-=======
 
->>>>>>> 1b3071fd8b246eacb78ae64ddc8c2ec9ac8621c1
 }

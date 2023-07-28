@@ -22,17 +22,17 @@ public class QNotification extends EntityPathBase<Notification> {
 
     public static final QNotification notification = new QNotification("notification");
 
-    public final QCustomer commentWriter;
-
     public final QDiary diary;
 
     public final QDiaryComment diaryComment;
 
-    public final QCustomer diaryWriter;
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath isRead = createBoolean("isRead");
+
+    public final QCustomer receiver;
+
+    public final QCustomer sender;
 
     public QNotification(String variable) {
         this(Notification.class, forVariable(variable), INITS);
@@ -52,10 +52,10 @@ public class QNotification extends EntityPathBase<Notification> {
 
     public QNotification(Class<? extends Notification> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.commentWriter = inits.isInitialized("commentWriter") ? new QCustomer(forProperty("commentWriter")) : null;
         this.diary = inits.isInitialized("diary") ? new QDiary(forProperty("diary"), inits.get("diary")) : null;
         this.diaryComment = inits.isInitialized("diaryComment") ? new QDiaryComment(forProperty("diaryComment"), inits.get("diaryComment")) : null;
-        this.diaryWriter = inits.isInitialized("diaryWriter") ? new QCustomer(forProperty("diaryWriter")) : null;
+        this.receiver = inits.isInitialized("receiver") ? new QCustomer(forProperty("receiver")) : null;
+        this.sender = inits.isInitialized("sender") ? new QCustomer(forProperty("sender")) : null;
     }
 
 }

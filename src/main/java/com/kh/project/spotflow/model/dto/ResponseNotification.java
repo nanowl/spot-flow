@@ -19,12 +19,11 @@ import java.time.LocalDateTime;
 @Builder
 @Slf4j
 public class ResponseNotification {
-    private String diaryWriter;
+    private String receiver;
     private String diary;
-//    private String commentWriter;
     private String comment;
 
-    private String commentWriter;
+    private String sender;
 
     private Long id;
     private boolean isRead;
@@ -35,9 +34,9 @@ public class ResponseNotification {
 //        log.info(notification.getDiary().getTitle());
         return ResponseNotification.builder()
                 .id(notification.getId())
-                .diaryWriter(notification.getDiaryWriter().getNickName())
+                .receiver(notification.getSender().getNickName())
                 .diary(notification.getDiary().getTitle())
-                .commentWriter(notification.getCommentWriter().getNickName())
+                .sender(notification.getSender().getNickName())
                 .comment(notification.getDiaryComment().getContent())
                 .isRead(notification.isRead())
                 .build();

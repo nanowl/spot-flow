@@ -52,10 +52,8 @@ public class TimeLineController {
     
 
     // 서버에서 처리하는 조회수 증가
-<<<<<<< HEAD
-=======
     //ㄴㄴㄴ 쿠키 사용하는 기능이라 AWS 업로드시에 문제 생길 가능성 높음
->>>>>>> 1b3071fd8b246eacb78ae64ddc8c2ec9ac8621c1
+
     @PutMapping("/{postId}/views")
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long postId, HttpServletRequest request, HttpServletResponse response) {
         timeLineService.increaseViewCount(postId, request, response);

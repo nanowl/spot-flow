@@ -32,7 +32,7 @@ public class NotificationService {
     public List<ResponseNotification> findMyNotice(HttpServletRequest request) {
         Customer customer = authService.getCustomerByEmail();
         log.info(customer.toString());
-        List<Notification> notificationList = notificationRepository.findByDiaryWriterOrderByIdDesc(customer);
+        List<Notification> notificationList = notificationRepository.findByReceiverOrderByIdDesc(customer);
         log.info(notificationList.toString());
 
         List<ResponseNotification> responseList = new ArrayList<>();
