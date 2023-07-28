@@ -106,9 +106,9 @@ public class DiaryController {
     return new ResponseEntity<>(diaryService.findDiaryByFlow(place),HttpStatus.OK);
   }
 
+  
   @GetMapping("/alls")
   public ResponseEntity<List<DiaryResponseAllDto>> getAllDiary(){
     return new ResponseEntity<>(diaryService.findAllDiary(), HttpStatus.OK);
   }
-
 }
