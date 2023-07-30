@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity(name = "chat_log")
 @Getter @Setter
@@ -30,4 +31,7 @@ public class ChatLog {
   private String content;
 
   private boolean isDelete;
+
+  @Column(name = "send_date")
+  private LocalDateTime date;
 }

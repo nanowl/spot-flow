@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity(name = "chat_room")
@@ -22,7 +23,10 @@ public class ChatRoom {
   @Column(name = "room_name")
   private String RoomName;
 
-  @OneToMany(mappedBy = "chatRoom")
+  @Column(name = "start_date")
+  private LocalDateTime date;
+
+  @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
   @JsonBackReference
   List<ChatLog> chatLogList;
 }
