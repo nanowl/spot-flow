@@ -24,8 +24,8 @@ public class ChatLog {
 
   @ManyToOne
   @JsonManagedReference
-  @JoinColumn(name = "room")
-  private ChatRoom chatRoom;
+  @JoinColumn(name = "receiver")
+  private Customer receiver;
 
   @Column(name = "content", columnDefinition = "LONGTEXT")
   private String content;

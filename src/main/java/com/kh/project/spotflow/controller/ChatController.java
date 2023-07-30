@@ -20,6 +20,6 @@ public class ChatController {
   public void greet(@Payload ChatMessage message) {
     log.info("매핑 테스트입니다.");
     log.info(message.toString());
-    template.convertAndSend("/notification/message" + message.getSender(), message);
+    template.convertAndSend("/notification/message", message);
   }
 }
