@@ -37,20 +37,20 @@ public class TimeLineService {
      public List<TimeLineDto> getAll(Long lastTimelineId, int limit) {
           List<TimeLine> timeLineList = timeLineRepository.findWithNoOffset(lastTimelineId, limit);
           List<TimeLineDto> timeLineDtoList = new ArrayList<>();
-          
-          for (TimeLine timeLine : timeLineList) {
-               TimeLineDto timeLineDto = new TimeLineDto();
-               timeLineDto.setTl_profile_pic(timeLine.getImage());
-               timeLineDto.setPlace(timeLine.getPlace());
-               timeLineDto.setContent(timeLine.getContent());
-               timeLineDto.setView(timeLine.getView());
-               timeLineDto.setUpdateTime(timeLine.getJoinDate());
-               timeLineDto.setNickName(timeLine.getCustomer().getNickName());
-               timeLineDto.setCt_profile_pic(timeLine.getCustomer().getProfilePic());
-               timeLineDto.setId(timeLine.getId());
-               timeLineDtoList.add(timeLineDto);
-          }
-          return timeLineDtoList;
+
+          return timeLineList.stream()
+                  .map(timeLine -> TimeLineDto.builder()
+                          .tl_profile_pic(timeLine.getImage())
+                          .place(timeLine.getPlace())
+                          .content(timeLine.getContent())
+                          .view(timeLine.getView())
+                          .email(timeLine.getCustomer().getEmail())
+                          .updateTime(timeLine.getJoinDate())
+                          .nickName(timeLine.getCustomer().getNickName())
+                          .ct_profile_pic(timeLine.getCustomer().getProfilePic())
+                          .id(timeLine.getId())
+                          .build())
+                  .collect(Collectors.toList());
      }
      
      // TimeLine 글 쓰기
