@@ -301,6 +301,8 @@ public class DiaryService {
       diaryResponseAllDto.setTitle(diary.getTitle());
       diaryResponseAllDto.setProfilePic(diary.getCustomer().getProfilePic());
       diaryResponseAllDto.setNickname(diary.getCustomer().getNickName());
+      diaryResponseAllDto.setView(diary.getView());
+      diaryResponseAllDto.setDate(diary.getJoinDate());
       diaryResponseAllDto.setLike((long) diary.getLikeList().size());
       List<String> imageList = new ArrayList<>();
       for(TimeLine timeLine : timeLineList){
