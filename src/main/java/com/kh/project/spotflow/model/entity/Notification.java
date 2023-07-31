@@ -37,7 +37,7 @@ public class Notification {
     @JoinColumn(name = "diaryTitle")
     private Diary diary;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "comment")
     private DiaryComment diaryComment;

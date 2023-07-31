@@ -29,6 +29,8 @@ public class CustomerService {
           followUserRequestDto.setFollowing(followService.getFollowing(customer));
           customerData.put("customer", CustomerUserRequestDto.getCustomerInfo(customer));
           customerData.put("follower", followUserRequestDto);
+          customerData.put("joinDate", customer.getJoinDate().toString());
+          log.info(customer.getJoinDate().toString());
           return customerData;
      }
      

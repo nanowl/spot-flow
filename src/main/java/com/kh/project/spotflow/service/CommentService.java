@@ -15,9 +15,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +31,9 @@ public class CommentService {
   private final CustomerRepository customerRepository;
   private final AuthService authService;
   private final NotificationRepository notificationRepository;
-  private final SimpMessagingTemplate simpleMessagingTemplate;
+
+
+  public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
   // 댓글 데이터를 저장
   @Transactional
@@ -37,9 +42,8 @@ public class CommentService {
     Customer sender = authService.getCustomerByEmail();
     DiaryComment comment = request.toComment(sender, diary);
     commentRepository.save(comment);
-
     Customer receiver = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
-
+    String email = diary.getCustomer().getEmail();
     Notification notification = Notification.builder()
             .receiver(receiver)
             .diary(diary)
@@ -49,10 +53,6 @@ public class CommentService {
             .build();
 
     notificationRepository.save(notification);
-//    String email = diaryWriter.getEmail();
-//    String msg = "새 알림이 있습니다";
-//    simpleMessagingTemplate.convertAndSend("/app/sendMessage/" + email, msg);
-
     return new CommentResponse().of(comment);
   }
 
