@@ -1,5 +1,6 @@
 package com.kh.project.spotflow.service;
 
+import com.kh.project.spotflow.model.dto.Customer.CustomerByIdRequestDto;
 import com.kh.project.spotflow.model.dto.Customer.CustomerUpdateDto;
 import com.kh.project.spotflow.model.dto.Customer.CustomerUserRequestDto;
 import com.kh.project.spotflow.model.dto.Follow.FollowUserRequestDto;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -33,7 +35,23 @@ public class CustomerService {
           log.info(customer.getJoinDate().toString());
           return customerData;
      }
-     
+
+     //회원 정보 조회 이메일으로 개인프로필 접근
+     public Map<String, Object> getCustomerInfoById(String email) {
+          Customer customer = customerRepository.findByEmail(email)
+                  .orElseThrow(() -> new NoSuchElementException("없는 유저의 id: " + email));
+          Map<String, Object> customerData = new HashMap<>();
+          FollowUserRequestDto followUserRequestDto = new FollowUserRequestDto();
+          followUserRequestDto.setFollower(followService.getFollower(customer));
+          followUserRequestDto.setFollowing(followService.getFollowing(customer));
+          customerData.put("customer", CustomerByIdRequestDto.getCustomerInfo(customer));
+          customerData.put("follower", followUserRequestDto);
+
+          return customerData;
+     }
+
+
+
      //회원 상테메시지 수정
      public CustomerUserRequestDto updateStatMsg(CustomerUpdateDto customerUpdateDto) {
           Customer customer = authService.getCustomerByEmail();

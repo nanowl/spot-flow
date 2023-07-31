@@ -20,17 +20,19 @@ public class TimeLineDto {
      private LocalDateTime updateTime;
      private String nickName;
      private String ct_profile_pic;
-     private Customer customer;
      private String email;
      private String place;
      
      
      public static TimeLineDto timeLineDto(TimeLine timeLine) {
+          Customer customer = timeLine.getCustomer(); // 수정된 부분
+
           return TimeLineDto.builder()
             .nickName(timeLine.getCustomer().getNickName())
             .tl_profile_pic(timeLine.getImage())
             .place(timeLine.getPlace())
             .content(timeLine.getContent())
+                  .email(customer.getEmail())
             .ct_profile_pic(timeLine.getCustomer().getProfilePic())
             .updateTime(timeLine.getJoinDate())
             .view(timeLine.getView())

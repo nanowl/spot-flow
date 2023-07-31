@@ -24,6 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
   // 토근값만 필터링해서 가죠오기
   private String resolveToken(HttpServletRequest request) {
     String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+    log.info("Authorization : " + request.getHeader(AUTHORIZATION_HEADER));
     if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
       return bearerToken.substring(7);
     }

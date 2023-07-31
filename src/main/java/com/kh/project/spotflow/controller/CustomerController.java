@@ -26,7 +26,17 @@ public class CustomerController {
           if (customerData != null) return new ResponseEntity<>(customerData, HttpStatus.OK);
           else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
      }
-     
+
+
+     // customer 닉네임으로 정보가져오기 (개인프로필 접근)
+     @GetMapping("/profile/{email}")
+     public ResponseEntity<Map<String, Object>> getCustomerProfileById(@PathVariable String email) {
+          Map<String,Object> customerData = customerService.getCustomerInfoById(email);
+          if (customerData != null) return new ResponseEntity<>(customerData, HttpStatus.OK);
+          else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     }
+
+
      // customer 상테메시지 수정
      @PutMapping("/updatestatmsg")
      public ResponseEntity<CustomerUserRequestDto> updateCustomerStatMsg(@RequestBody CustomerUpdateDto customerUpdateDto) {
