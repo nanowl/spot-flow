@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineSummaryDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseAllDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;

@@ -48,7 +48,7 @@ public class DiaryController {
   }
 
   // 체크한값들 삭제
-  @DeleteMapping("/check")
+  @PostMapping("/check")
   public ResponseEntity<List<DiaryResponseDto>> deleteMyDiarys(@RequestBody DiaryDeleteRequest request) {
     return new ResponseEntity<>(diaryService.checkDelete(request.getId()), HttpStatus.OK);
   }
@@ -58,11 +58,13 @@ public class DiaryController {
   public  ResponseEntity<DiaryResponseDto> deleteMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.delete(diaryRequest),HttpStatus.OK);
   }
+
   // 특정 다이어리의 포함된 타임라인 리스트, 타이틀, 컨텐츠를 변경
   @PutMapping("")
   public  ResponseEntity<DiaryResponseDto> updateMyDiary(@RequestBody DiaryUpdateRequest diaryRequest) {
     return new ResponseEntity<>(diaryService.update(diaryRequest),HttpStatus.OK);
   }
+
   // 다이어리 생성
   @PostMapping("")
   public ResponseEntity<Diary> save(@RequestBody DiaryCreateRequest requestDto) {
