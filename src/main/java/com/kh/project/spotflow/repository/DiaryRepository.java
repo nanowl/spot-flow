@@ -19,4 +19,6 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
   @Query("SELECT DISTINCT d FROM Diary d JOIN d.itemList di WHERE di.timeLine IN :timeLines")
   List<Diary> findDiaryByTimeLines(@Param("timeLines") List<TimeLine> timeLines);
+  
+  List<Diary> findAllByIsDeleteFalse();
 }
