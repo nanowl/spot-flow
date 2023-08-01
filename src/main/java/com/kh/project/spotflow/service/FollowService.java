@@ -113,7 +113,7 @@ public class FollowService {
           Customer following = authService.getCustomerByEmail();
           Customer follower = customerRepository.findByEmail(followerRequestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("해당 데이터 없음"));
           FollowUserRequestDto followUserRequestDto = new FollowUserRequestDto();
-          Follow delfollow = followRepository.findByFollowingAndFollower(following, follower);
+          Follow delfollow = followRepository.findByFollowingAndFollower(follower, following);
           delfollow.setCheckFollow(false);
           followRepository.save(delfollow);
           Map<String, Object> getNewFollowing = new HashMap<>();
@@ -136,7 +136,7 @@ public class FollowService {
           setfollow.setFollower(follower);
           setfollow.setFollowing(following);
           setfollow.setJoinDate(LocalDateTime.now());
-          follow.setCheckFollow(true);
+          setfollow.setCheckFollow(true);
           followRepository.save(setfollow);
           FollowUserRequestDto followUserRequestDto = new FollowUserRequestDto();
           Customer customer = authService.getCustomerByEmail();
