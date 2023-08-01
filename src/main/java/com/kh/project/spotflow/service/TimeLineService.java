@@ -52,6 +52,26 @@ public class TimeLineService {
                           .build())
                   .collect(Collectors.toList());
      }
+
+    // 타임라인 모두조회
+    public List<TimeLineDto> getAll() {
+        List<TimeLine> timeLineList = timeLineRepository.findAll();
+        List<TimeLineDto> timeLineDtoList = new ArrayList<>();
+
+        return timeLineList.stream()
+                .map(timeLine -> TimeLineDto.builder()
+                        .tl_profile_pic(timeLine.getImage())
+                        .place(timeLine.getPlace())
+                        .content(timeLine.getContent())
+                        .view(timeLine.getView())
+                        .email(timeLine.getCustomer().getEmail())
+                        .updateTime(timeLine.getJoinDate())
+                        .nickName(timeLine.getCustomer().getNickName())
+                        .ct_profile_pic(timeLine.getCustomer().getProfilePic())
+                        .id(timeLine.getId())
+                        .build())
+                .collect(Collectors.toList());
+    }
      
      // TimeLine 글 쓰기
      public TimeLine createPost(TimeLineRequestDto requestDto) {

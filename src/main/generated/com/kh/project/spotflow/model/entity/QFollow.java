@@ -28,6 +28,8 @@ public class QFollow extends EntityPathBase<Follow> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isCheckFollow = createBoolean("isCheckFollow");
+
     public final DateTimePath<java.time.LocalDateTime> joinDate = createDateTime("joinDate", java.time.LocalDateTime.class);
 
     public QFollow(String variable) {

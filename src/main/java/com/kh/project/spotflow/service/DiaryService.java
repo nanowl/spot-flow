@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineSummaryDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseAllDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
@@ -178,6 +179,7 @@ public class DiaryService {
   // 다이어리와 매핑 테이블을 저장
   @Transactional
   public Diary save(DiaryCreateRequest requestDiary) {
+    log.info(requestDiary.toString());
     Customer customer = authService.getCustomerByEmail();
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();
@@ -288,7 +290,7 @@ public class DiaryService {
   @Transactional
   public List<DiaryResponseAllDto> findAllDiary() {
     //전체 데이터 가죠옴
-    List<Diary> diaryList = diaryRepository.findAll();
+    List<Diary> diaryList = diaryRepository.findAllByIsDeleteFalse();
     //박스 생성
     List<DiaryResponseAllDto> diaryResponseAllDtoList = new ArrayList<>();
     for(Diary diary : diaryList){
@@ -300,7 +302,10 @@ public class DiaryService {
       diaryResponseAllDto.setId(diary.getId());
       diaryResponseAllDto.setTitle(diary.getTitle());
       diaryResponseAllDto.setProfilePic(diary.getCustomer().getProfilePic());
+      diaryResponseAllDto.setEmail(diary.getCustomer().getEmail());
       diaryResponseAllDto.setNickname(diary.getCustomer().getNickName());
+      diaryResponseAllDto.setView(diary.getView());
+      diaryResponseAllDto.setDate(diary.getJoinDate());
       diaryResponseAllDto.setLike((long) diary.getLikeList().size());
       List<String> imageList = new ArrayList<>();
       for(TimeLine timeLine : timeLineList){

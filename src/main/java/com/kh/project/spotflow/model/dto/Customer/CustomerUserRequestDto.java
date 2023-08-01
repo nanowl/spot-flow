@@ -2,10 +2,14 @@ package com.kh.project.spotflow.model.dto.Customer;
 
 import com.kh.project.spotflow.model.constant.Theme;
 import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.model.entity.Diary;
+import com.kh.project.spotflow.model.entity.TimeLine;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor @NoArgsConstructor

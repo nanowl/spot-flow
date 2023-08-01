@@ -9,10 +9,11 @@ import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-@Builder
+@Builder @ToString
 public class DiaryCreateRequest {
   private String title;
   private String content;
+  private List<Long> timeLineId;
   private List<TimeLineRequestDto> timeLineList;
 
   public Diary toDiary() {

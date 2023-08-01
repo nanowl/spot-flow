@@ -31,6 +31,7 @@ public class QChatLog extends EntityPathBase<ChatLog> {
     public final BooleanPath isDelete = createBoolean("isDelete");
 
     public final QCustomer receiver;
+    public final QChatRoom roomId;
 
     public final QCustomer sender;
 
@@ -53,6 +54,7 @@ public class QChatLog extends EntityPathBase<ChatLog> {
     public QChatLog(Class<? extends ChatLog> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.receiver = inits.isInitialized("receiver") ? new QCustomer(forProperty("receiver")) : null;
+        this.roomId = inits.isInitialized("roomId") ? new QChatRoom(forProperty("roomId")) : null;
         this.sender = inits.isInitialized("sender") ? new QCustomer(forProperty("sender")) : null;
     }
 

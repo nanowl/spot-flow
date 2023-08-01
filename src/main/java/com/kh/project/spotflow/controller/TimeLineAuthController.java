@@ -42,6 +42,13 @@ public class TimeLineAuthController {
           List<TimeLineDto> result = timeLineService.getAll(lastTimeLineId,4);
           return new ResponseEntity<>(result, HttpStatus.OK);
      }
+
+     // 타임라인 다 가져오기
+     @GetMapping("/All")
+     public ResponseEntity<List<TimeLineDto>> testing() {
+          List<TimeLineDto> result = timeLineService.getAll();
+          return new ResponseEntity<>(result, HttpStatus.OK);
+     }
 }
 
 

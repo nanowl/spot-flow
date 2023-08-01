@@ -18,6 +18,13 @@ import java.util.List;
 @Getter
 @Setter
 public class Customer {
+
+
+//  // 개인프로필 접근할때 아이디 컬럼 필요해서 추가
+//  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+//  @Column(name = "ct_id")
+//  private Long id;
+
   @Id
   @Column(name = "ct_email")
   private String email;
