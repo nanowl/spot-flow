@@ -2,11 +2,11 @@ package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.config.utils.CookieUtils;
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyRequestDto;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyResponseDto;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.*;
+import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
+import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
 import com.kh.project.spotflow.model.entity.Customer;
+import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.repository.TimeLine.TimeLineRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -153,8 +153,21 @@ public class TimeLineService {
           timeLine.setPlace(timeLineMyRequestDto.getPlace());
           timeLine.setView(0);
           timeLine.setJoinDate(LocalDateTime.now());
+          timeLine.setDelete(false);
           timeLineRepository.save(timeLine);
           return getMyTimeLine();
      }
+
+    @Transactional
+    public  List<TimeLineMyResponseDto> delete(TimeLineMyUpdateDto updateDto) {
+        Long[] ids = updateDto.getId();
+        for(Long id : ids) {
+            TimeLine timeLine = timeLineRepository.findTimeLineById(id);
+            timeLine.setDelete(true);
+            timeLineRepository.save(timeLine);
+        }
+
+        return getMyTimeLine();
+    }
 
 }

@@ -22,8 +22,6 @@ public class QChatLog extends EntityPathBase<ChatLog> {
 
     public static final QChatLog chatLog = new QChatLog("chatLog");
 
-    public final QChatRoom chatRoom;
-
     public final StringPath content = createString("content");
 
     public final DateTimePath<java.time.LocalDateTime> date = createDateTime("date", java.time.LocalDateTime.class);
@@ -31,6 +29,8 @@ public class QChatLog extends EntityPathBase<ChatLog> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath isDelete = createBoolean("isDelete");
+
+    public final QCustomer receiver;
 
     public final QCustomer sender;
 
@@ -52,7 +52,7 @@ public class QChatLog extends EntityPathBase<ChatLog> {
 
     public QChatLog(Class<? extends ChatLog> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.chatRoom = inits.isInitialized("chatRoom") ? new QChatRoom(forProperty("chatRoom")) : null;
+        this.receiver = inits.isInitialized("receiver") ? new QCustomer(forProperty("receiver")) : null;
         this.sender = inits.isInitialized("sender") ? new QCustomer(forProperty("sender")) : null;
     }
 
