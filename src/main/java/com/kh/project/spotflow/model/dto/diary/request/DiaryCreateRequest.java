@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-@Builder
+@Builder @ToString
 public class DiaryCreateRequest {
   private String title;
   private String content;

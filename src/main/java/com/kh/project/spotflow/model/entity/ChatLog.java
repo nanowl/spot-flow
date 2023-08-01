@@ -7,7 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "chat_log")
+@Entity
+@Table(name = "chat_log")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
@@ -19,13 +20,13 @@ public class ChatLog {
 
   @ManyToOne
   @JsonManagedReference
-  @JoinColumn(name = "sender")
-  private Customer sender;
+  @JoinColumn(name = "room_id")
+  private ChatRoom roomId;
 
   @ManyToOne
   @JsonManagedReference
-  @JoinColumn(name = "receiver")
-  private Customer receiver;
+  @JoinColumn(name = "sender")
+  private Customer sender;
 
   @Column(name = "content", columnDefinition = "LONGTEXT")
   private String content;
