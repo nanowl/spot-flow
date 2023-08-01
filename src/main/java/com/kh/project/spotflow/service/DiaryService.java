@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.service;
 
 import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineSummaryDto;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseAllDto;
 import com.kh.project.spotflow.model.dto.diary.request.DiaryCreateRequest;
 import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
@@ -178,6 +179,7 @@ public class DiaryService {
   // 다이어리와 매핑 테이블을 저장
   @Transactional
   public Diary save(DiaryCreateRequest requestDiary) {
+    log.info(requestDiary.toString());
     Customer customer = authService.getCustomerByEmail();
     Diary diary = requestDiary.toDiary();
     List<TimeLineRequestDto> timeLineList = requestDiary.getTimeLineList();

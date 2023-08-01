@@ -75,6 +75,8 @@ public class TimeLineController {
     }
 
 
+
+
     @PostMapping("/post")
     public ResponseEntity<TimeLine> addPost(@RequestBody TimeLineRequestDto request) {
         return new ResponseEntity<>(timeLineService.createPost(request), HttpStatus.CREATED);

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -72,5 +73,11 @@ public class CustomerService {
           customer.setProfilePic(customerUpdateDto.getProfilePic());
           customer.setStatMsg(customerUpdateDto.getStatMsg());
           return CustomerUserRequestDto.getCustomerInfo(customer);
+     }
+
+     // 특정 유저정보 조회
+     @Transactional
+     public Customer userInfo(String email) {
+          return customerRepository.findCustomerByEmail(email);
      }
 }

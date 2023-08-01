@@ -1,10 +1,12 @@
 package com.kh.project.spotflow.model.dto.diary;
 
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineSummaryDto;
 import com.kh.project.spotflow.model.entity.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
@@ -38,4 +40,10 @@ public class DiaryResponseDto {
             .isDelete(diary.isDelete())
             .build();
   }
+
+
+
+
+
+
 }
