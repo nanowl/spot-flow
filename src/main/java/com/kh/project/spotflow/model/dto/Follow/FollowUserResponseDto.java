@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowingUserDto {
+public class FollowUserResponseDto {
+     private Long id;
      private String email;
      private String profilePic;
      private String nickname;
+     private Boolean isFollowUp;
 }

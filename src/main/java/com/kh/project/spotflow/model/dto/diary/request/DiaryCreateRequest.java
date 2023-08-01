@@ -13,6 +13,7 @@ import java.util.List;
 public class DiaryCreateRequest {
   private String title;
   private String content;
+  private List<Long> timeLineId;
   private List<TimeLineRequestDto> timeLineList;
 
   public Diary toDiary() {

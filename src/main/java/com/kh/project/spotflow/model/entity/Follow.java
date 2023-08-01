@@ -1,6 +1,7 @@
 package com.kh.project.spotflow.model.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,6 +24,10 @@ public class Follow {
   @ManyToOne
   @JoinColumn(name = "following")
   private Customer following; // 팔로우하는 대상
+  
+  @Column(name = "set_follow")
+  @ColumnDefault("FALSE")
+  private boolean isCheckFollow; //맞팔로우를 위한 검증
 
   @Column(name = "follow_join_date")
   private LocalDateTime joinDate;
