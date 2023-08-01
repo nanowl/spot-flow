@@ -290,7 +290,7 @@ public class DiaryService {
   @Transactional
   public List<DiaryResponseAllDto> findAllDiary() {
     //전체 데이터 가죠옴
-    List<Diary> diaryList = diaryRepository.findAll();
+    List<Diary> diaryList = diaryRepository.findAllByIsDeleteFalse();
     //박스 생성
     List<DiaryResponseAllDto> diaryResponseAllDtoList = new ArrayList<>();
     for(Diary diary : diaryList){
