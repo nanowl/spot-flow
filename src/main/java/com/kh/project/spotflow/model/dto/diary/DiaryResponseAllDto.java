@@ -14,6 +14,7 @@ import java.util.List;
 public class DiaryResponseAllDto {
      private Long id;
      private String title;
+     private String email;
      private String nickname;
      private String profilePic;
      private Long like;

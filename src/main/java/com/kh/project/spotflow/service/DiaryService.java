@@ -300,6 +300,7 @@ public class DiaryService {
       diaryResponseAllDto.setId(diary.getId());
       diaryResponseAllDto.setTitle(diary.getTitle());
       diaryResponseAllDto.setProfilePic(diary.getCustomer().getProfilePic());
+      diaryResponseAllDto.setEmail(diary.getCustomer().getEmail());
       diaryResponseAllDto.setNickname(diary.getCustomer().getNickName());
       diaryResponseAllDto.setView(diary.getView());
       diaryResponseAllDto.setDate(diary.getJoinDate());
