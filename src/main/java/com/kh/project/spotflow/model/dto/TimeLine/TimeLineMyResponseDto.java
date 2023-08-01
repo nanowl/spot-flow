@@ -1,7 +1,5 @@
 package com.kh.project.spotflow.model.dto.TimeLine;
 
-import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
-import com.kh.project.spotflow.model.entity.Diary;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import lombok.*;
 
@@ -18,7 +16,6 @@ public class TimeLineMyResponseDto {
      private LocalDateTime date;
      private String content;
      private String location;
-     private boolean isDelete;
      
      public static TimeLineMyResponseDto getMyTimeLineInfo(TimeLine timeLine) {
           return TimeLineMyResponseDto.builder()
@@ -28,16 +25,5 @@ public class TimeLineMyResponseDto {
             .content(timeLine.getContent())
             .location(timeLine.getPlace())
             .build();
-     }
-
-     public TimeLineMyResponseDto of(TimeLine timeLine) {
-          return TimeLineMyResponseDto.builder()
-                  .id(timeLine.getId())
-                  .img(timeLine.getImage())
-                  .date(timeLine.getJoinDate())
-                  .content(timeLine.getContent())
-                  .location(timeLine.getPlace())
-                  .isDelete(timeLine.isDelete())
-                  .build();
      }
 }
