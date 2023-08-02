@@ -24,8 +24,7 @@ public class FollowController {
      
      @PostMapping("/following")
      public ResponseEntity<Boolean> setFollowing(@RequestBody FollowerRequestDto followerRequestDto) {
-          boolean isTrue = followService.setFollowing(followerRequestDto);
-          return new ResponseEntity<>(isTrue, HttpStatus.OK);
+          return new ResponseEntity<>(followService.setFollowing(followerRequestDto), HttpStatus.OK);
      }
      
      @GetMapping("/userFollowing")
@@ -39,12 +38,19 @@ public class FollowController {
      }
      
      @PostMapping("/delFollowing")
-     public ResponseEntity<Map<String,Object>> delFollowing(@RequestBody FollowerRequestDto followerRequestDto) {
-          return new ResponseEntity<>(followService.delFollowing(followerRequestDto),HttpStatus.OK);
+     public ResponseEntity<Map<String, Object>> delFollowing(@RequestBody FollowerRequestDto followerRequestDto) {
+          return new ResponseEntity<>(followService.delFollowing(followerRequestDto), HttpStatus.OK);
      }
      
      @PostMapping("/setFollowUp")
      public ResponseEntity<FollowUserRequestDto> setFollowUp(@RequestBody FollowerRequestDto followerRequestDto) {
-          return new ResponseEntity<>(followService.setFollowUp(followerRequestDto),HttpStatus.OK);
+          return new ResponseEntity<>(followService.setFollowUp(followerRequestDto), HttpStatus.OK);
      }
+     
+     @GetMapping("/testing")
+     public ResponseEntity<Boolean> testing(@RequestParam String email) {
+          return new ResponseEntity<>(followService.checkFollowing(email),HttpStatus.OK);
+     }
+     
+
 }

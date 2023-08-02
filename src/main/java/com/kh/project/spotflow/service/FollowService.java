@@ -57,7 +57,6 @@ public class FollowService {
           for (int i = 0; i < followList.size(); i++) {
                followingList.add(followList.get(i).getFollower().getEmail());
           }
-          //됨
           List<Customer> customerList = new ArrayList<>();
           for (int i = 0; i < followingList.size(); i++) {
                log.info(followingList.get(i));
@@ -143,5 +142,12 @@ public class FollowService {
           followUserRequestDto.setFollowing(getFollowing(customer));
           followUserRequestDto.setFollower(getFollower(customer));
           return followUserRequestDto;
+     }
+     
+     // 해당 유저가 following 중인지 확인하는 서비스 로직
+     public boolean checkFollowing(String email) {
+          Customer following = authService.getCustomerByEmail();
+          Customer follower = customerRepository.findCustomerByEmail(email);
+          return followRepository.existsByFollowerAndFollowing(follower, following);
      }
 }
