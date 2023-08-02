@@ -1,10 +1,7 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyRequestDto;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyResponseDto;
-import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.*;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +78,13 @@ public class TimeLineController {
     @PostMapping("/post")
     public ResponseEntity<TimeLine> addPost(@RequestBody TimeLineRequestDto request) {
         return new ResponseEntity<>(timeLineService.createPost(request), HttpStatus.CREATED);
+    }
+
+    // 마이플로우 삭제
+    @PostMapping("/myflowdel")
+    public ResponseEntity<List<TimeLineMyResponseDto>> deleteMyFlow(@RequestBody TimeLineMyUpdateDto updateDto) {
+
+        return new ResponseEntity<>(timeLineService.delete(updateDto),HttpStatus.OK);
     }
 
 }

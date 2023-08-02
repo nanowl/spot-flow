@@ -29,12 +29,13 @@ public class ResponseNotification {
     private boolean isRead;
 
     public ResponseNotification of(Notification notification) {
+        String comment = notification.getDiaryComment() != null ? notification.getDiaryComment().getContent() : null;
         return ResponseNotification.builder()
                 .id(notification.getId())
                 .receiver(notification.getSender().getNickName())
                 .diary(notification.getDiary().getTitle())
                 .sender(notification.getSender().getNickName())
-                .comment(notification.getDiaryComment().getContent())
+                .comment(comment)
                 .isRead(notification.isRead())
                 .build();
     }
