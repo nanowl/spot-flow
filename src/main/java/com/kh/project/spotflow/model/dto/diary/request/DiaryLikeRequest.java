@@ -6,4 +6,5 @@ import lombok.Setter;
 @Getter @Setter
 public class DiaryLikeRequest {
   private Long id;
+  private String content;
 }

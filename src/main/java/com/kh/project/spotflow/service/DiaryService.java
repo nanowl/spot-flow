@@ -33,6 +33,7 @@ public class DiaryService {
   private final DiaryCommentRepository commentRepository;
   private final NotificationRepository notificationRepository;
 
+  private final NotificationService notificationService;
   private final AuthService authService;
 
   @Transactional
@@ -230,14 +231,21 @@ public class DiaryService {
               .build();
       likeRepository.save(like);
 
-      Customer diaryWriter = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
-//      Notification notification = Notification.builder()
-//              .diaryWriter(diaryWriter)
-//              .diary(diary)
-//              .diaryComment(null)
-//              .isRead(false)
-//              .build();
-//      notificationRepository.save(notification);
+      // 알림 내용 리포지토리에 저장하는 부분
+      Customer receiver = customerRepository.findCustomerByEmail(diary.getCustomer().getEmail());
+      Notification notification = Notification.builder()
+              .sender(customer)
+              .receiver(receiver)
+              .diary(diary)
+              .diaryComment(null)
+              .isRead(false)
+              .build();
+      notificationRepository.save(notification);
+
+      // 알림 SSE로 수신자에게 전송하는 부분
+      String joinDate = receiver.getJoinDate().toString();
+      notificationService.notifyEvent(joinDate);
+
       return 1;
     }
 
