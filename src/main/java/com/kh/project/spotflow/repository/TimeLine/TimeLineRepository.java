@@ -14,5 +14,5 @@ public interface TimeLineRepository extends JpaRepository<TimeLine, Long>, TimeL
      TimeLine findTimeLineById(Long id);
      List<TimeLine> findByPlace(String place);
      List<TimeLine> findByCustomerOrderByIdDesc(Customer customer);
-     List<TimeLine> findByCustomerIsDeleteFalseOrderByIdDesc(Customer customer);
+     List<TimeLine> findByCustomerAndIsDeleteFalseOrderByIdDesc(Customer customer);
 }

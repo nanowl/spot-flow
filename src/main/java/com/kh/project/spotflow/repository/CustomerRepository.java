@@ -11,8 +11,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
   
   // 사용자 정보 불러오기
   Optional<Customer> findByEmail(String email);
-
-
   
   // 이메일 중복 확인
   boolean existsByEmail(String email);
@@ -22,6 +20,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
   // 유저정보 찾기
   Customer findCustomerByEmail(String email);
-  
 }
 
