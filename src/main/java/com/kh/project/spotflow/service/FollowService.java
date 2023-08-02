@@ -106,7 +106,6 @@ public class FollowService {
      
      
      // 팔로잉 하고 있는 유저 정보 삭제하기
-     @Transactional
      public Map<String, Object> delFollowing(FollowerRequestDto followerRequestDto) {
           Follow follow = followRepository.findById(followerRequestDto.getId()).orElseThrow(()-> new IllegalArgumentException("해당 데이터 없음"));
           followRepository.delete(follow);
@@ -114,6 +113,7 @@ public class FollowService {
           Customer follower = customerRepository.findByEmail(followerRequestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("해당 데이터 없음"));
           FollowUserRequestDto followUserRequestDto = new FollowUserRequestDto();
           Follow delfollow = followRepository.findByFollowingAndFollower(follower, following);
+          log.info(String.valueOf(delfollow.getId()));
           delfollow.setCheckFollow(false);
           followRepository.save(delfollow);
           Map<String, Object> getNewFollowing = new HashMap<>();
