@@ -1,9 +1,10 @@
 package com.kh.project.spotflow.controller;
 
 import com.kh.project.spotflow.model.dto.ResponseTimeLine;
-import com.kh.project.spotflow.model.dto.TimeLine.*;
-import com.kh.project.spotflow.model.dto.diary.DiaryResponseDto;
-import com.kh.project.spotflow.model.dto.diary.request.DiaryUpdateRequest;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyRequestDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineMyResponseDto;
+import com.kh.project.spotflow.model.dto.TimeLine.TimeLineRequestDto;
 import com.kh.project.spotflow.model.entity.TimeLine;
 import com.kh.project.spotflow.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
@@ -30,26 +31,25 @@ public class TimeLineController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
-    // 마이플로우 조회
+    // 개인 타임라인 조회
     @PostMapping("/getmyflow")
     public ResponseEntity<List<TimeLineMyResponseDto>> getMyTimeLine() {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.getMyTimeLine();
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
     }
     
-    // 마이플로우 저장
+    // 타임라인 저장
     @PostMapping("/myflownew")
     public ResponseEntity<List<TimeLineMyResponseDto>> saveMyTimeLine(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
         List<TimeLineMyResponseDto> timeLineMyRequestDtoList = timeLineService.saveTimeLine(timeLineMyRequestDto);
         return new ResponseEntity<>(timeLineMyRequestDtoList, HttpStatus.OK);
     }
 
-    // 마이플로우 삭제
-    @PostMapping("/myflowdel")
-    public ResponseEntity<List<TimeLineMyResponseDto>> deleteMyFlow(@RequestBody TimeLineMyUpdateDto updateDto) {
-
-        return new ResponseEntity<>(timeLineService.delete(updateDto),HttpStatus.OK);
-    }
+//    @PostMapping("/myflowdel")
+//    public boolean deleteMyFlow(@RequestBody TimeLineMyRequestDto timeLineMyRequestDto) {
+//
+//    }
+    
 
     // 서버에서 처리하는 조회수 증가
     //ㄴㄴㄴ 쿠키 사용하는 기능이라 AWS 업로드시에 문제 생길 가능성 높음
