@@ -62,14 +62,16 @@ public class AuthService {
   
   // 임시 비밀번호
   public boolean setTempPwd(String tempPwd, String email) {
-    if(customerRepository.existsByEmail(email)){
-      return false;
-    }else {
-      Customer customers = customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
-      String pwd = passwordEncoder.encode(tempPwd);
-      customers.setPassword(pwd);
-      Customer customer = customerRepository.save(customers);
+    try {
+      Customer customer = customerRepository.findByEmail(email)
+        .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없음"));
+      String encodedPwd = passwordEncoder.encode(tempPwd);
+      customer.setPassword(encodedPwd);
+      customerRepository.save(customer);
       return true;
+    } catch (Exception e) {
+      return false;
     }
   }
-}
+
+  }
