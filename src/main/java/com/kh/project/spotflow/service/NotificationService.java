@@ -40,18 +40,18 @@ public class NotificationService {
         sseEmitter.onError((e) -> sseEmitters.remove(joinDate));
     }
 
-    public SseEmitter getSseEmitter(String email) {
-        return sseEmitters.get(email);
+    public SseEmitter getSseEmitter(String joinDate) {
+        return sseEmitters.get(joinDate);
     }
 
-    public void notifyEvent(String email) {
-        if (sseEmitters.containsKey(email)) {
-            SseEmitter sseEmitter = sseEmitters.get(email);
+    public void notifyEvent(String joinDate) {
+        if (sseEmitters.containsKey(joinDate)) {
+            SseEmitter sseEmitter = sseEmitters.get(joinDate);
             log.info(String.valueOf(sseEmitter));
             try {
                 sseEmitter.send(SseEmitter.event().name("addComment").data("새 알림이 있습니다"));
             } catch (Exception e) {
-                sseEmitters.remove(email);
+                sseEmitters.remove(joinDate);
             }
         }
     }
